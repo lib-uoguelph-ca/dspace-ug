@@ -5,7 +5,7 @@
  *
  * Date: $Date: 2004/11/17 15:01:11 $
  *
- * 
+ *
  * =============================================
  * Notes for external developers
  * =============================
@@ -22,7 +22,7 @@
  * 2) There's other code in the DSpaceOAICatalog (i think, its been
  *    a while) that doesn't allow our restricted items to be harvested
  *    because having direct links to the PDF would not be a good thing.
- *    
+ *
  * 3) Theres some data you have to add to your oaicat.properties file
  *    so LAC can read your data properly. Read the harvesting requirements
  *    and it should be in there. If its not there, email me at
@@ -80,9 +80,9 @@ public class ETDMSCrosswalk extends Crosswalk
      */
     public ETDMSCrosswalk(Properties properties)
     {
-	super("http://www.ndltd.org/standards/metadata/etdms/1.0/ http://www.ndltd.org/standards/metadata/etdms/1.0/etdms.xsd");
+    super("http://www.ndltd.org/standards/metadata/etdms/1.0/ http://www.ndltd.org/standards/metadata/etdms/1.0/etdms.xsd");
     }
- 
+
     /**
      * removes certain XML character codes (<,>,&) in a string.
      * yes, this was borrowed from the DC crosswalk
@@ -119,7 +119,7 @@ public class ETDMSCrosswalk extends Crosswalk
         }
         return value;
     }
-    
+
     /**
      * This has to be here as its a member of the Super class and is
      * called by the ClassFactory or another higher level class.
@@ -131,7 +131,7 @@ public class ETDMSCrosswalk extends Crosswalk
         // We have DC for everything
         return true;
     }
-    
+
     /**
      * createMetadata is the workhorse of this class and creates the
      * string that represents the ETDms record.
@@ -144,10 +144,10 @@ public class ETDMSCrosswalk extends Crosswalk
         throws CannotDisseminateFormatException
     {
         Item item = ((HarvestedItemInfo) nativeItem).item;
- 
+
         // Get all the DC fields in the DC record
         DCValue[] allDC = item.getDC(Item.ANY, Item.ANY, Item.ANY);
-        
+
         //the result string buffer to write out
         StringBuffer metadata = new StringBuffer();
 
@@ -184,16 +184,16 @@ public class ETDMSCrosswalk extends Crosswalk
         String Handle = "";
 
         String currValue="";
-        
+
         //record header added to the record output first.
         //Messy, but it works
         metadata.append("<oai_etdms:thesis xmlns=\"http://www.ndltd.org/standards/metadata/etdms/1.0/\" ")
             .append("xmlns:oai_etdms=\"http://www.ndltd.org/standards/metadata/etdms/1.0/\" ")
             .append("xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" ")
             .append("xsi:schemaLocation=\"http://www.ndltd.org/standards/metadata/etdms/1.0/ http://www.ndltd.org/standards/metadata/etdms/1.0/etdms.xsd\">");
-        
+
         degreedata.append("<degree>");
- 
+
         for (int i = 0; i < allDC.length; i++)
         {
             // Do not include description.provenance
@@ -202,7 +202,7 @@ public class ETDMSCrosswalk extends Crosswalk
 
             if (!provenance)
             {
-            	String element = allDC[i].element;
+                String element = allDC[i].element;
 
                 //this is the title element
                 if (allDC[i].element.equals("title"))
@@ -215,15 +215,15 @@ public class ETDMSCrosswalk extends Crosswalk
 
                 // contributor.author exposed as 'creator'
                 if (allDC[i].element.equals("contributor") &&
-           		  allDC[i].qualifier != null)
+                      allDC[i].qualifier != null)
                 {
                     currValue = fixString(allDC[i].value);
- 
+
                     //the author has different tags than other people
                     //who are usually defined as "Supervisor" or "marking board"
                     //or whatever we want to use
-		    if (allDC[i].qualifier.equals("author"))
-		    {
+            if (allDC[i].qualifier.equals("author"))
+            {
                         creatorBuffer.append("<creator>")
                                      .append(currValue)
                                      .append("</creator>");
@@ -246,7 +246,7 @@ public class ETDMSCrosswalk extends Crosswalk
                 if ( element.equals("degree") )
                 {
                     element = allDC[i].qualifier;
-                    if (element.equals("level"))
+                    if (element.equals("name"))
                     {
                         element = "name";
                         String Value = fixString(allDC[i].value);
@@ -256,7 +256,8 @@ public class ETDMSCrosswalk extends Crosswalk
                         {
                             Level = "master's";
                         }
-                        if (Value.indexOf("Ph.D") != -1)
+                        if ((Value.indexOf("Ph.D") != -1) ||
+                            (Value.indexOf("Doctor") != -1))
                         {
                             Level = "doctoral";
                         }
@@ -275,7 +276,7 @@ public class ETDMSCrosswalk extends Crosswalk
                                          .append(Level)
                                          .append("</level>");
                     }
-                    else if (element.equals("discipline"))
+                    else if (element.equals("programme"))
                     {
                         //this is the area of study (i.e. English Literature)
                         currValue=fixString(allDC[i].value);
@@ -301,7 +302,7 @@ public class ETDMSCrosswalk extends Crosswalk
                     abstractBuffer.append(currValue);
                     abstractBuffer.append("</description>");
                 }
- 
+
                 //language has to be modified to work - this could be better
                 if (element.equals("language"))
                 {
@@ -314,7 +315,7 @@ public class ETDMSCrosswalk extends Crosswalk
                                   .append(Value)
                                   .append("</language>");
                 }
- 
+
                 //this is either a string on the format of the file or the file size in bytes
                 if (element.equals("format"))
                 {
@@ -358,13 +359,13 @@ public class ETDMSCrosswalk extends Crosswalk
                 }
 
                 //this is our handle ID string. we need the item ID (1993/14, for example)
-                if (element.equals("identifier")) 
+                if (element.equals("identifier"))
                 {
                   int Index = allDC[i].value.indexOf(Template);
                   if (Index != -1)
                   {
                     //this is our string - parse the last value for the ID
-                    ID = allDC[i].value.substring(allDC[i].value.lastIndexOf('/')+1); 
+                    ID = allDC[i].value.substring(allDC[i].value.lastIndexOf('/')+1);
                        Handle = allDC[i].value.substring(Index+Template.length()+1);
                        currValue = fixString(allDC[i].value);
                        hdlIDBuffer.append("<identifier>");
@@ -374,7 +375,7 @@ public class ETDMSCrosswalk extends Crosswalk
                 }
                     AddedHeader = "";
             }
-        }    
+        }
 
         String Filename = "";
         boolean Found = false;
@@ -382,24 +383,31 @@ public class ETDMSCrosswalk extends Crosswalk
 
         //JR - 01/12/2004 - hack to make direct link to PDF
         //this is why we restrict restricted items
-        Bundle[] Bundles = item.getBundles();
-        for (int BundleSize=0; BundleSize < Bundles.length && (Found == false); BundleSize++)
+        try
         {
-            Bitstream[] Bitstreams = Bundles[BundleSize].getBitstreams();
-            for (int StreamCount=0; StreamCount < Bitstreams.length; StreamCount++)
+            Bundle[] Bundles = item.getBundles();
+            for (int BundleSize=0; BundleSize < Bundles.length && (Found == false); BundleSize++)
             {
-                String Name = Bitstreams[StreamCount].getName();
-                if (Name.indexOf(".pdf") != -1)
+                Bitstream[] Bitstreams = Bundles[BundleSize].getBitstreams();
+                for (int StreamCount=0; StreamCount < Bitstreams.length; StreamCount++)
                 {
-                    Filename = Name;
-                    BundleIdx = Bitstreams[StreamCount].getSequenceID();//StreamCount+1;
-                    Found = false;
-                }
-                log.info(LogManager.getHeader(null,
-                         "oai_stuff",
-                         "Filename = " + Name));
+                    String Name = Bitstreams[StreamCount].getName();
+                    if (Name.indexOf(".pdf") != -1)
+                    {
+                        Filename = Name;
+                        BundleIdx = Bitstreams[StreamCount].getSequenceID();//StreamCount+1;
+                        Found = false;
+                    }
+                    log.info(LogManager.getHeader(null,
+                                                  "oai_stuff",
+                                                  "Filename = " + Name));
 
-            }  
+                }
+            }
+        }
+        catch (SQLException e)
+        {
+            // Do nothing for now
         }
 
         String URL = ConfigurationManager.getProperty("dspace.url");
@@ -412,13 +420,13 @@ public class ETDMSCrosswalk extends Crosswalk
                    .append("</identifier>");
 
         //JR - 01/12/2004 - hack to allow a publisher field
-        publisherBuffer.append("<publisher>University of Manitoba</publisher>");
- 
+        publisherBuffer.append("<publisher>University of Guelph</publisher>");
+
         //JR - 01/12/2004 - hack to add the TC field
-        TCIDBuffer.append("<identifier>TC-MWU-")
+        TCIDBuffer.append("<identifier>TC-OGU-")
                   .append(ID)
                   .append("</identifier>");
- 
+
         //JR - 21/01/2005 - put it all together in the correct order
         metadata.append(titleBuffer);
         metadata.append(creatorBuffer);
@@ -440,7 +448,7 @@ public class ETDMSCrosswalk extends Crosswalk
         metadata.append(degreedisciplineBuffer);
 
         //JR - 01/12/2004 - hack to add degree:grantor field to degree data
-        metadata.append("\t<grantor>University of Manitoba</grantor>");
+        metadata.append("\t<grantor>University of Guelph</grantor>");
 
         //JR 17/11/2004
         //finish off the degreebuffer buffer and append to the metadata buffer
