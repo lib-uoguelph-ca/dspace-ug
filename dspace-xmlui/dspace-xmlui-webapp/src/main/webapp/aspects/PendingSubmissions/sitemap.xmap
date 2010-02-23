@@ -1,0 +1,14 @@
+<map:sitemap xmlns:map="http://apache.org/cocoon/sitemap/1.0">
+	<map:components>
+		<map:transformers>
+			<map:transformer name="PendingSubmissions" src="ca.uoguelph.lib.app.xmlui.aspect.general.PendingSubmissionsTransformer"/>
+		</map:transformers>
+	</map:components>
+	<map:pipelines>
+		<map:pipeline>
+			<map:generate/>
+			<map:transform type="PendingSubmissions"/>
+			<map:serialize type="xml"/>
+		</map:pipeline>
+	</map:pipelines>
+</map:sitemap>
