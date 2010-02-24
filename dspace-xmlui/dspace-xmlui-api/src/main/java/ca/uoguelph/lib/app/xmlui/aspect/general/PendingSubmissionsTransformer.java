@@ -63,22 +63,26 @@ public class PendingSubmissionsTransformer extends AbstractDSpaceTransformer
             int rowCount = submissions.getRow();
             submissions.beforeFirst();
 
-            // Add the pending-submissions div and table.
-            Division div = body.addDivision("pending-submissions");
-            div.setHead("Your pending submissions");
-            div.addPara("The following submissions are awaiting approval.");
-
-            Table table =
-                div.addTable("pending-submissions", rowCount + 1, 2);
-            Row header = table.addRow(Row.ROLE_HEADER);
-            header.addCellContent("Item");
-            header.addCellContent("Collection");
-
-            while (submissions.next())
+            if (rowCount > 0)
             {
-                Row row = table.addRow(Row.ROLE_DATA);
-                row.addCellContent(submissions.getString("item_title"));
-                row.addCellContent(submissions.getString("collection_name"));
+                // Add the pending-submissions div and table.
+                Division div = body.addDivision("pending-submissions");
+                div.setHead("Your pending submissions");
+                div.addPara("The following submissions are awaiting approval.");
+
+                Table table =
+                    div.addTable("pending-submissions", rowCount + 1, 2);
+                Row header = table.addRow(Row.ROLE_HEADER);
+                header.addCellContent("Item");
+                header.addCellContent("Collection");
+
+                while (submissions.next())
+                {
+                    Row row = table.addRow(Row.ROLE_DATA);
+                    row.addCellContent(submissions.getString("item_title"));
+                    row.addCellContent(
+                        submissions.getString("collection_name"));
+                }
             }
         }
     }
