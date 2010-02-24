@@ -65,6 +65,9 @@ public class PendingSubmissionsTransformer extends AbstractDSpaceTransformer
 
             // Add the pending-submissions div and table.
             Division div = body.addDivision("pending-submissions");
+            div.setHead("Your pending submissions");
+            div.addPara("The following submissions are awaiting approval.");
+
             Table table =
                 div.addTable("pending-submissions", rowCount + 1, 2);
             Row header = table.addRow(Row.ROLE_HEADER);
