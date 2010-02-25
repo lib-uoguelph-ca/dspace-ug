@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import org.dspace.app.xmlui.cocoon.AbstractDSpaceTransformer;
+import org.dspace.app.xmlui.wing.Message;
 import org.dspace.app.xmlui.wing.WingException;
 import org.dspace.app.xmlui.wing.element.Body;
 import org.dspace.app.xmlui.wing.element.Division;
@@ -16,6 +17,15 @@ import org.dspace.eperson.EPerson;
 // TODO: JavaDoc
 public class PendingSubmissionsTransformer extends AbstractDSpaceTransformer
 {
+    private static final Message T_your_pending_submissions =
+        message("xmlui.general.pending_submissions.title");
+    private static final Message T_pending_submissions_intro =
+        message("xmlui.general.pending_submissions.intro");
+    private static final Message T_pending_submissions_item_title =
+        message("xmlui.general.pending_submissions.item_title");
+    private static final Message T_pending_submissions_collection_title =
+        message("xmlui.general.pending_submissions.collection_title");
+
     public void addBody(Body body) throws WingException, SQLException
     {
         EPerson currentUser = context.getCurrentUser();
@@ -67,14 +77,14 @@ public class PendingSubmissionsTransformer extends AbstractDSpaceTransformer
             {
                 // Add the pending-submissions div and table.
                 Division div = body.addDivision("pending-submissions");
-                div.setHead("Your pending submissions");
-                div.addPara("The following submissions are awaiting approval.");
+                div.setHead(T_your_pending_submissions);
+                div.addPara(T_pending_submissions_intro);
 
                 Table table =
                     div.addTable("pending-submissions", rowCount + 1, 2);
                 Row header = table.addRow(Row.ROLE_HEADER);
-                header.addCellContent("Item");
-                header.addCellContent("Collection");
+                header.addCellContent(T_pending_submissions_item_title);
+                header.addCellContent(T_pending_submissions_collection_title);
 
                 while (submissions.next())
                 {

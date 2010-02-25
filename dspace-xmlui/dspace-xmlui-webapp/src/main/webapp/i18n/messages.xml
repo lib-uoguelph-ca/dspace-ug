@@ -89,6 +89,14 @@
 		Default notice header 
 	 	-->
 	<message key="xmlui.general.notice.default_head">Notice</message>
+
+
+	<!-- Custom tags for PendingSubmissions -->
+    <message key="xmlui.general.pending_submissions.title">Your pending submissions</message>
+    <message key="xmlui.general.pending_submissions.intro">The following items have been submitted to a moderated collection. They will not appear in the collection until the moderators have reviewed and approved them.</message>
+    <message key="xmlui.general.pending_submissions.item_title">Item</message>
+    <message key="xmlui.general.pending_submissions.collection_title">Collection</message>
+
 	
 	
 	
