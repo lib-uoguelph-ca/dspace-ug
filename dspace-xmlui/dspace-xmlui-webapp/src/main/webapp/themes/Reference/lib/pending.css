@@ -1,28 +1,7 @@
 div#ca_uoguelph_lib_app_xmlui_aspect_general_PendingSubmissionsTransformer_div_pending-submissions {
-    /* background-color: #df6e00; */
-    /* color: #efc76c; */
     background-color: #efc76c;
     border: 1px solid #df6e00;
     color: #000;
     margin: 1em;
     padding: 0.5em;
-}
-
-div#ca_uoguelph_lib_app_xmlui_aspect_general_PendingSubmissionsTransformer_div_pending-submissions a {
-    color: #df6e00;
-}
-
-div#ca_uoguelph_lib_app_xmlui_aspect_general_PendingSubmissionsTransformer_div_pending-submissions a:link,
-div#ca_uoguelph_lib_app_xmlui_aspect_general_PendingSubmissionsTransformer_div_pending-submissions a:visited {
-    text-decoration: none;
-}
-
-div#ca_uoguelph_lib_app_xmlui_aspect_general_PendingSubmissionsTransformer_div_pending-submissions a:active,
-div#ca_uoguelph_lib_app_xmlui_aspect_general_PendingSubmissionsTransformer_div_pending-submissions a:hover {
-    text-decoration: underline;
-}
-
-div#ca_uoguelph_lib_app_xmlui_aspect_general_PendingSubmissionsTransformer_div_pending-submissions p:before {
-    content: "Note: ";
-    font-weight: bold;
 }
