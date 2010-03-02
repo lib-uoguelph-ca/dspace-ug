@@ -92,10 +92,11 @@
 
 
 	<!-- Custom tags for PendingSubmissions -->
-    <message key="xmlui.general.pending_submissions.title">Your pending submissions</message>
-    <message key="xmlui.general.pending_submissions.intro">The following items have been submitted to a moderated collection. They will not appear in the collection until the moderators have reviewed and approved them.</message>
-    <message key="xmlui.general.pending_submissions.item_title">Item</message>
-    <message key="xmlui.general.pending_submissions.collection_title">Collection</message>
+    <message key="xmlui.general.pending_submissions.intro">You have </message>
+    <message key="xmlui.general.pending_submissions.link_single">1 submission being reviewed</message>
+    <message key="xmlui.general.pending_submissions.link_multiple">{0} submissions being reviewed</message>
+    <message key="xmlui.general.pending_submissions.outtro_single">. This item has been submitted to a moderated collection and will not appear in that collection until it has been approved.</message>
+    <message key="xmlui.general.pending_submissions.outtro_multiple">. These items have been submitted to a moderated collection and will not appear in that collection until they have been approved.</message>
 
 	
 	

@@ -137,6 +137,7 @@
 							<map:parameter name="stylesheet.screen#1" value="lib/style.css"/>
 							<map:parameter name="stylesheet.screen#2" value="lib/style-ie.css"/>
 							<map:parameter name="stylesheet.screen#3" value="lib/style-ie6.css"/>
+							<map:parameter name="stylesheet.screen#4" value="lib/pending.css"/>
 							
 							<map:parameter name="theme.path" value="{global:theme-path}"/>
 							<map:parameter name="theme.name" value="{global:theme-name}"/>
@@ -146,6 +147,7 @@
 						<map:transform type="IncludePageMeta">
 							<map:parameter name="stylesheet.screen#1" value="lib/style.css"/>
 							<map:parameter name="stylesheet.screen#2" value="lib/style-ie.css"/>
+							<map:parameter name="stylesheet.screen#3" value="lib/pending.css"/>
 							
 							<map:parameter name="theme.path" value="{global:theme-path}"/>
 							<map:parameter name="theme.name" value="{global:theme-name}"/>
@@ -153,7 +155,8 @@
 					</map:when>
 					<map:otherwise>
 						<map:transform type="IncludePageMeta">
-							<map:parameter name="stylesheet.screen" value="lib/style.css"/>
+							<map:parameter name="stylesheet.screen#1" value="lib/style.css"/>
+							<map:parameter name="stylesheet.screen#2" value="lib/pending.css"/>
 							
 							<map:parameter name="theme.path" value="{global:theme-path}"/>
 							<map:parameter name="theme.name" value="{global:theme-name}"/>
