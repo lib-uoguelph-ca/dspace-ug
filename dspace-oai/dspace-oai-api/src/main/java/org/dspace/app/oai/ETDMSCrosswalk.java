@@ -198,7 +198,7 @@ public class ETDMSCrosswalk extends Crosswalk
         {
             // Do not include description.provenance
             boolean provenance = allDC[i].qualifier != null &&
-                                 allDC[i].qualifier.equals("provenance");
+                                 "provenance".equals(allDC[i].qualifier);
 
             if (!provenance)
             {
@@ -222,7 +222,7 @@ public class ETDMSCrosswalk extends Crosswalk
                     //the author has different tags than other people
                     //who are usually defined as "Supervisor" or "marking board"
                     //or whatever we want to use
-            if (allDC[i].qualifier.equals("author"))
+            if ("author".equals(allDC[i].qualifier))
             {
                         creatorBuffer.append("<creator>")
                                      .append(currValue)
@@ -262,16 +262,10 @@ public class ETDMSCrosswalk extends Crosswalk
                             Level = "doctoral";
                         }
 
-                        //get the name of the program, which is is brackets
-                        if (Value.indexOf("(") != -1)
-                        {
-                            int start = Value.indexOf("(");
-                            int end = Value.indexOf(")");
-                            currValue = Value.substring(start+1,end);
-                            degreelevelBuffer.append("\t<name>")
-                                             .append(currValue)
-                                             .append("</name>");
-                        }
+                        degreelevelBuffer.append("\t<name>")
+                            .append(Value)
+                            .append("</name>");
+
                         degreelevelBuffer.append("\t<level>")
                                          .append(Level)
                                          .append("</level>");
@@ -295,7 +289,8 @@ public class ETDMSCrosswalk extends Crosswalk
                 }
 
                 //this is the abstract - direct copy
-                if (element.equals("description") && allDC[i].qualifier.equals("abstract"))
+                if (element.equals("description") &&
+                    "abstract".equals(allDC[i].qualifier))
                 {
                     currValue = fixString(allDC[i].value);
                     abstractBuffer.append("<description>");
@@ -347,7 +342,7 @@ public class ETDMSCrosswalk extends Crosswalk
                 //mess about with the date to make the correct format
                 if (element.equals("date"))
                 {
-                    if (allDC[i].qualifier.equals("available"))
+                    if ("available".equals(allDC[i].qualifier))
                     {
                         //don't write out the dates - only the available date
                         currValue = allDC[i].value;
@@ -437,7 +432,7 @@ public class ETDMSCrosswalk extends Crosswalk
         metadata.append(dateBuffer);
         metadata.append(typeBuffer);
         metadata.append(formatBuffer);
-        metadata.append("<format>text/html</format>");
+        metadata.append("<format>application/pdf</format>");
         metadata.append(formatfileBuffer);
         metadata.append(hdlIDBuffer);
         metadata.append(pdfIDBuffer);
