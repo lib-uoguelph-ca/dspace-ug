@@ -107,7 +107,7 @@ public class PendingSubmissionsTransformer extends AbstractDSpaceTransformer
                 Division pending = body.addDivision("pending-submissions");
                 Para para = pending.addPara();
                 para.addContent(T_pending_submissions_intro);
-                para.addXref("submissions", T_link);
+                para.addXref("/xmlui/submissions", T_link);
                 para.addContent(T_outtro);
             }
         }
