@@ -1,9 +1,9 @@
 /*
  * RegisterServlet.java
  *
- * Version: $Revision: 2212 $
+ * Version: $Revision: 3705 $
  *
- * Date: $Date: 2007-09-21 06:48:48 -0700 (Fri, 21 Sep 2007) $
+ * Date: $Date: 2009-04-11 17:02:24 +0000 (Sat, 11 Apr 2009) $
  *
  * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -251,7 +251,7 @@ public class RegisterServlet extends DSpaceServlet
         String password = request.getParameter("password");
         EPerson eperson = EPerson.findByEmail(context, email);
         EPerson eperson2 = null;
-        if (netid!=null) eperson2 = EPerson.findByNetid(context, netid);
+        if (netid!=null) eperson2 = EPerson.findByNetid(context, netid.toLowerCase());
 
         try
         {
@@ -474,7 +474,7 @@ public class RegisterServlet extends DSpaceServlet
         EPerson eperson = null;
         if (email!=null) eperson = EPerson.findByEmail(context, email);
         EPerson eperson2 = null;
-        eperson2 = EPerson.findByNetid(context, netid);
+        if (netid!=null) eperson2 = EPerson.findByNetid(context, netid.toLowerCase());
         if (eperson2 !=null) eperson = eperson2;
         
         if (eperson == null)
@@ -485,7 +485,7 @@ public class RegisterServlet extends DSpaceServlet
             context.setIgnoreAuthorization(true);
             eperson = EPerson.create(context);
             eperson.setEmail(email);
-            eperson.setNetid(netid);
+            if (netid!=null) eperson.setNetid(netid.toLowerCase());
             eperson.update();
             context.setIgnoreAuthorization(false);
         }

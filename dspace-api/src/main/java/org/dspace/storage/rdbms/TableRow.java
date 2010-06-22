@@ -1,9 +1,9 @@
 /*
  * TableRow.java
  *
- * Version: $Revision: 2639 $
+ * Version: $Revision: 4316 $
  *
- * Date: $Date: 2008-02-11 16:03:08 -0800 (Mon, 11 Feb 2008) $
+ * Date: $Date: 2009-10-03 02:30:56 +0000 (Sat, 03 Oct 2009) $
  *
  * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -50,7 +50,7 @@ import org.dspace.core.ConfigurationManager;
  * Represents a database row.
  * 
  * @author Peter Breton
- * @version $Revision: 2639 $
+ * @version $Revision: 4316 $
  */
 public class TableRow
 {
@@ -227,6 +227,47 @@ public class TableRow
         }
 
         return ((Long) value).longValue();
+    }
+
+    /**
+     * Return the double value of column.
+     * 
+     * If the column's type is not an float, or the column does not exist, an
+     * IllegalArgumentException is thrown.
+     * 
+     * @param column
+     *            The column name (case-insensitive)
+     * @return The double value of the column, or -1 if the column is an SQL null.
+     */
+    public double getDoubleColumn(String column)
+    {
+        if (!hasColumn(column))
+        {
+            throw new IllegalArgumentException("No such column " + column);
+        }
+
+        String name = canonicalize(column);
+
+        if (isColumnNull(name))
+        {
+            return -1;
+        }
+
+        Object value = data.get(name);
+
+        if (value == null)
+        {
+            throw new IllegalArgumentException("Column " + column
+                    + " not present");
+        }
+        
+        if (!(value instanceof Double))
+        {
+            throw new IllegalArgumentException("Value for " + column
+                    + " is not a double");
+        }
+
+        return ((Double) value).doubleValue();
     }
 
     /**
@@ -496,6 +537,32 @@ public class TableRow
 
         String canonName = canonicalize(column);
         Long value = new Long(l);
+        if (!value.equals(data.get(canonName)))
+        {
+            data.put(canonName, value);
+            changed.put(canonName, Boolean.TRUE);
+        }
+    }
+
+    /**
+     * Set column to the double d.
+     * 
+     * If the column does not exist, an IllegalArgumentException is thrown.
+     * 
+     * @param column
+     *            The column name (case-insensitive)
+     * @param l
+     *            The double value
+     */
+    public void setColumn(String column, double d)
+    {
+        if (!hasColumn(column))
+        {
+            throw new IllegalArgumentException("No such column " + column);
+        }
+
+        String canonName = canonicalize(column);
+        Double value = new Double(d);
         if (!value.equals(data.get(canonName)))
         {
             data.put(canonName, value);

@@ -1,12 +1,11 @@
 /*
  * Group.java
  *
- * Version: $Revision: 3038 $
+ * Version: $Revision: 4903 $
  *
- * Date: $Date: 2008-08-07 02:21:47 -0700 (Thu, 07 Aug 2008) $
+ * Date: $Date: 2010-05-10 08:29:50 +0000 (Mon, 10 May 2010) $
  *
- * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
- * Institute of Technology.  All rights reserved.
+ * Copyright (c) 2002-2009, The DSpace Foundation.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -19,8 +18,7 @@
  * notice, this list of conditions and the following disclaimer in the
  * documentation and/or other materials provided with the distribution.
  *
- * - Neither the name of the Hewlett-Packard Company nor the name of the
- * Massachusetts Institute of Technology nor the names of their
+ * - Neither the name of the DSpace Foundation nor the names of its
  * contributors may be used to endorse or promote products derived from
  * this software without specific prior written permission.
  *
@@ -50,8 +48,12 @@ import java.util.Set;
 import java.io.IOException;
 
 import org.apache.log4j.Logger;
+import org.dspace.app.util.AuthorizeUtil;
+import org.dspace.authorize.AuthorizeConfiguration;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.authorize.AuthorizeManager;
+import org.dspace.content.Collection;
+import org.dspace.content.Community;
 import org.dspace.content.DSpaceObject;
 import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Constants;
@@ -66,7 +68,7 @@ import org.dspace.storage.rdbms.TableRowIterator;
  * Class representing a group of e-people.
  * 
  * @author David Stuve
- * @version $Revision: 3038 $
+ * @version $Revision: 4903 $
  */
 public class Group extends DSpaceObject
 {
@@ -121,7 +123,6 @@ public class Group extends DSpaceObject
     /**
      * Populate Group with eperson and group objects
      * 
-     * @param context
      * @throws SQLException
      */
     public void loadData()
@@ -304,7 +305,8 @@ public class Group extends DSpaceObject
         loadData(); // make sure Group has data loaded
 
         // don't add if it's already a member
-        if (isMember(g))
+        // and don't add itself
+        if (isMember(g) || getID()==g.getID())
         {
             return;
         }
@@ -349,7 +351,8 @@ public class Group extends DSpaceObject
     }
 
     /**
-     * check to see if an eperson is a member
+     * check to see if an eperson is a direct member.
+     * If the eperson is a member via a subgroup will be returned <code>false</code>
      * 
      * @param e
      *            eperson to check membership
@@ -368,7 +371,8 @@ public class Group extends DSpaceObject
     }
 
     /**
-     * check to see if group is a member
+     * check to see if g is a direct group member.
+     * If g is a subgroup via another group will be returned <code>false</code>
      * 
      * @param g
      *            group to check
@@ -399,23 +403,9 @@ public class Group extends DSpaceObject
             return true;
         }
 
-        // first, check for membership if it's a special group
-        // (special groups can be set even if person isn't authenticated)
-        if (c.inSpecialGroup(groupid))
-        {
-            return true;
-        }
-
         EPerson currentuser = c.getCurrentUser();
 
-        // only test for membership if context contains a user
-        if (currentuser != null)
-        {
-            return epersonInGroup(c, groupid, currentuser);
-        }
-
-        // currentuser not set, return FALSE
-        return false;
+        return epersonInGroup(c, groupid, currentuser);
     }
 
     /**
@@ -454,38 +444,52 @@ public class Group extends DSpaceObject
     public static Set<Integer> allMemberGroupIDs(Context c, EPerson e)
             throws SQLException
     {
-        // two queries - first to get groups eperson is a member of
-        // second query gets parent groups for groups eperson is a member of
-
-        TableRowIterator tri = DatabaseManager.queryTable(c, "epersongroup2eperson",
-                "SELECT * FROM epersongroup2eperson WHERE eperson_id= ?",
-                 e.getID());
-
         Set<Integer> groupIDs = new HashSet<Integer>();
-
-        try
+        
+        if (e != null)
         {
-            while (tri.hasNext())
+            // two queries - first to get groups eperson is a member of
+            // second query gets parent groups for groups eperson is a member of
+
+            TableRowIterator tri = DatabaseManager.queryTable(c,
+                    "epersongroup2eperson",
+                    "SELECT * FROM epersongroup2eperson WHERE eperson_id= ?", e
+                            .getID());
+
+            try
             {
-                TableRow row = tri.next();
+                while (tri.hasNext())
+                {
+                    TableRow row = tri.next();
 
-                int childID = row.getIntColumn("eperson_group_id");
+                    int childID = row.getIntColumn("eperson_group_id");
 
-                groupIDs.add(new Integer(childID));
+                    groupIDs.add(new Integer(childID));
+                }
+            }
+            finally
+            {
+                // close the TableRowIterator to free up resources
+                if (tri != null)
+                    tri.close();
             }
         }
-        finally
-        {
-            // close the TableRowIterator to free up resources
-            if (tri != null)
-                tri.close();
-        }
-
         // Also need to get all "Special Groups" user is a member of!
         // Otherwise, you're ignoring the user's membership to these groups!
-        Group[] specialGroups = c.getSpecialGroups();
-        for(int j=0; j<specialGroups.length;j++)
-            groupIDs.add(new Integer(specialGroups[j].getID()));
+        // However, we only do this is we are looking up the special groups
+        // of the current user, as we cannot look up the special groups
+        // of a user who is not logged in.
+        if ((c.getCurrentUser() == null) || (((c.getCurrentUser() != null) && (c.getCurrentUser().getID() == e.getID()))))
+        {
+            Group[] specialGroups = c.getSpecialGroups();
+            for(Group special : specialGroups)
+            {
+                groupIDs.add(new Integer(special.getID()));
+            }
+        }
+
+        // all the users are members of the anonymous group 
+        groupIDs.add(new Integer(0));
         
         // now we have all owning groups, also grab all parents of owning groups
         // yes, I know this could have been done as one big query and a union,
@@ -509,16 +513,10 @@ public class Group extends DSpaceObject
                 groupQuery += " OR ";
         }
 
-        if ("".equals(groupQuery))
-        {
-            // don't do query, isn't member of any groups
-            return groupIDs;
-        }
-        
         // was member of at least one group
         // NOTE: even through the query is built dynamicaly all data is seperated into the
         // the parameters array.
-        tri = DatabaseManager.queryTable(c, "group2groupcache",
+        TableRowIterator tri = DatabaseManager.queryTable(c, "group2groupcache",
                 "SELECT * FROM group2groupcache WHERE " + groupQuery,
                 parameters);
 
@@ -1062,19 +1060,29 @@ public class Group extends DSpaceObject
     }
     
     /**
-     * Return true if group has no members
+     * Return true if group has no direct or indirect members
      */
     public boolean isEmpty()
     {
         loadData(); // make sure all data is loaded
-
-        if ((epeople.size() == 0) && (groups.size() == 0))
+        
+        // the only fast check available is on epeople... 
+        boolean hasMembers = (epeople.size() != 0);
+        
+        if (hasMembers)
         {
-            return true;
+            return false;
         }
         else
         {
-            return false;
+            // well, groups is never null...
+            for (Group subGroup : groups){
+                hasMembers = !subGroup.isEmpty();
+                if (hasMembers){
+                    return false;
+                }
+            }
+            return !hasMembers;
         }
     }
 
@@ -1320,5 +1328,92 @@ public class Group extends DSpaceObject
         }
 
         return myChildren;
+    }
+    
+    public DSpaceObject getParentObject() throws SQLException
+    {
+        // could a collection/community admin manage related groups?
+        // check before the configuration options could give a performance gain
+        // if all group management are disallowed
+        if (AuthorizeConfiguration.canCollectionAdminManageAdminGroup()
+                || AuthorizeConfiguration.canCollectionAdminManageSubmitters()
+                || AuthorizeConfiguration.canCollectionAdminManageWorkflows()
+                || AuthorizeConfiguration.canCommunityAdminManageAdminGroup()
+                || AuthorizeConfiguration
+                        .canCommunityAdminManageCollectionAdminGroup()
+                || AuthorizeConfiguration
+                        .canCommunityAdminManageCollectionSubmitters()
+                || AuthorizeConfiguration
+                        .canCommunityAdminManageCollectionWorkflows())
+        {
+            // is this a collection related group?
+            TableRow qResult = DatabaseManager
+                    .querySingle(
+                            myContext,
+                            "SELECT collection_id, workflow_step_1, workflow_step_2, " +
+                            " workflow_step_3, submitter, admin FROM collection "
+                                    + " WHERE workflow_step_1 = ? OR "
+                                    + " workflow_step_2 = ? OR "
+                                    + " workflow_step_3 = ? OR "
+                                    + " submitter =  ? OR " + " admin = ?",
+                            getID(), getID(), getID(), getID(), getID());
+            if (qResult != null)
+            {
+                Collection collection = Collection.find(myContext, qResult
+                        .getIntColumn("collection_id"));
+                
+                if ((qResult.getIntColumn("workflow_step_1") == getID() ||
+                        qResult.getIntColumn("workflow_step_2") == getID() ||
+                        qResult.getIntColumn("workflow_step_3") == getID()))
+                {
+                    if (AuthorizeConfiguration.canCollectionAdminManageWorkflows())
+                    {
+                        return collection;
+                    }
+                    else if (AuthorizeConfiguration.canCommunityAdminManageCollectionWorkflows())
+                    {
+                        return collection.getParentObject();
+                    }
+                }
+                if (qResult.getIntColumn("submitter") == getID())
+                {
+                    if (AuthorizeConfiguration.canCollectionAdminManageSubmitters())
+                    {
+                        return collection;
+                    }
+                    else if (AuthorizeConfiguration.canCommunityAdminManageCollectionSubmitters())
+                    {
+                        return collection.getParentObject();
+                    }
+                }
+                if (qResult.getIntColumn("admin") == getID())
+                {
+                    if (AuthorizeConfiguration.canCollectionAdminManageAdminGroup())
+                    {
+                        return collection;
+                    }
+                    else if (AuthorizeConfiguration.canCommunityAdminManageCollectionAdminGroup())
+                    {
+                        return collection.getParentObject();
+                    }
+                }
+            }
+            // is the group releated to a community and community admin allowed
+            // to manage it?
+            else if (AuthorizeConfiguration.canCommunityAdminManageAdminGroup())
+            {
+                qResult = DatabaseManager.querySingle(myContext,
+                        "SELECT community_id FROM community "
+                                + "WHERE admin = ?", getID());
+
+                if (qResult != null)
+                {
+                    Community community = Community.find(myContext, qResult
+                            .getIntColumn("community_id"));
+                    return community;
+                }
+            }
+        }
+        return null;
     }
 }

@@ -1,12 +1,11 @@
 /*
  * MediaFilterManager.java
  *
- * Version: $Revision: 3038 $
+ * Version: $Revision: 4503 $
  *
- * Date: $Date: 2008-08-07 02:21:47 -0700 (Thu, 07 Aug 2008) $
+ * Date: $Date: 2009-11-05 02:31:03 +0000 (Thu, 05 Nov 2009) $
  *
- * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
- * Institute of Technology.  All rights reserved.
+ * Copyright (c) 2002-2009, The DSpace Foundation.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -19,8 +18,7 @@
  * notice, this list of conditions and the following disclaimer in the
  * documentation and/or other materials provided with the distribution.
  *
- * - Neither the name of the Hewlett-Packard Company nor the name of the
- * Massachusetts Institute of Technology nor the names of their
+ * - Neither the name of the DSpace Foundation nor the names of its
  * contributors may be used to endorse or promote products derived from
  * this software without specific prior written permission.
  *
@@ -99,6 +97,8 @@ public class MediaFilterManager
 
     public static boolean isVerbose = false; // default to not verbose
 
+    public static boolean isQuiet = false; // default is noisy
+
     public static boolean isForce = false; // default to not forced
     
     public static String identifier = null; // object scope limiter
@@ -133,6 +133,8 @@ public class MediaFilterManager
         
         options.addOption("v", "verbose", false,
                 "print all extracted text and other details to STDOUT");
+        options.addOption("q", "quiet", false,
+                "do not print anything except in the event of errors.");
         options.addOption("f", "force", false,
                 "force all bitstreams to be processed");
         options.addOption("n", "noindex", false,
@@ -191,6 +193,8 @@ public class MediaFilterManager
         {
             isVerbose = true;
         }
+
+        isQuiet = line.hasOption('q');
 
         if (line.hasOption('n'))
         {
@@ -384,6 +388,7 @@ public class MediaFilterManager
             // update search index?
             if (updateIndex)
             {
+                if (!isQuiet)
                 System.out.println("Updating search index:");
                 DSIndexer.updateIndex(c);
             }
@@ -659,8 +664,9 @@ public class MediaFilterManager
         // if exists and overwrite = false, exit
         if (!overWrite && (existingBitstream != null))
         {
+            if (!isQuiet)
             System.out.println("SKIPPED: bitstream " + source.getID()
-                    + " because '" + newName + "' already exists");
+                    + " (item: " + item.getHandle() + ") because '" + newName + "' already exists");
 
             return false;
         }
@@ -668,8 +674,9 @@ public class MediaFilterManager
         InputStream destStream = formatFilter.getDestinationStream(source.retrieve());
         if (destStream == null)
         {
+            if (!isQuiet)
             System.out.println("SKIPPED: bitstream " + source.getID()
-                    + " because of filtering error");
+                    + " (item: " + item.getHandle() + ") because filtering was unsuccessful");
 
             return false;
         }
@@ -711,8 +718,9 @@ public class MediaFilterManager
             targetBundle.removeBitstream(existingBitstream);
         }
 
+        if (!isQuiet)
         System.out.println("FILTERED: bitstream " + source.getID()
-                + " and created '" + newName + "'");
+                + " (item: " + item.getHandle() + ") and created '" + newName + "'");
 
         //do post-processing of the generated bitstream
         formatFilter.postProcessBitstream(c, item, b);
@@ -748,6 +756,7 @@ public class MediaFilterManager
     {
         if(skipList!=null && skipList.contains(identifier))
         {
+            if (!isQuiet)
             System.out.println("SKIP-LIST: skipped bitstreams within identifier " + identifier);
             return true;
         }    

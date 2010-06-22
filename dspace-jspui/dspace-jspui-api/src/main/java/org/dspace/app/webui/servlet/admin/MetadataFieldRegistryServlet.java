@@ -1,9 +1,9 @@
 /*
  * MetadataFieldRegistryServlet.java
  *
- * Version: $Revision: 1947 $
+ * Version: $Revision: 3705 $
  *
- * Date: $Date: 2007-05-18 06:50:29 -0700 (Fri, 18 May 2007) $
+ * Date: $Date: 2009-04-11 17:02:24 +0000 (Sat, 11 Apr 2009) $
  *
  * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -64,7 +64,7 @@ import org.dspace.core.I18nUtil;
  * 
  * @author Robert Tansley
  * @author Martin Hald
- * @version $Revision: 1947 $
+ * @version $Revision: 3705 $
  */
 public class MetadataFieldRegistryServlet extends DSpaceServlet
 {
@@ -195,8 +195,18 @@ public class MetadataFieldRegistryServlet extends DSpaceServlet
             // User confirms deletion of type
             MetadataField dc = MetadataField.find(context, UIUtil
                     .getIntParameter(request, "dc_type_id"));
-            dc.delete(context);
-            showTypes(context, request, response, schemaID);
+            try
+            {
+                dc.delete(context);
+                request.setAttribute("failed", new Boolean(false));
+                showTypes(context, request, response, schemaID);
+            } catch (Exception e)
+            {
+                request.setAttribute("type", dc);
+                request.setAttribute("failed", true);
+                JSPManager.showJSP(request, response,
+                        "/dspace-admin/confirm-delete-mdfield.jsp");
+            }
             context.complete();
         }
         else if (button.equals("submit_move"))

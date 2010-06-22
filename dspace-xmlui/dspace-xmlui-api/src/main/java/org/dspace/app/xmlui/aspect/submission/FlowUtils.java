@@ -1,9 +1,9 @@
 /*
  * FlowUtils.java
  *
- * Version: $Revision: 1.21 $
+ * Version: $Revision: 3705 $
  *
- * Date: $Date: 2006/07/27 18:24:34 $
+ * Date: $Date: 2009-04-11 17:02:24 +0000 (Sat, 11 Apr 2009) $
  *
  * Copyright (c) 2002, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -243,6 +243,31 @@ public class FlowUtils {
 		}
     }
 	
+    /**
+     * Set a specific step and page as reached. 
+     * It will also "set back" where a user has reached.
+     * 
+     * @param context The current DSpace content
+     * @param id The unique ID of the current workflow/workspace
+     * @param step the step to set as reached, can be also a previous reached step
+     * @param page the page (within the step) to set as reached, can be also a previous reached page
+     */
+    public static void setBackPageReached(Context context, String id, int step,
+            int page) throws SQLException, AuthorizeException, IOException
+    {
+        InProgressSubmission submission = findSubmission(context, id);
+
+        if (submission instanceof WorkspaceItem)
+        {
+            WorkspaceItem workspaceItem = (WorkspaceItem) submission;
+
+            workspaceItem.setStageReached(step);
+            workspaceItem.setPageReached(page > 0 ? page : 1);
+            workspaceItem.update();
+            context.commit();
+        }
+    }
+    
     /**
      * Find the maximum step the user has reached in the submission processes. 
      * If this submission is a workflow then return max-int.

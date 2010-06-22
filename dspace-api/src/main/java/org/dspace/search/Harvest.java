@@ -1,9 +1,9 @@
 /*
  * Harvest.java
  *
- * Version: $Revision: 3038 $
+ * Version: $Revision: 4889 $
  *
- * Date: $Date: 2008-08-07 02:21:47 -0700 (Thu, 07 Aug 2008) $
+ * Date: $Date: 2010-05-05 19:07:23 +0000 (Wed, 05 May 2010) $
  *
  * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -60,6 +60,8 @@ import org.dspace.handle.HandleManager;
 import org.dspace.storage.rdbms.DatabaseManager;
 import org.dspace.storage.rdbms.TableRow;
 import org.dspace.storage.rdbms.TableRowIterator;
+import org.dspace.authorize.AuthorizeManager;
+import org.dspace.eperson.Group;
 
 /**
  * Utility class for extracting information about items, possibly just within a
@@ -67,7 +69,7 @@ import org.dspace.storage.rdbms.TableRowIterator;
  * withdrawn within a particular range of dates.
  * 
  * @author Robert Tansley
- * @version $Revision: 3038 $
+ * @version $Revision: 4889 $
  */
 public class Harvest
 {
@@ -111,14 +113,16 @@ public class Harvest
      * @param withdrawn
      *            If <code>true</code>, information about withdrawn items is
      *            included
+     * @param nonAnon
+     *            If items without anonymous access should be included or not
      * @return List of <code>HarvestedItemInfo</code> objects
      * @throws SQLException
      * @throws ParseException If the date is not in a supported format
      */
     public static List harvest(Context context, DSpaceObject scope,
             String startDate, String endDate, int offset, int limit,
-            boolean items, boolean collections, boolean withdrawn)
-            throws SQLException, ParseException
+            boolean items, boolean collections, boolean withdrawn,
+            boolean nonAnon) throws SQLException, ParseException
     {
 
         // Put together our query. Note there is no need for an
@@ -227,6 +231,7 @@ public class Harvest
         TableRowIterator tri = DatabaseManager.query(context, query, parametersArray);
         List infoObjects = new LinkedList();
         int index = 0;
+        int itemCounter = 0;
 
         try
         {
@@ -235,12 +240,35 @@ public class Harvest
             {
                 TableRow row = tri.next();
 
+                /**
+                 * If we are looking for public-only items, we need to scan all objects
+                 * for permissions in order to properly calculate the offset
+                 */
+                if ((!nonAnon) && (index < offset))
+                {
+                    HarvestedItemInfo itemInfo = new HarvestedItemInfo();
+                    itemInfo.itemID = row.getIntColumn("resource_id");
+                    itemInfo.item = Item.find(context, itemInfo.itemID);
+                    Group[] authorizedGroups = AuthorizeManager.getAuthorizedGroups(context, itemInfo.item, Constants.READ);
+                        boolean added = false;
+                        for (int i = 0; i < authorizedGroups.length; i++)
+                        {
+                            if ((authorizedGroups[i].getID() == 0) && (!added))
+                            {
+                                added = true;
+                            }
+                        }
+                        if (!added)
+                        {
+                            offset++;
+                        }
+                }
+
                 /*
                  * This conditional ensures that we only process items within any
                  * constraints specified by 'offset' and 'limit' parameters.
                  */
-                if ((index >= offset)
-                        && ((limit == 0) || (index < (offset + limit))))
+                else if ((index >= offset) && ((limit == 0) || (itemCounter < limit)))
                 {
                     HarvestedItemInfo itemInfo = new HarvestedItemInfo();
 
@@ -261,7 +289,24 @@ public class Harvest
                         itemInfo.item = Item.find(context, itemInfo.itemID);
                     }
 
-                    infoObjects.add(itemInfo);
+                    if ((nonAnon) || (itemInfo.item == null) || (withdrawn && itemInfo.withdrawn))
+                    {
+                        infoObjects.add(itemInfo);
+                        itemCounter++;
+                    } else
+                    {
+                        Group[] authorizedGroups = AuthorizeManager.getAuthorizedGroups(context, itemInfo.item, Constants.READ);
+                        boolean added = false;
+                        for (int i = 0; i < authorizedGroups.length; i++)
+                        {
+                            if ((authorizedGroups[i].getID() == 0) && (!added))
+                            {
+                                infoObjects.add(itemInfo);
+                                added = true;
+                                itemCounter++;
+                            }
+                        }
+                    }
                 }
 
                 index++;

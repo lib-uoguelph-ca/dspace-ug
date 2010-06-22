@@ -1,9 +1,9 @@
 <%--
   - confirm-delete-mdschema.jsp
   -
-  - Version: $Revision: 1373 $
+  - Version: $Revision: 3705 $
   -
-  - Date: $Date: 2005-11-16 13:40:53 -0800 (Wed, 16 Nov 2005) $
+  - Date: $Date: 2009-04-11 17:02:24 +0000 (Sat, 11 Apr 2009) $
   -
   - Copyright (c) 2002, Hewlett-Packard Company and Massachusetts
   - Institute of Technology.  All rights reserved.
@@ -78,7 +78,7 @@
     <%-- <P>This will result in an error if any metadata fields exist within this schema.</P>  --%>
     <P><fmt:message key="jsp.dspace-admin.confirm-delete-mdschema.warning"/></P>
 
-    <form method=POST>
+    <form method="post">
         <input type="hidden" name="dc_schema_id" value="<%= schema.getSchemaID() %>">
 
         <center>

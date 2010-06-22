@@ -1,9 +1,9 @@
 /*
  * SuggestServlet.java
  *
- * Version: $Revision: 3036 $
+ * Version: $Revision: 4462 $
  *
- * Date: $Date: 2008-08-06 08:52:30 -0700 (Wed, 06 Aug 2008) $
+ * Date: $Date: 2009-10-22 22:53:26 +0000 (Thu, 22 Oct 2009) $
  *
  * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -41,6 +41,7 @@
 package org.dspace.app.webui.servlet;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.MissingResourceException;
@@ -70,7 +71,7 @@ import org.dspace.content.DCValue;
  * Servlet for handling user email recommendations
  *
  * @author  Arnaldo Dantas
- * @version $Revision: 3036 $
+ * @version $Revision: 4462 $
  */
 public class SuggestServlet extends DSpaceServlet
 {
@@ -81,6 +82,30 @@ public class SuggestServlet extends DSpaceServlet
     					   HttpServletResponse response)
         throws ServletException, IOException, SQLException, AuthorizeException
     {
+        // Obtain information from request
+        // The page where the user came from
+        String fromPage = request.getHeader("Referer");
+
+        // Prevent spammers and splogbots from poisoning the feedback page
+        String host = ConfigurationManager.getProperty("dspace.hostname");
+
+        String basicHost = "";
+        if (host.equals("localhost") || host.equals("127.0.0.1")
+                || host.equals(InetAddress.getLocalHost().getHostAddress()))
+            basicHost = host;
+        else
+        {
+            // cut off all but the hostname, to cover cases where more than one URL
+            // arrives at the installation; e.g. presence or absence of "www"
+            int lastDot = host.lastIndexOf(".");
+            basicHost = host.substring(host.substring(0, lastDot).lastIndexOf("."));
+        }
+
+        if (fromPage == null || fromPage.indexOf(basicHost) == -1)
+        {
+            throw new AuthorizeException();
+        }
+
         // Obtain information from request
         String handle = request.getParameter("handle");
         

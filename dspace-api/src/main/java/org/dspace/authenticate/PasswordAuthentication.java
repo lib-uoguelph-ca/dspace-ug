@@ -1,12 +1,11 @@
 /*
  * PasswordAuthentication.java
  *
- * Version: $Revision: 2168 $
+ * Version: $Revision: 3735 $
  *
- * Date: $Date: 2007-08-27 15:40:09 -0700 (Mon, 27 Aug 2007) $
+ * Date: $Date: 2009-04-24 04:05:53 +0000 (Fri, 24 Apr 2009) $
  *
- * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
- * Institute of Technology.  All rights reserved.
+ * Copyright (c) 2002-2009, The DSpace Foundation.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -19,8 +18,7 @@
  * notice, this list of conditions and the following disclaimer in the
  * documentation and/or other materials provided with the distribution.
  *
- * - Neither the name of the Hewlett-Packard Company nor the name of the
- * Massachusetts Institute of Technology nor the names of their
+ * - Neither the name of the DSpace Foundation nor the names of its
  * contributors may be used to endorse or promote products derived from
  * this software without specific prior written permission.
  *
@@ -50,6 +48,7 @@ import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Context;
 import org.dspace.core.LogManager;
 import org.dspace.eperson.EPerson;
+import org.dspace.eperson.Group;
 
 /**
  * A stackable authentication method
@@ -69,7 +68,7 @@ import org.dspace.eperson.EPerson;
  * Basic Auth username and password to the <code>AuthenticationManager</code>.
  *
  * @author Larry Stone
- * @version $Revision: 2168 $
+ * @version $Revision: 3735 $
  */
 public class PasswordAuthentication
     implements AuthenticationMethod {
@@ -150,11 +149,39 @@ public class PasswordAuthentication
     }
 
     /**
-     * No special groups.
+     * Add authenticated users to the group defined in dspace.cfg by
+     * the password.login.specialgroup key.
      */
     public int[] getSpecialGroups(Context context, HttpServletRequest request)
     {
-        return new int[0];
+        // Prevents anonymous users from being added to this group, and the second check
+		// ensures they are password users
+		try
+		{
+			if (!context.getCurrentUser().getMetadata("password").equals(""))
+			{
+				String groupName = ConfigurationManager.getProperty("password.login.specialgroup");
+				if ((groupName != null) && (!groupName.trim().equals("")))
+				{
+				    Group specialGroup = Group.findByName(context, groupName);
+					if (specialGroup == null)
+					{
+						// Oops - the group isn't there.
+						log.warn(LogManager.getHeader(context,
+								"password_specialgroup",
+								"Group defined in password.login.specialgroup does not exist"));
+						return new int[0];
+					} else
+					{
+						return new int[] { specialGroup.getID() };
+					}
+				}
+			}
+		}
+		catch (Exception e) {
+			// The user is not a password user, so we don't need to worry about them
+		}
+		return new int[0];
     }
 
     /**

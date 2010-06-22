@@ -1,7 +1,7 @@
 <%--
   - group_edit.jsp
   -
-  - $Id: group-edit.jsp 2218 2007-09-28 13:17:04Z jrutherford $
+  - $Id: group-edit.jsp 3705 2009-04-11 17:02:24Z mdiggory $
   -
   - Copyright (c) 2002, Hewlett-Packard Company and Massachusetts
   - Institute of Technology.  All rights reserved.
@@ -61,6 +61,7 @@
 
 <%@ page import="org.dspace.eperson.EPerson" %>
 <%@ page import="org.dspace.eperson.Group"   %>
+<%@ page import="org.dspace.core.Utils" %>
 
 <%
     Group group = (Group) request.getAttribute("group");
@@ -90,7 +91,7 @@
 
   <center>
     <form name="epersongroup" method="post" action="">
-	<p><label for="tgroup_name"><fmt:message key="jsp.tools.group-edit.name"/></label><input name="group_name" id="tgroup_name" value="<%=group.getName()%>"/></p>
+	<p><label for="tgroup_name"><fmt:message key="jsp.tools.group-edit.name"/></label><input name="group_name" id="tgroup_name" value="<%= Utils.addEntities(group.getName()) %>"/></p>
    	    <h3><fmt:message key="jsp.tools.group-edit.heading"/></h3>
 
         <input type="hidden" name="group_id" value="<%=group.getID()%>"/>

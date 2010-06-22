@@ -1,12 +1,11 @@
 /*
  * InstallItem.java
  *
- * Version: $Revision: 2074 $
+ * Version: $Revision: 4277 $
  *
- * Date: $Date: 2007-07-19 12:40:11 -0700 (Thu, 19 Jul 2007) $
+ * Date: $Date: 2009-09-22 21:27:54 +0000 (Tue, 22 Sep 2009) $
  *
- * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
- * Institute of Technology.  All rights reserved.
+ * Copyright (c) 2002-2009, The DSpace Foundation.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -19,8 +18,7 @@
  * notice, this list of conditions and the following disclaimer in the
  * documentation and/or other materials provided with the distribution.
  *
- * - Neither the name of the Hewlett-Packard Company nor the name of the
- * Massachusetts Institute of Technology nor the names of their
+ * - Neither the name of the DSpace Foundation nor the names of its
  * contributors may be used to endorse or promote products derived from
  * this software without specific prior written permission.
  *
@@ -45,13 +43,14 @@ import java.sql.SQLException;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Context;
+import org.dspace.embargo.EmbargoManager;
 import org.dspace.handle.HandleManager;
 
 /**
  * Support to install item in the archive
  * 
  * @author dstuve
- * @version $Revision: 2074 $
+ * @version $Revision: 4277 $
  */
 public class InstallItem
 {
@@ -89,18 +88,28 @@ public class InstallItem
     {
         Item item = is.getItem();
         String handle;
+        
+        // this is really just to flush out fatal embargo metadata
+        // problems before we set inArchive.
+        DCDate liftDate = EmbargoManager.getEmbargoDate(c, item);
 
         // create accession date
         DCDate now = DCDate.getCurrent();
         item.addDC("date", "accessioned", null, now.toString());
-        item.addDC("date", "available", null, now.toString());
+        
+        // add date available if not under embargo, otherwise it will
+        // be set when the embargo is lifted.
+        if (liftDate == null)
+            item.addDC("date", "available", null, now.toString());
 
         // create issue date if not present
         DCValue[] currentDateIssued = item.getDC("date", "issued", Item.ANY);
 
         if (currentDateIssued.length == 0)
         {
-            item.addDC("date", "issued", null, now.toString());
+            DCDate issued = new DCDate();
+            issued.setDateLocal(now.getYear(),now.getMonth(),now.getDay(),-1,-1,-1);
+            item.addDC("date", "issued", null, issued.toString());
         }
 
         // if no previous handle supplied, create one
@@ -116,8 +125,14 @@ public class InstallItem
 
         String handleref = HandleManager.getCanonicalForm(handle);
 
-        // Add handle as identifier.uri DC value
-        item.addDC("identifier", "uri", null, handleref);
+        // Add handle as identifier.uri DC value, first check that identifier dosn't allready exist
+        boolean identifierExists = false;
+        DCValue[] identifiers = item.getDC("identifier", "uri", Item.ANY);
+        for (DCValue identifier : identifiers)
+        	if (handleref.equals(identifier.value))
+        		identifierExists = true;
+        if (!identifierExists)
+        	item.addDC("identifier", "uri", null, handleref);
 
         String provDescription = "Made available in DSpace on " + now
                 + " (GMT). " + getBitstreamProvenanceMessage(item);
@@ -150,6 +165,10 @@ public class InstallItem
         // remove the item's policies and replace them with
         // the defaults from the collection
         item.inheritCollectionDefaultPolicies(is.getCollection());
+        
+        // set embargo lift date and take away read access if indicated.
+        if (liftDate != null)
+            EmbargoManager.setEmbargo(c, item, liftDate);
 
         return item;
     }

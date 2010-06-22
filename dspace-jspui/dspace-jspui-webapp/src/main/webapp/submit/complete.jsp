@@ -1,9 +1,9 @@
 <%--
   - complete.jsp
   -
-  - Version: $Revision: 2218 $
+  - Version: $Revision: 4565 $
   -
-  - Date: $Date: 2007-09-28 06:17:04 -0700 (Fri, 28 Sep 2007) $
+  - Date: $Date: 2009-11-26 03:09:09 +0000 (Thu, 26 Nov 2009) $
   -
   - Copyright (c) 2002, Hewlett-Packard Company and Massachusetts
   - Institute of Technology.  All rights reserved.
@@ -88,9 +88,9 @@
      
     <p><a href="<%= request.getContextPath() %>/community-list"><fmt:message key="jsp.community-list.title"/></a></p>
      
-    <form action="<%= request.getContextPath() %>/submit" method="POST" onkeydown="return disableEnterKey(event);">
-        <input type="hidden" name="collection" value="<%= collection.getID() %>">
-	    <input type="submit" name="submit" value="<fmt:message key="jsp.collection-home.submit.button"/>">
+    <form action="<%= request.getContextPath() %>/submit" method="post" onkeydown="return disableEnterKey(event);">
+        <input type="hidden" name="collection" value="<%= collection.getID() %>"/>
+	    <input type="submit" name="submit" value="<fmt:message key="jsp.submit.complete.again"/>"/>
     </form>
      
 </dspace:layout>

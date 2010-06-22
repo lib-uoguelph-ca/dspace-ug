@@ -1,9 +1,9 @@
 /*
  * PluginCrosswalk.java
  *
- * Version: $Revision: 2016 $
+ * Version: $Revision: 3705 $
  *
- * Date: $Date: 2007-06-18 09:57:48 -0700 (Mon, 18 Jun 2007) $
+ * Date: $Date: 2009-04-11 17:02:24 +0000 (Sat, 11 Apr 2009) $
  *
  * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -88,7 +88,7 @@ import ORG.oclc.oai.server.verb.CannotDisseminateFormatException;
  *    It does NOT work with some older versions.
  *
  * @author Larry Stone
- * @version $Revision: 2016 $
+ * @version $Revision: 3705 $
  */
 public class PluginCrosswalk extends Crosswalk
 {

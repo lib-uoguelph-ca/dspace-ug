@@ -1,9 +1,9 @@
 /*
  * MyDSpaceServlet.java
  *
- * Version: $Revision: 3038 $
+ * Version: $Revision: 3705 $
  *
- * Date: $Date: 2008-08-07 02:21:47 -0700 (Thu, 07 Aug 2008) $
+ * Date: $Date: 2009-04-11 17:02:24 +0000 (Sat, 11 Apr 2009) $
  *
  * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -51,6 +51,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.dspace.app.webui.util.JSPManager;
 import org.dspace.app.itemexport.ItemExport;
+import org.dspace.app.itemexport.ItemExportException;
 import org.dspace.app.util.SubmissionConfigReader;
 import org.dspace.app.util.SubmissionConfig;
 import org.dspace.app.webui.util.UIUtil;
@@ -76,7 +77,7 @@ import org.dspace.workflow.WorkflowManager;
  * 
  * @author Robert Tansley
  * @author Jay Paz
- * @version $Id: MyDSpaceServlet.java 3038 2008-08-07 09:21:47Z grahamtriggs $
+ * @version $Id: MyDSpaceServlet.java 3705 2009-04-11 17:02:24Z mdiggory $
  */
 public class MyDSpaceServlet extends DSpaceServlet
 {
@@ -100,6 +101,9 @@ public class MyDSpaceServlet extends DSpaceServlet
     
     /** The "request export archive for download" page */
     public static final int REQUEST_EXPORT_ARCHIVE = 5;
+
+    /** The "request export migrate archive for download" page */
+    public static final int REQUEST_MIGRATE_ARCHIVE = 6;
 
     protected void doDSGet(Context context, HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException,
@@ -143,7 +147,12 @@ public class MyDSpaceServlet extends DSpaceServlet
 
             break;
         case REQUEST_EXPORT_ARCHIVE:
-            processExportArchive(context, request, response);
+            processExportArchive(context, request, response, false);
+
+            break;
+
+        case REQUEST_MIGRATE_ARCHIVE:
+            processExportArchive(context, request, response, true);
 
             break;
 
@@ -587,7 +596,7 @@ public class MyDSpaceServlet extends DSpaceServlet
     }
 
     private void processExportArchive(Context context,
-            HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+            HttpServletRequest request, HttpServletResponse response, boolean migrate) throws ServletException, IOException{
     	
     	if (request.getParameter("item_id") != null) {
 			Item item = null;
@@ -608,9 +617,15 @@ public class MyDSpaceServlet extends DSpaceServlet
 	            return;
 			} else {
 				try {
-					ItemExport.createDownloadableExport(item, context);
-				} catch (Exception e) {
-					log.warn(LogManager.getHeader(context, "integrity_error", UIUtil
+					ItemExport.createDownloadableExport(item, context, migrate);
+				} catch (ItemExportException iee) {
+                    log.warn(LogManager.getHeader(context, "export_too_large_error", UIUtil
+		                    .getRequestLogInfo(request)));
+		            JSPManager.showJSP(request, response, "/mydspace/export-error.jsp");
+		            return;
+                }
+                catch (Exception e) {
+                    log.warn(LogManager.getHeader(context, "integrity_error", UIUtil
 		                    .getRequestLogInfo(request)));
 		            JSPManager.showIntegrityError(request, response);
 		            return;
@@ -638,8 +653,14 @@ public class MyDSpaceServlet extends DSpaceServlet
 	            return;
 			} else {
 				try {
-					ItemExport.createDownloadableExport(col, context);
-				} catch (Exception e) {
+					ItemExport.createDownloadableExport(col, context, migrate);
+				} catch (ItemExportException iee) {
+                    log.warn(LogManager.getHeader(context, "export_too_large_error", UIUtil
+		                    .getRequestLogInfo(request)));
+		            JSPManager.showJSP(request, response, "/mydspace/export-error.jsp");
+		            return;
+                }
+                catch (Exception e) {
 					log.warn(LogManager.getHeader(context, "integrity_error", UIUtil
 		                    .getRequestLogInfo(request)));
 		            JSPManager.showIntegrityError(request, response);
@@ -666,8 +687,14 @@ public class MyDSpaceServlet extends DSpaceServlet
 	            return;
 			} else {
 				try {
-					org.dspace.app.itemexport.ItemExport.createDownloadableExport(com, context);
-				} catch (Exception e) {
+					org.dspace.app.itemexport.ItemExport.createDownloadableExport(com, context, migrate);
+				} catch (ItemExportException iee) {
+                    log.warn(LogManager.getHeader(context, "export_too_large_error", UIUtil
+		                    .getRequestLogInfo(request)));
+		            JSPManager.showJSP(request, response, "/mydspace/export-error.jsp");
+		            return;
+                }
+                catch (Exception e) {
 					log.warn(LogManager.getHeader(context, "integrity_error", UIUtil
 		                    .getRequestLogInfo(request)));
 		            JSPManager.showIntegrityError(request, response);

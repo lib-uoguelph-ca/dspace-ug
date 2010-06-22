@@ -1,9 +1,9 @@
 /*
  * AuthenticateAction.java
  *
- * Version: $Revision: 1.3 $
+ * Version: $Revision: 3705 $
  *
- * Date: $Date: 2006/08/08 20:55:36 $
+ * Date: $Date: 2009-04-11 17:02:24 +0000 (Sat, 11 Apr 2009) $
  *
  * Copyright (c) 2002, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -99,10 +99,10 @@ public class AuthenticateAction extends AbstractAction
 
         // Protect against NPE errors inside the authentication
         // class.
-        if (email == null)
-        	email = "";
-        if (password == null)
-        	password = "";
+        if ((email == null) || (password == null))
+		{
+			return null;
+		}
         
         try
         {

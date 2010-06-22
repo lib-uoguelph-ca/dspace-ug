@@ -1,12 +1,11 @@
 /*
  * Bitstream.java
  *
- * Version: $Revision: 3036 $
+ * Version: $Revision: 4657 $
  *
- * Date: $Date: 2008-08-06 08:52:30 -0700 (Wed, 06 Aug 2008) $
+ * Date: $Date: 2010-01-06 21:12:51 +0000 (Wed, 06 Jan 2010) $
  *
- * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
- * Institute of Technology.  All rights reserved.
+ * Copyright (c) 2002-2009, The DSpace Foundation.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -19,8 +18,7 @@
  * notice, this list of conditions and the following disclaimer in the
  * documentation and/or other materials provided with the distribution.
  *
- * - Neither the name of the Hewlett-Packard Company nor the name of the
- * Massachusetts Institute of Technology nor the names of their
+ * - Neither the name of the DSpace Foundation nor the names of its
  * contributors may be used to endorse or promote products derived from
  * this software without specific prior written permission.
  *
@@ -66,7 +64,7 @@ import org.dspace.storage.rdbms.TableRowIterator;
  * the contents of a bitstream; you need to create a new bitstream.
  * 
  * @author Robert Tansley
- * @version $Revision: 3036 $
+ * @version $Revision: 4657 $
  */
 public class Bitstream extends DSpaceObject
 {
@@ -170,6 +168,46 @@ public class Bitstream extends DSpaceObject
         }
 
         return new Bitstream(context, row);
+    }
+
+    public static Bitstream[] findAll(Context context) throws SQLException
+    {
+        TableRowIterator tri = DatabaseManager.queryTable(context, "bitstream",
+                "SELECT * FROM bitstream");
+
+        List<Bitstream> bitstreams = new ArrayList<Bitstream>();
+
+        try
+        {
+            while (tri.hasNext())
+            {
+                TableRow row = tri.next();
+
+                // First check the cache
+                Bitstream fromCache = (Bitstream) context.fromCache(
+                        Bitstream.class, row.getIntColumn("bitstream_id"));
+
+                if (fromCache != null)
+                {
+                    bitstreams.add(fromCache);
+                }
+                else
+                {
+                    bitstreams.add(new Bitstream(context, row));
+                }
+            }
+        }
+        finally
+        {
+            // close the TableRowIterator to free up resources
+            if (tri != null)
+                tri.close();
+        }
+
+        Bitstream[] bitstreamArray = new Bitstream[bitstreams.size()];
+        bitstreamArray = bitstreams.toArray(bitstreamArray);
+
+        return bitstreamArray;
     }
 
     /**
@@ -641,5 +679,52 @@ public class Bitstream extends DSpaceObject
      */
     public int getStoreNumber() {
         return bRow.getIntColumn("store_number");
+    }
+    
+    public DSpaceObject getParentObject() throws SQLException
+    {
+        Bundle[] bundles = getBundles();
+        if (bundles != null && (bundles.length > 0 && bundles[0] != null))
+        {
+            // the ADMIN action is not allowed on Bundle object so skip to the item
+            Item[] items = bundles[0].getItems();
+            if (items != null && items.length > 0)
+            {
+                return items[0];
+            }
+            else
+            {
+                return null;
+            }
+        }
+        else
+        {
+            // is the bitstream a logo for a community or a collection?
+            TableRow qResult = DatabaseManager.querySingle(bContext,
+                       "SELECT collection_id FROM collection " +
+                       "WHERE logo_bitstream_id = ?",getID());
+            if (qResult != null) 
+            {
+                Collection collection = Collection.find(bContext,qResult.getIntColumn("collection_id"));
+                return collection;
+            }
+            else
+            {   
+                // is the bitstream related to a community?
+                qResult = DatabaseManager.querySingle(bContext,
+                        "SELECT community_id FROM community " +
+                        "WHERE logo_bitstream_id = ?",getID());
+    
+                if (qResult != null)
+                {
+                    Community community = Community.find(bContext,qResult.getIntColumn("community_id"));
+                    return community;
+                }
+                else
+                {
+                    return null;
+                }
+            }                                   
+        }
     }
 }

@@ -1,9 +1,9 @@
 <%--
   - search.jsp
   -
-  - Version: $Revision: 1618 $
+  - Version: $Revision: 3705 $
   -
-  - Date: $Date: 2006-09-19 02:12:17 -0700 (Tue, 19 Sep 2006) $
+  - Date: $Date: 2009-04-11 17:02:24 +0000 (Sat, 11 Apr 2009) $
   -
   - Copyright (c) 2002, Hewlett-Packard Company and Massachusetts
   - Institute of Technology.  All rights reserved.
@@ -56,7 +56,7 @@
 %>
 
 
-<dspace:layout locbar="nolink" title="<%= LocaleSupport.getLocalizedMessage(pageContext, "jsp.controlledvocabulary.search.title") %>">
+<dspace:layout locbar="nolink" title="<%= LocaleSupport.getLocalizedMessage(pageContext, \"jsp.controlledvocabulary.search.title\") %>">
 
 <h1><fmt:message key="jsp.controlledvocabulary.search.heading"/></h1>
 

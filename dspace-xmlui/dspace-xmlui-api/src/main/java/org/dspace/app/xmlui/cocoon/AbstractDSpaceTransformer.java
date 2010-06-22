@@ -1,9 +1,9 @@
 /*
  * AbstractDSpaceTransformer.java
  *
- * Version: $Revision: 1.14 $
+ * Version: $Revision: 3705 $
  *
- * Date: $Date: 2006/05/02 05:30:55 $
+ * Date: $Date: 2009-04-11 17:02:24 +0000 (Sat, 11 Apr 2009) $
  *
  * Copyright (c) 2002, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -199,7 +199,7 @@ public abstract class AbstractDSpaceTransformer extends AbstractWingTransformer
     {
     	if (unencodedString == null)
     		return "";
-    	
+
         try
         {
             return URLEncoder.encode(unencodedString,Constants.DEFAULT_ENCODING);
@@ -225,6 +225,12 @@ public abstract class AbstractDSpaceTransformer extends AbstractWingTransformer
     	
         try
         {
+            // Percent(%) is a special character, and must first be escaped as %25
+            if (encodedString.contains("%"))
+            {
+                encodedString = encodedString.replace("%", "%25");
+            }
+
             return URLDecoder.decode(encodedString, Constants.DEFAULT_ENCODING);
         }
         catch (UnsupportedEncodingException uee)

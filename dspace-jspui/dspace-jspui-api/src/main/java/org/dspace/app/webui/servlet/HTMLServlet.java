@@ -1,9 +1,9 @@
 /*
  * HTMLServlet.java
  *
- * Version: $Revision: 1678 $
+ * Version: $Revision: 4430 $
  *
- * Date: $Date: 2006-11-20 16:19:53 -0800 (Mon, 20 Nov 2006) $
+ * Date: $Date: 2009-10-10 17:21:30 +0000 (Sat, 10 Oct 2009) $
  *
  * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -60,6 +60,9 @@ import org.dspace.core.Context;
 import org.dspace.core.LogManager;
 import org.dspace.core.Utils;
 import org.dspace.handle.HandleManager;
+import org.dspace.services.model.Event;
+import org.dspace.usage.UsageEvent;
+import org.dspace.utils.DSpace;
 
 /**
  * Servlet for HTML bitstream support.
@@ -79,7 +82,7 @@ import org.dspace.handle.HandleManager;
  * but we lost the path information on upload.
  * 
  * @author Austin Kim, Robert Tansley
- * @version $Revision: 1678 $
+ * @version $Revision: 4430 $
  */
 public class HTMLServlet extends DSpaceServlet
 {
@@ -237,6 +240,16 @@ public class HTMLServlet extends DSpaceServlet
         {
             log.info(LogManager.getHeader(context, "view_html", "handle="
                     + handle + ",bitstream_id=" + bitstream.getID()));
+            
+            new DSpace().getEventService().fireEvent(
+            		new UsageEvent(
+            				UsageEvent.Action.VIEW,
+            				request, 
+            				context, 
+            				bitstream));
+            
+            //new UsageEvent().fire(request, context, AbstractUsageEvent.VIEW,
+			//		Constants.BITSTREAM, bitstream.getID());
 
             // Set the response MIME type
             response.setContentType(bitstream.getFormat().getMIMEType());

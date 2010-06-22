@@ -1,7 +1,7 @@
 <%--
   - group_eperson_select.jsp
   -
-  - $Id: group-eperson-select.jsp 1303 2005-08-25 17:20:29Z rtansley $
+  - $Id: group-eperson-select.jsp 3705 2009-04-11 17:02:24Z mdiggory $
   -
   - Copyright (c) 2002, Hewlett-Packard Company and Massachusetts
   - Institute of Technology.  All rights reserved.

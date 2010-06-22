@@ -1,9 +1,9 @@
 /*
  * SearchItemForm.java
  *
- * Version: $Revision: 1.3 $
+ * Version: $Revision: 4264 $
  *
- * Date: $Date: 2006/07/13 23:20:54 $
+ * Date: $Date: 2009-09-15 03:29:34 +0000 (Tue, 15 Sep 2009) $
  *
  * Copyright (c) 2002, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -141,11 +141,28 @@ public class SearchItemForm extends AbstractDSpaceTransformer {
 			String url = contextPath+"/handle/"+item.getHandle();
 			
 			Row row = table.addRow();
-			
-			CheckBox select = row.addCell().addCheckBox("itemID");
-			select.setLabel("Select");
-			select.addOption(itemID);
-			
+
+            boolean canBeMapped = true;
+            Collection[] collections = item.getCollections();
+            for (Collection c : collections)
+            {
+                if (c.getID() == collectionID)
+                {
+                    canBeMapped = false;
+                }
+            }
+
+            if (canBeMapped)
+            {
+                CheckBox select = row.addCell().addCheckBox("itemID");
+                select.setLabel("Select");
+                select.addOption(itemID);
+            }
+            else
+            {
+                row.addCell().addContent("");
+            }
+
 			row.addCellContent(owning);
 			row.addCell().addXref(url,author);
 			row.addCell().addXref(url,title);

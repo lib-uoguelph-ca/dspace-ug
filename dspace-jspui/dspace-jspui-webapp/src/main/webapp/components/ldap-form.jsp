@@ -1,9 +1,9 @@
 <%--
   - netid-form.jsp
   -
-  - Version: $Revision: 1303 $
+  - Version: $Revision: 3705 $
   -
-  - Date: $Date: 2005-08-25 10:20:29 -0700 (Thu, 25 Aug 2005) $
+  - Date: $Date: 2009-04-11 17:02:24 +0000 (Sat, 11 Apr 2009) $
   -
   - Copyright (c) 2002, Hewlett-Packard Company and Massachusetts
   - Institute of Technology.  All rights reserved.
@@ -52,10 +52,10 @@
 	    <p><strong><a href="<%= request.getContextPath() %>/register"><fmt:message key="jsp.components.ldap-form.newuser"/></a></strong></p>            
 	    <p><fmt:message key="jsp.components.ldap-form.enter"/></p>
  
-               <table border="0" cellpadding=5 align="center">
+               <table border="0" cellpadding="5" align="center">
                     <tr>
                         <td class="standard" align="right"><strong><fmt:message key="jsp.components.ldap-form.username-or-email"/></strong></td>
-                        <td><input tabid="1" type=text name="login_netid"></td>
+                        <td><input tabindex="1" type="text" name="login_netid"></td>
                     </tr>
                     <tr>
             		<td class="standard" align="right"><strong><fmt:message key="jsp.components.ldap-form.password"/></strong></td>

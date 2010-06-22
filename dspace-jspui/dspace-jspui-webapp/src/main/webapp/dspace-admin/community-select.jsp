@@ -1,7 +1,7 @@
 <%--
   - community_select.jsp
   -
-  - $Id: community-select.jsp 2218 2007-09-28 13:17:04Z jrutherford $
+  - $Id: community-select.jsp 3705 2009-04-11 17:02:24Z mdiggory $
   -
   - Copyright (c) 2002, Hewlett-Packard Company and Massachusetts
   - Institute of Technology.  All rights reserved.

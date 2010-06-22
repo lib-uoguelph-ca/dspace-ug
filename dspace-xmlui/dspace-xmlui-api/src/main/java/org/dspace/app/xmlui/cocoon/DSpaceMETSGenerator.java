@@ -1,9 +1,9 @@
 /*
  * DSpaceMETSGenerator.java
  *
- * Version: $Revision: 1.14 $
+ * Version: $Revision: 4917 $
  *
- * Date: $Date: 2006/05/02 05:30:55 $
+ * Date: $Date: 2010-05-12 02:48:13 +0000 (Wed, 12 May 2010) $
  *
  * Copyright (c) 2002, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -172,7 +172,7 @@ public class DSpaceMETSGenerator extends AbstractGenerator
          	
          	// Handles can be either items or containers.
          	if (dso instanceof Item)
-         		adapter = new ItemAdapter((Item) dso, contextPath);
+                        adapter = new ItemAdapter(context, (Item) dso, contextPath);
          	else if (dso instanceof Collection || dso instanceof Community)
          		adapter = new ContainerAdapter(context, dso, contextPath);
          }
@@ -184,32 +184,38 @@ public class DSpaceMETSGenerator extends AbstractGenerator
          	if (parts.length == 2)
          	{
          		String type = parts[0];
-         		int id = Integer.valueOf(parts[1]);
-         		
-         		if ("item".equals(type))
-         		{
-         			Item item = Item.find(context,id);
-         			if (item != null)
-         				adapter = new ItemAdapter(item,contextPath);
-         		}
-         		else if ("collection".equals(type))
-         		{
-         			Collection collection = Collection.find(context,id);
-         			if (collection != null)
-         				adapter = new ContainerAdapter(context, collection,contextPath);
-         		}
-         		else if ("community".equals(type))
-         		{
-         			Community community = Community.find(context,id);
-         			if (community != null)
-         				adapter = new ContainerAdapter(context, community,contextPath);
-         		}
-         		else if ("repository".equals(type))
-     			{
-         			if (ConfigurationManager.getProperty("handle.prefix").equals(id))
-         			adapter = new RepositoryAdapter(context,contextPath);
-     			}
-         		
+                       String strid = parts[1];
+         		int id = 0;
+
+                        // Handle prefixes must be treated as strings
+                        // all non-repository types need integer IDs
+                        if ("repository".equals(type))
+                        {
+                                if (ConfigurationManager.getProperty("handle.prefix").equals(strid))
+                                        adapter = new RepositoryAdapter(context,contextPath);
+                        }
+                        else
+                        {
+                               id = Integer.valueOf(parts[1]); 
+         			if ("item".equals(type))
+         			{
+         				Item item = Item.find(context,id);
+         				if (item != null)
+                                       	        adapter = new ItemAdapter(context,item,contextPath);
+         			}
+         			else if ("collection".equals(type))
+         			{
+         				Collection collection = Collection.find(context,id);
+         				if (collection != null)
+         					adapter = new ContainerAdapter(context, collection,contextPath);
+         			}
+         			else if ("community".equals(type))
+         			{
+         				Community community = Community.find(context,id);
+         				if (community != null)
+         					adapter = new ContainerAdapter(context, community,contextPath);
+         			}
+			}
          	}
          }
 		 return adapter;
@@ -224,13 +230,19 @@ public class DSpaceMETSGenerator extends AbstractGenerator
 		Request request = ObjectModelHelper.getRequest(objectModel);
         String sections = request.getParameter("sections");
         String dmdTypes = request.getParameter("dmdTypes");
-        String amdTypes = request.getParameter("amdTypes");
+        String techMDTypes = request.getParameter("techMDTypes");
+        String rightsMDTypes = request.getParameter("rightsMDTypes");
+        String sourceMDTypes = request.getParameter("sourceMDTypes");
+        String digiprovMDTypes = request.getParameter("digiprovMDTypes");
         String fileGrpTypes = request.getParameter("fileGrpTypes");
         String structTypes = request.getParameter("structTypes");
         
         adapter.setSections(sections);
         adapter.setDmdTypes(dmdTypes);
-        adapter.setAmdTypes(amdTypes);
+        adapter.setTechMDTypes(techMDTypes);
+        adapter.setRightsMDTypes(rightsMDTypes);
+        adapter.setSourceMDTypes(sourceMDTypes);
+        adapter.setDigiProvMDTypes(digiprovMDTypes);
         adapter.setFileGrpTypes(fileGrpTypes);
         adapter.setStructTypes(structTypes);
 	}

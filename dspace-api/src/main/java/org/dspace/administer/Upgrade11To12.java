@@ -1,12 +1,11 @@
 /*
  * Upgrade11To12.java
  *
- * Version: $Revision: 1303 $
+ * Version: $Revision: 3733 $
  *
- * Date: $Date: 2005-08-25 10:20:29 -0700 (Thu, 25 Aug 2005) $
+ * Date: $Date: 2009-04-24 03:52:11 +0000 (Fri, 24 Apr 2009) $
  *
- * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
- * Institute of Technology.  All rights reserved.
+ * Copyright (c) 2002-2009, The DSpace Foundation.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -19,8 +18,7 @@
  * notice, this list of conditions and the following disclaimer in the
  * documentation and/or other materials provided with the distribution.
  *
- * - Neither the name of the Hewlett-Packard Company nor the name of the
- * Massachusetts Institute of Technology nor the names of their
+ * - Neither the name of the DSpace Foundation nor the names of its
  * contributors may be used to endorse or promote products derived from
  * this software without specific prior written permission.
  *
