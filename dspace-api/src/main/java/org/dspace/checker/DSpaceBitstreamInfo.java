@@ -1,6 +1,5 @@
 /*
- * Copyright (c) 2004-2005, Hewlett-Packard Company and Massachusetts
- * Institute of Technology.  All rights reserved.
+ * Copyright (c) 2002-2009, The DSpace Foundation.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -13,8 +12,7 @@
  * notice, this list of conditions and the following disclaimer in the
  * documentation and/or other materials provided with the distribution.
  *
- * - Neither the name of the Hewlett-Packard Company nor the name of the
- * Massachusetts Institute of Technology nor the names of their
+ * - Neither the name of the DSpace Foundation nor the names of its
  * contributors may be used to endorse or promote products derived from
  * this software without specific prior written permission.
  *
@@ -54,7 +52,7 @@ public final class DSpaceBitstreamInfo
     private String name;
 
     /** Stored size of the bitstream. */
-    private int size;
+    private long size;
 
     /** the check sum value stored in the database. */
     private String storedChecksum;
@@ -134,7 +132,7 @@ public final class DSpaceBitstreamInfo
      * @param desc
      *            Bitstream description
      */
-    public DSpaceBitstreamInfo(boolean del, int storeNo, int sz,
+    public DSpaceBitstreamInfo(boolean del, int storeNo, long sz,
             String bitstrmFmt, int bitstrmId, String usrFmtDesc,
             String intrnlId, String src, String chksumAlgorthm, String chksum,
             String nm, String desc)
@@ -199,7 +197,7 @@ public final class DSpaceBitstreamInfo
      * 
      * @return int
      */
-    public int getSize()
+    public long getSize()
     {
         return size;
     }
@@ -210,7 +208,7 @@ public final class DSpaceBitstreamInfo
      * @param size
      *            the bitstream size
      */
-    public void setSize(int size)
+    public void setSize(long size)
     {
         this.size = size;
     }

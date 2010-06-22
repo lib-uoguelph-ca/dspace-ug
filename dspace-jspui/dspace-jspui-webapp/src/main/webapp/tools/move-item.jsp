@@ -1,9 +1,9 @@
 <%--
   - move-item.jsp
   -
-  - Version: $Revision$
+  - Version: $Revision: 3705 $
   -
-  - Date: $Date$
+  - Date: $Date: 2009-04-11 17:02:24 +0000 (Sat, 11 Apr 2009) $
   -
   - Copyright (c) 2002, Hewlett-Packard Company and Massachusetts
   - Institute of Technology.  All rights reserved.
@@ -110,7 +110,7 @@
 		 <tr>
        		<td class="standard"></td>
        		<td class="standard">
-				<input type="submit" name="submit" value="<fmt:message key="jsp.tools.move-item.button"/>">
+				<input type="submit" name="submit" value="<fmt:message key="jsp.tools.move-item.button"/>"/>
 			</td>
          </tr>
         </table>
@@ -118,7 +118,7 @@
       </tr>
      </table>
       <input type="hidden" name="action" value="<%=EditItemServlet.CONFIRM_MOVE_ITEM%>" />
-      <input type="hidden" name="item_id" value="<%=item.getID() %>"> 
+      <input type="hidden" name="item_id" value="<%=item.getID() %>"/> 
     </form>
 
 

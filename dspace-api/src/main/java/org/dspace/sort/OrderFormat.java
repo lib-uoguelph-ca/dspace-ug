@@ -1,9 +1,9 @@
 /*
  * OrderFormat.java
  *
- * Version: $Revision: 1.0 $
+ * Version: $Revision: 4497 $
  *
- * Date: $Date: 2007/03/02 11:22:13 $
+ * Date: $Date: 2009-10-30 21:51:19 +0000 (Fri, 30 Oct 2009) $
  *
  * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -71,7 +71,7 @@ import org.dspace.sort.OrderFormatText;
  * (ie. run 'index-all', or 'dsrun org.dspace.browse.InitializeBrowse')
  * 
  * @author Graham Triggs
- * @version $Revision: 1.0 $
+ * @version $Revision: 4497 $
  */
 public class OrderFormat
 {
@@ -80,6 +80,8 @@ public class OrderFormat
 	public final static String AUTHOR = "author";
 	public final static String TITLE  = "title";
 	public final static String TEXT   = "text";
+	public final static String DATE   = "date";
+        public final static String AUTHORITY = "authority";
 	
 	// Array of all available order delegates - avoids excessive calls to plugin manager
 	private final static String[] delegates = PluginManager.getAllPluginNames(OrderFormatDelegate.class);
@@ -87,6 +89,8 @@ public class OrderFormat
     private final static OrderFormatDelegate authorDelegate = new OrderFormatAuthor();
     private final static OrderFormatDelegate titleDelegate  = new OrderFormatTitle();
     private final static OrderFormatDelegate textDelegate   = new OrderFormatText();
+    private final static OrderFormatDelegate dateDelegate   = new OrderFormatDate();
+    private final static OrderFormatDelegate authorityDelegate = new OrderFormatText();
     
     /**
      * Generate a sort string for the given DC metadata
@@ -122,6 +126,16 @@ public class OrderFormat
             if (type.equalsIgnoreCase(OrderFormat.TEXT) && textDelegate != null)
             {
               return textDelegate.makeSortString(value, language);
+            }
+            
+            if (type.equalsIgnoreCase(OrderFormat.DATE) && dateDelegate != null)
+            {
+              return dateDelegate.makeSortString(value, language);
+            }
+
+            if (type.equalsIgnoreCase(OrderFormat.AUTHORITY) && authorityDelegate != null)
+            {
+              return authorityDelegate.makeSortString(value, language);
             }
     	}
 

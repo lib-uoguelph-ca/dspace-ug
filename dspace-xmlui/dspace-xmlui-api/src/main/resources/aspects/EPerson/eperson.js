@@ -1,9 +1,9 @@
 /*
  * eperson.js
  *
- * Version: $Revision: 1.2 $
+ * Version: $Revision: 4517 $
  *
- * Date: $Date: 2006/06/02 21:37:32 $
+ * Date: $Date: 2009-11-10 22:57:37 +0000 (Tue, 10 Nov 2009) $
  *
  * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -40,8 +40,9 @@
  
 importClass(Packages.javax.mail.internet.AddressException);
 
-importClass(Packages.org.apache.cocoon.components.CocoonComponentManager);
+importClass(Packages.org.dspace.app.xmlui.utils.FlowscriptUtils);
 
+importClass(Packages.org.dspace.core.ConfigurationManager);
 importClass(Packages.org.dspace.core.Context);
 importClass(Packages.org.dspace.content.Collection);
 importClass(Packages.org.dspace.eperson.EPerson);
@@ -64,7 +65,7 @@ importClass(Packages.java.lang.String);
 /** These functions should be common to all Manakin Flow scripts */
 function getObjectModel() 
 {
-  return CocoonComponentManager.getCurrentEnvironment().getObjectModel();
+  return FlowscriptUtils.getObjectModel(cocoon);
 }
 
 function getDSContext()
@@ -106,6 +107,7 @@ function doRegister()
                 // The user attempted to register with an email address that all ready exists then they clicked
                 // the "I forgot my password" button. In this case, we send them a forgot password token.
                 AccountManager.sendForgotPasswordInfo(getDSContext(),email);
+                getDSContext().commit();
 
                 cocoon.sendPage("forgot/verify", {"email":email});
                 return;
@@ -129,6 +131,7 @@ function doRegister()
                 {
                     // May throw the AddressException or a varity of SMTP errors.
                     AccountManager.sendRegistrationInfo(getDSContext(),email);
+                    getDSContext().commit();
                 } 
                 catch (error) 
                 {
@@ -190,6 +193,7 @@ function doRegister()
         // Log the newly created user in.
         AuthenticationUtil.logIn(getObjectModel(),eperson);
         AccountManager.deleteToken(getDSContext(), token);
+        getDSContext().commit();
         
         cocoon.sendPage("register/finished");
         return;
@@ -231,6 +235,7 @@ function doForgotPassword()
             // An Eperson was found for the given email, so use the forgot password 
             // mechanism. This may throw a AddressException if the email is ill-formed.
             AccountManager.sendForgotPasswordInfo(getDSContext(),email);
+            getDSContext().commit();
         } while (errors.length > 0)
         
         cocoon.sendPage("forgot/verify", {"email":email});
@@ -274,6 +279,7 @@ function doForgotPassword()
         // Log the user in and remove the token.
         AuthenticationUtil.logIn(getObjectModel(),eperson);
         AccountManager.deleteToken(getDSContext(), token);
+        getDSContext().commit();
 
         cocoon.sendPage("forgot/finished");
     }
@@ -326,7 +332,7 @@ function doUpdateProfile()
                 } 
             }
         }
-        else if (cocoon.request.get("subscriptions_add"))
+        else if (cocoon.request.get("submit_subscriptions_add"))
         {
             // Add the a new subscription
             var collection = Collection.find(getDSContext(),cocoon.request.get("subscriptions"));
@@ -336,7 +342,7 @@ function doUpdateProfile()
                 getDSContext().commit();
             }
         }
-        else if (cocoon.request.get("subscriptions_delete"))
+        else if (cocoon.request.get("submit_subscriptions_delete"))
         {
             // Remove any selected subscriptions
             var names = cocoon.request.getParameterValues("subscriptions_selected");
@@ -369,10 +375,18 @@ function doUpdateProfile()
  */
 function updateInformation(eperson) 
 {
+    if (!(ConfigurationManager.getBooleanProperty("xmlui.user.editmetadata", true)))
+    {
+        // We're configured to not allow the user to update their metadata so return with no errors.
+        return new Array();
+    }
+
+
 	// Get the parameters from the form
 	var lastName = cocoon.request.getParameter("last_name");
 	var firstName = cocoon.request.getParameter("first_name");
 	var phone = cocoon.request.getParameter("phone");
+        var language = cocoon.request.getParameter("language");
 
     // first check that each parameter is filled in before seting anything.	
 	var idx = 0;
@@ -398,6 +412,7 @@ function updateInformation(eperson)
 	eperson.setLastName(lastName);
 	
 	eperson.setMetadata("phone", phone);
+        eperson.setLanguage(language);
 	eperson.update();
 	
     return new Array();
@@ -441,7 +456,3 @@ function updatePassword(eperson)
 	
 	return new Array();
 }
-
-
-
-

@@ -1,9 +1,9 @@
 <%--
   - advanced.jsp
   -
-  - Version: $Revision: 1693 $
+  - Version: $Revision: 3705 $
   -
-  - Date: $Date: 2006-11-27 18:55:29 -0800 (Mon, 27 Nov 2006) $
+  - Date: $Date: 2009-04-11 17:02:24 +0000 (Sat, 11 Apr 2009) $
   -
   - Copyright (c) 2002, Hewlett-Packard Company and Massachusetts
   - Institute of Technology.  All rights reserved.
@@ -196,8 +196,10 @@
 <% if( request.getParameter("query") != null)
 {
     if( qResults.getErrorMsg()!=null )
-    {%>
-        <p align="center" class="submitFormWarn"><%= qResults.getErrorMsg() %></p>
+    {
+    	String qError = "jsp.search.error." + qResults.getErrorMsg();
+    %>
+        <p align="center" class="submitFormWarn"><fmt:message key="<%= qError %>"/></p>
      <%
     }else
     { %>

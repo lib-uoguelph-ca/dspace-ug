@@ -1,9 +1,9 @@
 <%--
   - navbar-default.jsp
   -
-  - Version: $Revision: 2144 $
+  - Version: $Revision: 4020 $
   -
-  - Date: $Date: 2007-08-19 14:25:58 -0700 (Sun, 19 Aug 2007) $
+  - Date: $Date: 2009-07-03 03:55:39 +0000 (Fri, 03 Jul 2009) $
   -
   - Copyright (c) 2002, Hewlett-Packard Company and Massachusetts
   - Institute of Technology.  All rights reserved.
@@ -241,7 +241,7 @@
 %>  
   <tr class="navigationBarItem">
     <td>
-      <img alt="" src="<%= request.getContextPath() %>/image/<%= ( currentPage.endsWith( "/profile" ) ? "arrow-highlight" : "arrow" ) %>.gif" width="16" height="16"/>
+      <img alt="" src="<%= request.getContextPath() %>/image/<%= ( currentPage.endsWith( "/dspace-admin" ) ? "arrow-highlight" : "arrow" ) %>.gif" width="16" height="16"/>
     </td>
     <td nowrap="nowrap" class="navigationBarItem">
       <a href="<%= request.getContextPath() %>/dspace-admin"><fmt:message key="jsp.administer"/></a>

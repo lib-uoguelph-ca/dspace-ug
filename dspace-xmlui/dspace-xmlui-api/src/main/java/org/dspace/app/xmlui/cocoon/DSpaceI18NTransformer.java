@@ -1,9 +1,9 @@
 /*
  * DSpaceI18NTransformer.java
  *
- * Version: $Revision: 1.14 $
+ * Version: $Revision: 3705 $
  *
- * Date: $Date: 2006/05/02 05:30:55 $
+ * Date: $Date: 2009-04-11 17:02:24 +0000 (Sat, 11 Apr 2009) $
  *
  * Copyright (c) 2002, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.

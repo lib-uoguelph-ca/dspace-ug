@@ -1,9 +1,9 @@
 /*
  * LNISoapServlet.java
  *
- * Version: $Revision$
+ * Version: $Revision: 3705 $
  *
- * Date: $Date$
+ * Date: $Date: 2009-04-11 17:02:24 +0000 (Sat, 11 Apr 2009) $
  *
  * Copyright (c) 2002-2007, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -74,7 +74,7 @@ import org.jdom.output.XMLOutputter;
  * use the same URL as a SOAP endpoint and WebDAV resource root.
  * 
  * @author Larry Stone
- * @version $Revision$
+ * @version $Revision: 3705 $
  */
 public class LNISoapServlet extends AxisServlet
 

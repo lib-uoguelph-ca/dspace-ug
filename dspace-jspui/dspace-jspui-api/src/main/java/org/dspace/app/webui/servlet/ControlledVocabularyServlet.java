@@ -1,9 +1,9 @@
 /*
  * ControlledVocabularyServlet.java
  * 
- * Version: $Revision: 1414 $
+ * Version: $Revision: 3705 $
  * 
- * Date: $Date: 2006-02-08 06:41:08 -0800 (Wed, 08 Feb 2006) $
+ * Date: $Date: 2009-04-11 17:02:24 +0000 (Sat, 11 Apr 2009) $
  * 
  * Copyright (c) 2002, Hewlett-Packard Company and Massachusetts Institute of
  * Technology. All rights reserved.
@@ -47,7 +47,7 @@ import org.dspace.core.Context;
  * Servlet that handles the controlled vocabulary
  * 
  * @author Miguel Ferreira
- * @version $Revision: 1414 $
+ * @version $Revision: 3705 $
  */
 public class ControlledVocabularyServlet extends DSpaceServlet
 {

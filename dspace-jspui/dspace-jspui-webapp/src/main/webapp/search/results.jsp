@@ -1,9 +1,9 @@
 <%--
   - results.jsp
   -
-  - Version: $Revision: 3033 $
+  - Version: $Revision: 4055 $
   -
-  - Date: $Date: 2008-08-04 02:30:00 -0700 (Mon, 04 Aug 2008) $
+  - Date: $Date: 2009-07-07 00:25:02 +0000 (Tue, 07 Jul 2009) $
   -
   - Copyright (c) 2002, Hewlett-Packard Company and Massachusetts
   - Institute of Technology.  All rights reserved.
@@ -58,6 +58,8 @@
   -   collections      - results, Collection[]
   -
   -   query            - The original query
+  -
+  -   admin_button     - If the user is an admin
   --%>
 
 <%@ page contentType="text/html;charset=UTF-8" %>
@@ -113,6 +115,10 @@
     } else {
 	searchScope = "/handle/" + collection.getHandle();
     }
+
+    // Admin user or not
+    Boolean admin_b = (Boolean)request.getAttribute("admin_button");
+    boolean admin_button = (admin_b == null ? false : admin_b.booleanValue());
 %>
 
 <dspace:layout titlekey="jsp.search.results.title">
@@ -190,8 +196,9 @@
 
 <% if( qResults.getErrorMsg()!=null )
 {
+    String qError = "jsp.search.error." + qResults.getErrorMsg();
  %>
-    <p align="center" class="submitFormWarn"><%= qResults.getErrorMsg() %></p>
+    <p align="center" class="submitFormWarn"><fmt:message key="<%= qError %>"/></p>
 <%
 }
 else if( qResults.getHitCount() == 0 )
@@ -303,6 +310,14 @@ else
            </select>
            <%-- add results per page, etc. --%>
            <input type="submit" name="submit_search" value="<fmt:message key="search.update" />" />
+
+<%
+    if (admin_button)
+    {
+        %><input type="submit" name="submit_export_metadata" value="<fmt:message key="jsp.general.metadataexport.button"/>" /><%
+    }
+%>
+           
        </td></tr>
    </table>
    </form>

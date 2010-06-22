@@ -1,12 +1,11 @@
 /*
  * Subscribe.java
  *
- * Version: $Revision: 3061 $
+ * Version: $Revision: 3762 $
  *
- * Date: $Date: 2008-08-29 15:34:50 -0700 (Fri, 29 Aug 2008) $
+ * Date: $Date: 2009-05-07 04:36:47 +0000 (Thu, 07 May 2009) $
  *
- * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
- * Institute of Technology.  All rights reserved.
+ * Copyright (c) 2002-2009, The DSpace Foundation.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -19,8 +18,7 @@
  * notice, this list of conditions and the following disclaimer in the
  * documentation and/or other materials provided with the distribution.
  *
- * - Neither the name of the Hewlett-Packard Company nor the name of the
- * Massachusetts Institute of Technology nor the names of their
+ * - Neither the name of the DSpace Foundation nor the names of its
  * contributors may be used to endorse or promote products derived from
  * this software without specific prior written permission.
  *
@@ -81,7 +79,7 @@ import org.dspace.storage.rdbms.TableRowIterator;
  * Class defining methods for sending new item e-mail alerts to users
  * 
  * @author Robert Tansley
- * @version $Revision: 3061 $
+ * @version $Revision: 3762 $
  */
 public class Subscribe
 {
@@ -377,7 +375,6 @@ public class Subscribe
         String isoDateYesterday = dcDateYesterday.toString().substring(0, 10);
 
         String startDate = isoDateYesterday;
-        String endDate = isoDateYesterday + "T23:59:59Z";
 
         // FIXME: text of email should be more configurable from an
         // i18n viewpoint
@@ -389,7 +386,10 @@ public class Subscribe
             Collection c = (Collection) collections.get(i);
 
             try {
-                List itemInfos = Harvest.harvest(context, c, startDate, endDate, 0, // Limit
+                boolean includeAll = ConfigurationManager.getBooleanProperty("harvest.includerestricted.subscription", true);
+                
+                // we harvest all the changed item from yesterday until now
+                List itemInfos = Harvest.harvest(context, c, startDate, null, 0, // Limit
                                                                                     // and
                                                                                     // offset
                                                                                     // zero,
@@ -397,11 +397,19 @@ public class Subscribe
                                                                                     // everything
                         0, true, // Need item objects
                         false, // But not containers
-                        false); // Or withdrawals
+                        false, // Or withdrawals
+                        includeAll);
     
                 if (ConfigurationManager.getBooleanProperty("eperson.subscription.onlynew", false))
                 {
+                    // get only the items archived yesterday
                     itemInfos = filterOutModified(itemInfos);
+                }
+                else
+                {
+                    // strip out the item archived today or 
+                    // not archived yesterday and modified today
+                    itemInfos = filterOutToday(itemInfos);
                 }
 
                 // Only add to buffer if there are new items
@@ -417,7 +425,7 @@ public class Subscribe
                         isFirst = false;
                     }
     
-                    emailText.append(labels.getString("org.dspace.eperson.Subscribe.new-items")).append(
+                    emailText.append(labels.getString("org.dspace.eperson.Subscribe.new-items")).append(" ").append(
                             c.getMetadata("name")).append(": ").append(
                             itemInfos.size()).append("\n\n");
     
@@ -443,7 +451,7 @@ public class Subscribe
     
                         if (authors.length > 0)
                         {
-                            emailText.append("\n    ").append(labels.getString("org.dspace.eperson.Subscribe.authors")).append(
+                            emailText.append("\n    ").append(labels.getString("org.dspace.eperson.Subscribe.authors")).append(" ").append(
                                     authors[0].value);
     
                             for (int k = 1; k < authors.length; k++)
@@ -453,7 +461,7 @@ public class Subscribe
                             }
                         }
     
-                        emailText.append("\n         ").append(labels.getString("org.dspace.eperson.Subscribe.id")).append(
+                        emailText.append("\n         ").append(labels.getString("org.dspace.eperson.Subscribe.id")).append(" ").append(
                                 HandleManager.getCanonicalForm(hii.handle)).append(
                                 "\n\n");
                     }
@@ -559,6 +567,73 @@ public class Subscribe
             }
         }
     }
+    
+    private static List filterOutToday(List completeList)
+    {
+        log.debug("Filtering out all today item to leave new items list size="
+                + completeList.size());
+        List filteredList = new ArrayList();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String today = sdf.format(new Date());
+        // Get the start and end dates for yesterday
+        Date thisTimeYesterday = new Date(System.currentTimeMillis()
+                - (24 * 60 * 60 * 1000));
+        String yesterday = sdf.format(thisTimeYesterday);
+
+        for (Iterator iter = completeList.iterator(); iter.hasNext();)
+        {
+            HarvestedItemInfo infoObject = (HarvestedItemInfo) iter.next();
+
+            Date lastUpdate = infoObject.item.getLastModified();
+            String lastUpdateStr = sdf.format(lastUpdate);
+
+            // has the item modified today?
+            if (lastUpdateStr.equals(today))
+            {
+                DCValue[] dateAccArr = infoObject.item.getMetadata("dc",
+                        "date", "accessioned", Item.ANY);
+                // we need only the item archived yesterday
+                if (dateAccArr != null && dateAccArr.length > 0)
+                {
+                    for (DCValue date : dateAccArr)
+                    {
+                        if (date != null && date.value != null)
+                        {
+                            // if it hasn't been archived today
+                            if (date.value.startsWith(yesterday))
+                            {
+                                filteredList.add(infoObject);
+                                log.debug("adding : " + dateAccArr[0].value
+                                        + " : " + today + " : "
+                                        + infoObject.handle);
+                                break;
+                            }
+                            else
+                            {
+                                log.debug("ignoring : " + dateAccArr[0].value
+                                        + " : " + today + " : "
+                                        + infoObject.handle);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    log.debug("no date accessioned, adding  : "
+                            + infoObject.handle);
+                    filteredList.add(infoObject);
+                }
+            }
+            else
+            {
+                // the item has been modified yesterday... 
+                filteredList.add(infoObject);
+            }
+        }
+
+        return filteredList;
+    }
 
     private static List filterOutModified(List completeList)
     {
@@ -566,27 +641,32 @@ public class Subscribe
         List filteredList = new ArrayList();
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
+        // Get the start and end dates for yesterday
+        Date thisTimeYesterday = new Date(System.currentTimeMillis()
+                - (24 * 60 * 60 * 1000));
+        String yesterday = sdf.format(thisTimeYesterday);
+        
         for (Iterator iter = completeList.iterator(); iter.hasNext();)
         {
             HarvestedItemInfo infoObject = (HarvestedItemInfo) iter.next();
             DCValue[] dateAccArr = infoObject.item.getMetadata("dc", "date", "accessioned", Item.ANY);
-            String lastModded = sdf.format(infoObject.datestamp);
+            
             if (dateAccArr != null && dateAccArr.length > 0)
             {
                 for(DCValue date : dateAccArr)
                 {
                     if(date != null && date.value != null)
                     {
-                        // if it's never been changed
-                        if (date.value.startsWith(lastModded))
+                        // if it has been archived yesterday
+                        if (date.value.startsWith(yesterday))
                         {
                             filteredList.add(infoObject);
-                            log.debug("adding : " + dateAccArr[0].value +" : " + lastModded + " : " + infoObject.handle);
+                            log.debug("adding : " + dateAccArr[0].value +" : " + yesterday + " : " + infoObject.handle);
+                            break;
                         }
                         else
                         {
-                            log.debug("ignoring : " + dateAccArr[0].value +" : " + lastModded + " : " + infoObject.handle);
+                            log.debug("ignoring : " + dateAccArr[0].value +" : " + yesterday + " : " + infoObject.handle);
                         }
                     }
                 }

@@ -1,12 +1,11 @@
 /*
  * DCInput.java
  *
- * Version: $Revision: 2079 $
+ * Version: $Revision: 3823 $
  *
- * Date: $Date: 2007-07-20 13:49:01 -0700 (Fri, 20 Jul 2007) $
+ * Date: $Date: 2009-05-19 18:09:05 +0000 (Tue, 19 May 2009) $
  *
- * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
- * Institute of Technology.  All rights reserved.
+ * Copyright (c) 2002-2009, The DSpace Foundation.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -19,8 +18,7 @@
  * notice, this list of conditions and the following disclaimer in the
  * documentation and/or other materials provided with the distribution.
  *
- * - Neither the name of the Hewlett-Packard Company nor the name of the
- * Massachusetts Institute of Technology nor the names of their
+ * - Neither the name of the DSpace Foundation nor the names of its
  * contributors may be used to endorse or promote products derived from
  * this software without specific prior written permission.
  *
@@ -88,12 +86,27 @@ public class DCInput
 
     /** if non-null, visibility scope restriction */
     private String visibility = null;
+    
+    /** if non-null, readonly out of the visibility scope */
+    private String readOnly = null;
 
     /** the name of the controlled vocabulary to use */
     private String vocabulary = null;
 
     /** is the entry closed to vocabulary terms? */
     private boolean closedVocabulary = false;
+
+    /** 
+     * The scope of the input sets, this restricts hidden metadata fields from 
+     * view during workflow processing. 
+     */
+    public static String WORKFLOW_SCOPE = "workflow";
+
+    /** 
+     * The scope of the input sets, this restricts hidden metadata fields from 
+     * view by the end user during submission. 
+     */
+    public static String SUBMISSION_SCOPE = "submit";
     
     /**
      * Class constructor for creating a DCInput object based on the contents of
@@ -130,6 +143,7 @@ public class DCInput
         warning = (String) fieldMap.get("required");
         required = (warning != null && warning.length() > 0);
         visibility = (String) fieldMap.get("visibility");
+        readOnly = (String) fieldMap.get("readonly");
         vocabulary = (String) fieldMap.get("vocabulary");
         String closedVocabularyStr = (String) fieldMap.get("closedVocabulary");
         closedVocabulary = "true".equalsIgnoreCase(closedVocabularyStr)
@@ -151,6 +165,31 @@ public class DCInput
     {
         return (visibility == null || visibility.equals(scope));
     }
+    
+    /**
+     * Is this DCInput for display in readonly mode in the given scope? 
+     * If the scope differ from which in visibility field then we use the out attribute
+     * of the visibility element. Possible values are: hidden (default) and readonly.
+     * If the DCInput is visible in the scope then this methods must return false
+     * 
+     * @param scope
+     *            String identifying the scope that this input's readonly visibility
+     *            should be tested for
+     * 
+     * @return whether the input should be displayed in a readonly way or fully hidden
+     */
+    public boolean isReadOnly(String scope)
+    {
+        if (isVisible(scope))
+        {
+            return false;
+        }
+        else
+        {
+            return readOnly != null && readOnly.equalsIgnoreCase("readonly");
+        }
+    }
+
 
     /**
      * Get the repeatable flag for this row

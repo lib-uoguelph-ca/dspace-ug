@@ -1,9 +1,9 @@
 /*
  * ItemViewer.java
  *
- * Version: $Revision: 1.14 $
+ * Version: $Revision: 4430 $
  *
- * Date: $Date: 2006/08/08 20:58:30 $
+ * Date: $Date: 2009-10-10 17:21:30 +0000 (Sat, 10 Oct 2009) $
  *
  * Copyright (c) 2002, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -41,8 +41,12 @@ package org.dspace.app.xmlui.aspect.artifactbrowser;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.io.StringWriter;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
+
+import javax.servlet.ServletException;
 
 import org.apache.cocoon.caching.CacheableProcessingComponent;
 import org.apache.cocoon.environment.ObjectModelHelper;
@@ -51,6 +55,7 @@ import org.apache.cocoon.util.HashUtil;
 import org.apache.excalibur.source.SourceValidity;
 import org.apache.log4j.Logger;
 import org.dspace.app.xmlui.cocoon.AbstractDSpaceTransformer;
+import org.dspace.app.xmlui.utils.ContextUtil;
 import org.dspace.app.xmlui.utils.DSpaceValidity;
 import org.dspace.app.xmlui.utils.HandleUtil;
 import org.dspace.app.xmlui.utils.UIException;
@@ -66,7 +71,16 @@ import org.dspace.content.Collection;
 import org.dspace.content.DCValue;
 import org.dspace.content.DSpaceObject;
 import org.dspace.content.Item;
+import org.dspace.content.crosswalk.CrosswalkException;
+import org.dspace.content.crosswalk.DisseminationCrosswalk;
+import org.dspace.core.Constants;
 import org.dspace.core.LogManager;
+import org.dspace.core.PluginManager;
+import org.dspace.usage.UsageEvent;
+import org.dspace.utils.DSpace;
+import org.jdom.Element;
+import org.jdom.Text;
+import org.jdom.output.XMLOutputter;
 import org.xml.sax.SAXException;
 
 /**
@@ -96,6 +110,9 @@ public class ItemViewer extends AbstractDSpaceTransformer implements CacheablePr
     
 	/** Cached validity object */
 	private SourceValidity validity = null;
+	
+	/** XHTML crosswalk instance */
+	private DisseminationCrosswalk xHTMLHeadCrosswalk = null;
 	
     /**
      * Generate the unique caching key.
@@ -141,9 +158,6 @@ public class ItemViewer extends AbstractDSpaceTransformer implements CacheablePr
 	            // Ignore all errors and just invalidate the cache.
 	        }
 
-            // add log message that we are viewing the item
-            // done here, as the serialization may not occur if the cache is valid
-            log.info(LogManager.getHeader(context, "view_item", "handle=" + (dso == null ? "" : dso.getHandle())));
     	}
     	return this.validity;
     }
@@ -156,7 +170,6 @@ public class ItemViewer extends AbstractDSpaceTransformer implements CacheablePr
             WingException, UIException, SQLException, IOException,
             AuthorizeException
     {
-
         DSpaceObject dso = HandleUtil.obtainHandle(objectModel);
         if (!(dso instanceof Item))
             return;
@@ -173,6 +186,39 @@ public class ItemViewer extends AbstractDSpaceTransformer implements CacheablePr
         pageMeta.addTrailLink(contextPath + "/",T_dspace_home);
         HandleUtil.buildHandleTrail(item,pageMeta,contextPath);
         pageMeta.addTrail().addContent(T_trail);
+        
+        // Metadata for <head> element
+        if (xHTMLHeadCrosswalk == null)
+        {
+            xHTMLHeadCrosswalk = (DisseminationCrosswalk) PluginManager.getNamedPlugin(
+              DisseminationCrosswalk.class, "XHTML_HEAD_ITEM");
+        }
+
+        // Produce <meta> elements for header from crosswalk
+        try
+        {
+            List l = xHTMLHeadCrosswalk.disseminateList(item);
+            StringWriter sw = new StringWriter();
+
+            XMLOutputter xmlo = new XMLOutputter();
+            xmlo.output(new Text("\n"), sw);
+            for (int i = 0; i < l.size(); i++)
+            {
+                Element e = (Element) l.get(i);
+                // FIXME: we unset the Namespace so it's not printed.
+                // This is fairly yucky, but means the same crosswalk should
+                // work for Manakin as well as the JSP-based UI.
+                e.setNamespace(null);
+                xmlo.output(e, sw);
+                xmlo.output(new Text("\n"), sw);
+            }
+            pageMeta.addMetadata("xhtml_head_item").addContent(sw.toString());
+        }
+        catch (CrosswalkException ce)
+        {
+            // TODO: Is this the right exception class?
+            throw new WingException(ce);
+        }
     }
 
     /**
@@ -186,7 +232,7 @@ public class ItemViewer extends AbstractDSpaceTransformer implements CacheablePr
         if (!(dso instanceof Item))
             return;
         Item item = (Item) dso;
-
+        
         // Build the item viewer division.
         Division division = body.addDivision("item-view","primary");
         String title = getItemTitle(item);

@@ -1,9 +1,9 @@
 /*
  * PopupTag.java
  *
- * Version: $Revision: 1303 $
+ * Version: $Revision: 3705 $
  *
- * Date: $Date: 2005-08-25 10:20:29 -0700 (Thu, 25 Aug 2005) $
+ * Date: $Date: 2009-04-11 17:02:24 +0000 (Sat, 11 Apr 2009) $
  *
  * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -59,7 +59,7 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
  * attributes could be added at a later date (e.g. name, width, height)
  * 
  * @author Robert Tansley
- * @version $Revision: 1303 $
+ * @version $Revision: 3705 $
  */
 public class PopupTag extends BodyTagSupport
 {

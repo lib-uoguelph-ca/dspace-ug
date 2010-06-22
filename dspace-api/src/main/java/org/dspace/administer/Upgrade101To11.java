@@ -1,12 +1,11 @@
 /*
  * Upgrade101To11.java
  *
- * Version: $Revision: 1523 $
+ * Version: $Revision: 3733 $
  *
- * Date: $Date: 2006-05-26 07:23:17 -0700 (Fri, 26 May 2006) $
+ * Date: $Date: 2009-04-24 03:52:11 +0000 (Fri, 24 Apr 2009) $
  *
- * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
- * Institute of Technology.  All rights reserved.
+ * Copyright (c) 2002-2009, The DSpace Foundation.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -19,8 +18,7 @@
  * notice, this list of conditions and the following disclaimer in the
  * documentation and/or other materials provided with the distribution.
  *
- * - Neither the name of the Hewlett-Packard Company nor the name of the
- * Massachusetts Institute of Technology nor the names of their
+ * - Neither the name of the DSpace Foundation nor the names of its
  * contributors may be used to endorse or promote products derived from
  * this software without specific prior written permission.
  *
@@ -50,7 +48,7 @@ import org.dspace.storage.rdbms.TableRowIterator;
  * new last_modified column in the item table.
  * 
  * @author Robert Tansley
- * @version $Revision: 1523 $
+ * @version $Revision: 3733 $
  */
 public class Upgrade101To11
 {

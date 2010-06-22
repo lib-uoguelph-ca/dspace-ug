@@ -1,9 +1,9 @@
 /*
  * UploadStep.java
  *
- * Version: $Revision: 1.4 $
+ * Version: $Revision: 4099 $
  *
- * Date: $Date: 2006/07/13 23:20:54 $
+ * Date: $Date: 2009-07-22 04:11:16 +0000 (Wed, 22 Jul 2009) $
  *
  * Copyright (c) 2002, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -40,6 +40,7 @@
 package org.dspace.app.xmlui.aspect.submission.submit;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.Map;
 
@@ -62,6 +63,7 @@ import org.dspace.app.xmlui.wing.element.List;
 import org.dspace.app.xmlui.wing.element.Row;
 import org.dspace.app.xmlui.wing.element.Table;
 import org.dspace.app.xmlui.wing.element.Text;
+import org.dspace.app.util.Util;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Bitstream;
 import org.dspace.content.BitstreamFormat;
@@ -99,6 +101,8 @@ public class UploadStep extends AbstractSubmissionStep
         message("xmlui.Submission.submit.UploadStep.file_help");
     protected static final Message T_file_error = 
         message("xmlui.Submission.submit.UploadStep.file_error");
+    protected static final Message T_upload_error =
+        message("xmlui.Submission.submit.UploadStep.upload_error");
     protected static final Message T_description = 
         message("xmlui.Submission.submit.UploadStep.description");
     protected static final Message T_description_help = 
@@ -218,7 +222,15 @@ public class UploadStep extends AbstractSubmissionStep
 	        
 	        //if no files found error was thrown by processing class, display it!
 	        if (this.errorFlag==org.dspace.submit.step.UploadStep.STATUS_NO_FILES_ERROR)
-	        	file.addError(T_file_error);
+	        {
+                file.addError(T_file_error);
+            }
+
+            // if an upload error was thrown by processing class, display it!
+            if (this.errorFlag == org.dspace.submit.step.UploadStep.STATUS_UPLOAD_ERROR)
+            {
+                file.addError(T_upload_error);
+            }
 	        	
 	        Text description = upload.addItem().addText("description");
 	        description.setLabel(T_description);
@@ -248,7 +260,7 @@ public class UploadStep extends AbstractSubmissionStep
 	        {
 	        	int id = bitstream.getID();
 	        	String name = bitstream.getName();
-	        	String url = contextPath + "/bitstream/item/" +  item.getID() + "/" +name;
+	        	String url = makeBitstreamLink(item, bitstream);
 	        	long bytes = bitstream.getSize();
 	        	String desc = bitstream.getDescription();
 	        	String algorithm = bitstream.getChecksumAlgorithm();
@@ -367,7 +379,8 @@ public class UploadStep extends AbstractSubmissionStep
         uploadSection.setHead(T_head);
         
         //Review all uploaded files
-        Bundle[] bundles = submission.getItem().getBundles("ORIGINAL");
+        Item item = submission.getItem();
+        Bundle[] bundles = item.getBundles("ORIGINAL");
         Bitstream[] bitstreams = new Bitstream[0];
         if (bundles.length > 0)
         {
@@ -378,9 +391,9 @@ public class UploadStep extends AbstractSubmissionStep
         {
             BitstreamFormat bitstreamFormat = bitstream.getFormat();
             
-            int id = bitstream.getID();
+            int id = item.getID();
             String name = bitstream.getName();
-            String url = contextPath+"/retrieve/"+id+"/"+name;
+            String url = makeBitstreamLink(item, bitstream);
             String format = bitstreamFormat.getShortDescription();
             Message support = ReviewStep.T_unknown;
             if (bitstreamFormat.getSupportLevel() == BitstreamFormat.KNOWN)
@@ -397,6 +410,37 @@ public class UploadStep extends AbstractSubmissionStep
         
         //return this new "upload" section
         return uploadSection;
+    }
+
+    /**
+     * Returns canonical link to a bitstream in the item.
+     *
+     * @param item The DSpace Item that the bitstream is part of
+     * @param bitstream The bitstream to link to
+     * @returns a String link to the bistream
+     */
+    private String makeBitstreamLink(Item item, Bitstream bitstream)
+    {
+        String name = bitstream.getName();
+        StringBuilder result = new StringBuilder(contextPath);
+        result.append("/bitstream/item/").append(String.valueOf(item.getID()));
+        // append name although it isn't strictly necessary
+        try
+        {
+            if (name != null)
+            {
+                result.append("/").append(Util.encodeBitstreamName(name, "UTF-8"));
+            }
+        }
+        catch (UnsupportedEncodingException uee)
+        {
+            // just ignore it, we don't have to have a pretty
+            // name on the end of the url because the sequence id will
+            // locate it. However it means that links in this file might
+            // not work....
+        }
+        result.append("?sequence=").append(String.valueOf(bitstream.getSequenceID()));
+        return result.toString();
     }
 }
         

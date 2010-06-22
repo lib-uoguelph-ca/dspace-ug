@@ -1,9 +1,9 @@
 /*
  * PasswordLogin.java
  *
- * Version: $Revision: 1.12 $
+ * Version: $Revision: 3705 $
  *
- * Date: $Date: 2006/08/08 20:57:03 $
+ * Date: $Date: 2009-04-11 17:02:24 +0000 (Sat, 11 Apr 2009) $
  *
  * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -43,10 +43,11 @@ package org.dspace.app.xmlui.aspect.eperson;
 import java.io.Serializable;
 import java.sql.SQLException;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.cocoon.caching.CacheableProcessingComponent;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Request;
-import org.apache.cocoon.environment.Session;
 import org.apache.excalibur.source.SourceValidity;
 import org.apache.excalibur.source.impl.validity.NOPValidity;
 import org.dspace.app.xmlui.cocoon.AbstractDSpaceTransformer;
@@ -122,7 +123,7 @@ public class PasswordLogin extends AbstractDSpaceTransformer implements Cacheabl
         String previous_email = request.getParameter("login_email");
         
         // Get any message parameters
-        Session session = request.getSession();
+        HttpSession session = request.getSession();
         String header = (String) session.getAttribute(AuthenticationUtil.REQUEST_INTERRUPTED_HEADER);
         String message = (String) session.getAttribute(AuthenticationUtil.REQUEST_INTERRUPTED_MESSAGE);
         String characters = (String) session.getAttribute(AuthenticationUtil.REQUEST_INTERRUPTED_CHARACTERS);
@@ -146,7 +147,7 @@ public class PasswordLogin extends AbstractDSpaceTransformer implements Cacheabl
         String previous_email = request.getParameter("login_email");
         
         // Get any message parameters
-        Session session = request.getSession();
+        HttpSession session = request.getSession();
         String header = (String) session.getAttribute(AuthenticationUtil.REQUEST_INTERRUPTED_HEADER);
         String message = (String) session.getAttribute(AuthenticationUtil.REQUEST_INTERRUPTED_MESSAGE);
         String characters = (String) session.getAttribute(AuthenticationUtil.REQUEST_INTERRUPTED_CHARACTERS);
@@ -181,7 +182,7 @@ public class PasswordLogin extends AbstractDSpaceTransformer implements Cacheabl
     {
         // Check if the user has previously attempted to login.
         Request request = ObjectModelHelper.getRequest(objectModel);
-        Session session = request.getSession();
+        HttpSession session = request.getSession();
         String previousEmail = request.getParameter("login_email");
         
         // Get any message parameters

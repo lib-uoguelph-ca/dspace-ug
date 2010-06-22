@@ -1,9 +1,9 @@
 /*
  * GroupEditServlet.java
  *
- * Version: $Revision: 1538 $
+ * Version: $Revision: 3705 $
  *
- * Date: $Date: 2006-07-05 12:55:31 -0700 (Wed, 05 Jul 2006) $
+ * Date: $Date: 2009-04-11 17:02:24 +0000 (Sat, 11 Apr 2009) $
  *
  * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -64,7 +64,7 @@ import org.dspace.eperson.Group;
  * Servlet for editing groups
  * 
  * @author dstuve
- * @version $Revision: 1538 $
+ * @version $Revision: 3705 $
  */
 public class GroupEditServlet extends DSpaceServlet
 {
@@ -95,10 +95,11 @@ public class GroupEditServlet extends DSpaceServlet
             AuthorizeManager.authorizeAction(c, group, Constants.ADD);
 
             boolean submit_edit = (request.getParameter("submit_edit") != null);
-            boolean submit_group_update = (request
-                    .getParameter("submit_group_update") != null);
-            boolean submit_group_delete = (request
-                    .getParameter("submit_group_delete") != null);
+            boolean submit_group_update = (request.getParameter("submit_group_update") != null);
+            boolean submit_group_delete = (request.getParameter("submit_group_delete") != null);
+            boolean submit_confirm_delete = (request.getParameter("submit_confirm_delete") != null);
+            boolean submit_cancel_delete = (request.getParameter("submit_cancel_delete") != null);
+
 
             // just chosen a group to edit - get group and pass it to
             // group-edit.jsp
@@ -254,12 +255,23 @@ public class GroupEditServlet extends DSpaceServlet
             }
             else if (submit_group_delete)
             {
+                // direct to a confirmation step
+                request.setAttribute("group", group);
+                JSPManager.showJSP(request, response, "/dspace-admin/group-confirm-delete.jsp");
+            }
+            else if (submit_confirm_delete)
+            {
                 // phony authorize, only admins can do this
                 AuthorizeManager.authorizeAction(c, group, Constants.WRITE);
 
                 // delete group, return to group-list.jsp
                 group.delete();
 
+                showMainPage(c, request, response);
+            }
+            else if (submit_cancel_delete)
+            {
+                // show group list
                 showMainPage(c, request, response);
             }
             else

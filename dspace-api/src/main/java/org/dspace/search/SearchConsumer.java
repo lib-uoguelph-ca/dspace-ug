@@ -1,11 +1,11 @@
 /*
  * SearchConsumer.java
  *
- * Location: $URL: https://dspace.svn.sourceforge.net/svnroot/dspace/tags/dspace-1_5_1/dspace-api/src/main/java/org/dspace/search/SearchConsumer.java $
+ * Location: $URL: https://scm.dspace.org/svn/repo/dspace/tags/dspace-1.6.2/dspace-api/src/main/java/org/dspace/search/SearchConsumer.java $
  * 
- * Version: $Revision: 3013 $
+ * Version: $Revision: 3705 $
  * 
- * Date: $Date: 2008-07-30 09:02:47 -0700 (Wed, 30 Jul 2008) $
+ * Date: $Date: 2009-04-11 17:02:24 +0000 (Sat, 11 Apr 2009) $
  *
  * Copyright (c) 2002-2007, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -57,7 +57,7 @@ import org.dspace.event.Event;
 /**
  * Class for updating search indices from content events.
  * 
- * @version $Revision: 3013 $
+ * @version $Revision: 3705 $
  */
 public class SearchConsumer implements Consumer
 {

@@ -1,9 +1,9 @@
 /*
  * IncludeTag.java
  *
- * Version: $Revision: 1189 $
+ * Version: $Revision: 3705 $
  *
- * Date: $Date: 2005-04-20 07:23:44 -0700 (Wed, 20 Apr 2005) $
+ * Date: $Date: 2009-04-11 17:02:24 +0000 (Sat, 11 Apr 2009) $
  *
  * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -49,7 +49,7 @@ import javax.servlet.jsp.tagext.TagSupport;
  * Simple include tag that can include locally-modified JSPs
  * 
  * @author Robert Tansley
- * @version $Revision: 1189 $
+ * @version $Revision: 3705 $
  */
 public class IncludeTag extends TagSupport
 {

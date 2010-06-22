@@ -1,9 +1,9 @@
 <%--
   - single.jsp
   -
-  - Version: $Revision: 1.9 $
+  - Version: $Revision: 4365 $
   -
-  - Date: $Date: 2005/08/25 17:20:26 $
+  - Date: $Date: 2009-10-05 23:52:42 +0000 (Mon, 05 Oct 2009) $
   -
   - Copyright (c) 2002, Hewlett-Packard Company and Massachusetts
   - Institute of Technology.  All rights reserved.
@@ -291,7 +291,7 @@
 	}
 %>
 		</select>
-		<input type="submit" name="submit_browse" value="Update"/>
+		<input type="submit" name="submit_browse" value="<fmt:message key="jsp.general.update"/>"/>
 	</form>
 	</div>
 
@@ -331,14 +331,14 @@
 <%
     // Row: toggles between Odd and Even
     String row = "odd";
-    String[] results = bi.getStringResults();
+    String[][] results = bi.getStringResults();
 
     for (int i = 0; i < results.length; i++)
     {
 %>
             <tr>
                 <td class="<%= row %>RowOddCol">
-                    <a href="<%= sharedLink %>&amp;value=<%= URLEncoder.encode(results[i], "UTF-8") %>"><%= Utils.addEntities(results[i]) %></a>
+                    <a href="<%= sharedLink %><% if (results[i][1] != null) { %>&amp;authority=<%= URLEncoder.encode(results[i][1], "UTF-8") %>" class="authority <%= bix.getName() %>"><%= Utils.addEntities(results[i][0]) %></a> <% } else { %>&amp;value=<%= URLEncoder.encode(results[i][0], "UTF-8") %>"><%= Utils.addEntities(results[i][0]) %></a> <% } %>
                 </td>
             </tr>
 <%

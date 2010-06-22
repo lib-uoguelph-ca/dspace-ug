@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
   Copyright 1999-2004 The Apache Software Foundation
 
@@ -32,7 +32,7 @@ Scott Phillips adapted it for Manakin's need.
   <xsl:param name="realPath"/>
 
   <!-- let sitemap override default page title -->
-  <xsl:param name="pageTitle">An error has occured</xsl:param>
+  <xsl:param name="pageTitle">An error has occurred</xsl:param>
 
   <xsl:template match="ex:exception-report">
     <html>

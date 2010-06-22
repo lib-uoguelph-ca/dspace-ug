@@ -1,12 +1,11 @@
 /*
  * Context.java
  *
- * Version: $Revision: 2104 $
+ * Version: $Revision: 3985 $
  *
- * Date: $Date: 2007-07-27 08:54:35 -0700 (Fri, 27 Jul 2007) $
+ * Date: $Date: 2009-06-30 02:37:07 +0000 (Tue, 30 Jun 2009) $
  *
- * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
- * Institute of Technology.  All rights reserved.
+ * Copyright (c) 2002-2009, The DSpace Foundation.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -19,8 +18,7 @@
  * notice, this list of conditions and the following disclaimer in the
  * documentation and/or other materials provided with the distribution.
  *
- * - Neither the name of the Hewlett-Packard Company nor the name of the
- * Massachusetts Institute of Technology nor the names of their
+ * - Neither the name of the DSpace Foundation nor the names of its
  * contributors may be used to endorse or promote products derived from
  * this software without specific prior written permission.
  *
@@ -42,18 +40,20 @@ package org.dspace.core;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Stack;
 
 import org.apache.log4j.Logger;
 import org.dspace.eperson.EPerson;
 import org.dspace.eperson.Group;
+import org.dspace.event.Dispatcher;
 import org.dspace.event.Event;
 import org.dspace.event.EventManager;
-import org.dspace.event.Dispatcher;
 import org.dspace.storage.rdbms.DatabaseManager;
 
 /**
@@ -71,7 +71,7 @@ import org.dspace.storage.rdbms.DatabaseManager;
  * The context object is also used as a cache for CM API objects.
  * 
  * 
- * @version $Revision: 2104 $
+ * @version $Revision: 3985 $
  */
 public class Context
 {
@@ -82,7 +82,7 @@ public class Context
 
     /** Current user - null means anonymous access */
     private EPerson currentUser;
-    
+
     /** Current Locale */
     private Locale currentLocale;
 
@@ -92,12 +92,21 @@ public class Context
     /** Indicates whether authorisation subsystem should be ignored */
     private boolean ignoreAuth;
 
+    /** A stack with the history of authoritation system check modify */
+    private Stack<Boolean> authStateChangeHistory;
+
+    /**
+     * A stack with the name of the caller class that modify authoritation
+     * system check
+     */
+    private Stack<String> authStateClassCallHistory;
+
     /** Object cache for this context */
     private Map objectCache;
 
     /** Group IDs of special groups user is a member of */
     private List specialGroups;
-    
+
     /** Content events */
     private List<Event> events = null;
 
@@ -124,6 +133,9 @@ public class Context
 
         objectCache = new HashMap();
         specialGroups = new ArrayList();
+
+        authStateChangeHistory = new Stack<Boolean>();
+        authStateClassCallHistory = new Stack<String>();
     }
 
     /**
@@ -161,27 +173,26 @@ public class Context
     }
 
     /**
-     *  Gets the current Locale
-     *  
-     *  @return Locale
-     *          the current Locale
+     * Gets the current Locale
+     * 
+     * @return Locale the current Locale
      */
     public Locale getCurrentLocale()
     {
         return currentLocale;
     }
- 
+
     /**
-     *  set the current Locale
-     *  
-     *  @param Locale
-     *          the current Locale
+     * set the current Locale
+     * 
+     * @param Locale
+     *            the current Locale
      */
     public void setCurrentLocale(Locale locale)
     {
         currentLocale = locale;
     }
-        
+
     /**
      * Find out if the authorisation system should be ignored for this context.
      * 
@@ -194,12 +205,81 @@ public class Context
     }
 
     /**
+     * Turn Off the Authorisation System for this context and store this change
+     * in a history for future use.
+     */
+    public void turnOffAuthorisationSystem()
+    {
+        authStateChangeHistory.push(ignoreAuth);
+        if (log.isDebugEnabled())
+        {
+            Thread currThread = Thread.currentThread();
+            StackTraceElement[] stackTrace = currThread.getStackTrace();
+            String caller = stackTrace[stackTrace.length - 1].getClassName();
+
+            authStateClassCallHistory.push(caller);
+        }
+        ignoreAuth = true;
+    }
+
+    /**
+     * Restore the previous Authorisation System State. If the state was not
+     * changed by the current caller a warning will be displayed in log. Use:
+     * <code>
+     *     mycontext.turnOffAuthorisationSystem();
+     *     some java code that require no authorisation check
+     *     mycontext.restoreAuthSystemState(); 
+         * </code> If Context debug is enabled, the correct sequence calling will be
+     * checked and a warning will be displayed if not.
+     */
+    public void restoreAuthSystemState()
+    {
+        Boolean previousState;
+        try
+        {
+            previousState = authStateChangeHistory.pop();
+        }
+        catch (EmptyStackException ex)
+        {
+            log.warn(LogManager.getHeader(this, "restore_auth_sys_state",
+                    "not previous state info available "
+                            + ex.getLocalizedMessage()));
+            previousState = new Boolean(false);
+        }
+        if (log.isDebugEnabled())
+        {
+            Thread currThread = Thread.currentThread();
+            StackTraceElement[] stackTrace = currThread.getStackTrace();
+            String caller = stackTrace[stackTrace.length - 1].getClassName();
+
+            String previousCaller = (String) authStateClassCallHistory.pop();
+
+            // if previousCaller is not the current caller *only* log a warning
+            if (!previousCaller.equals(caller))
+            {
+                log
+                        .warn(LogManager
+                                .getHeader(
+                                        this,
+                                        "restore_auth_sys_state",
+                                        "Class: "
+                                                + caller
+                                                + " call restore but previous state change made by "
+                                                + previousCaller));
+            }
+        }
+        ignoreAuth = previousState.booleanValue();
+    }
+
+    /**
      * Specify whether the authorisation system should be ignored for this
      * context. This should be used sparingly.
      * 
+     * @deprecated use turnOffAuthorisationSystem() for make the change and
+     *             restoreAuthSystemState() when change are not more required
      * @param b
-     *            if <code>true</code>, authorisation should be ignored for
-     *            this session.
+     *            if <code>true</code>, authorisation should be ignored for this
+     *            session.
      */
     public void setIgnoreAuthorization(boolean b)
     {
@@ -231,7 +311,6 @@ public class Context
     {
         return extraLogInfo;
     }
-       
 
     /**
      * Close the context object after all of the operations performed in the
@@ -267,7 +346,8 @@ public class Context
      *                if there was an error completing the database transaction
      *                or closing the connection
      */
-    public void commit() throws SQLException {
+    public void commit() throws SQLException
+    {
         // Commit any changes made as part of the transaction
         Dispatcher dispatcher = null;
 
@@ -294,7 +374,7 @@ public class Context
         finally
         {
             events = null;
-            if(dispatcher != null) 
+            if (dispatcher != null)
             {
                 EventManager.returnDispatcher(dispName, dispatcher);
             }
@@ -310,7 +390,8 @@ public class Context
     {
         if (log.isDebugEnabled())
         {
-            log.debug(this.toString() + ": setDispatcher(\"" + dispatcher + "\")");
+            log.debug(this.toString() + ": setDispatcher(\"" + dispatcher
+                    + "\")");
         }
         dispName = dispatcher;
     }
@@ -326,7 +407,7 @@ public class Context
         {
             events = new ArrayList<Event>();
         }
-        
+
         events.add(event);
     }
 
@@ -341,7 +422,6 @@ public class Context
         return events;
     }
 
-    
     /**
      * Close the context, without committing any of the changes performed using
      * this context. The database connection is freed. No exception is thrown if
@@ -353,7 +433,8 @@ public class Context
     {
         try
         {
-            connection.rollback();
+            if (!connection.isClosed())
+                connection.rollback();
         }
         catch (SQLException se)
         {
@@ -362,7 +443,15 @@ public class Context
         }
         finally
         {
-            DatabaseManager.freeConnection(connection);
+            try
+            {
+                if (!connection.isClosed())
+                    DatabaseManager.freeConnection(connection);
+            }
+            catch (Exception ex)
+            {
+                ex.printStackTrace();
+            }
             connection = null;
             events = null;
         }
@@ -433,9 +522,25 @@ public class Context
      */
     public void clearCache()
     {
-    	objectCache.clear();
+        objectCache.clear();
     }
-    
+
+    /**
+     * Get the count of cached objects, which you can use to instrument an
+     * application to track whether it is "leaking" heap space by letting cached
+     * objects build up. We recommend logging a cache count periodically or
+     * episodically at the INFO or DEBUG level, but ONLY when you are diagnosing
+     * cache leaks.
+     * 
+     * @return count of entries in the cache.
+     * 
+     * @return the number of items in the cache
+     */
+    public int getCacheSize()
+    {
+        return objectCache.size();
+    }
+
     /**
      * set membership in a special group
      * 

@@ -1,9 +1,9 @@
 /*
  * PageNotFoundTransformer.java
  *
- * Version: $Revision: 1.2 $
+ * Version: $Revision: 4209 $
  *
- * Date: $Date: 2006/06/02 21:38:18 $
+ * Date: $Date: 2009-08-12 17:14:24 +0000 (Wed, 12 Aug 2009) $
  *
  * Copyright (c) 2002, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -44,9 +44,12 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.sql.SQLException;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.cocoon.caching.CacheableProcessingComponent;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Request;
+import org.apache.cocoon.environment.http.HttpEnvironment;
 import org.apache.cocoon.util.HashUtil;
 import org.apache.excalibur.source.SourceValidity;
 import org.apache.excalibur.source.impl.validity.NOPValidity;
@@ -198,7 +201,11 @@ public class PageNotFoundTransformer extends AbstractDSpaceTransformer implement
             
             notFound.addPara(T_para1); 
             
-            notFound.addPara().addXref(contextPath,T_go_home);
+            notFound.addPara().addXref(contextPath + "/",T_go_home);
+
+	    HttpServletResponse response = (HttpServletResponse)objectModel
+		.get(HttpEnvironment.HTTP_RESPONSE_OBJECT);
+	    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
     }
 

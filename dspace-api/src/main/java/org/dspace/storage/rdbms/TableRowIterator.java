@@ -1,9 +1,9 @@
 /*
  * TableRowIterator.java
  *
- * Version: $Revision: 3038 $
+ * Version: $Revision: 3705 $
  *
- * Date: $Date: 2008-08-07 02:21:47 -0700 (Thu, 07 Aug 2008) $
+ * Date: $Date: 2009-04-11 17:02:24 +0000 (Sat, 11 Apr 2009) $
  *
  * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -49,7 +49,7 @@ import java.util.List;
  * Represents the results of a database query
  * 
  * @author Peter Breton
- * @version $Revision: 3038 $
+ * @version $Revision: 3705 $
  */
 public class TableRowIterator
 {

@@ -1,9 +1,9 @@
 /*
  * ItemExport.java
  *
- * Version: $Revision: 1.3 $
+ * Version: $Revision: 3705 $
  *
- * Date: $Date: 2006/07/13 23:20:54 $
+ * Date: $Date: 2009-04-11 17:02:24 +0000 (Sat, 11 Apr 2009) $
  *
  * Copyright (c) 2002, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -147,7 +147,7 @@ public class ItemExport extends AbstractDSpaceTransformer implements
 			} else {
 				try {
 					org.dspace.app.itemexport.ItemExport
-							.createDownloadableExport(item, context);
+							.createDownloadableExport(item, context, false);
 				} catch (Exception e) {
 					errors.add(message(e.getMessage()));
 				}
@@ -168,7 +168,7 @@ public class ItemExport extends AbstractDSpaceTransformer implements
 			} else {
 				try {
 					org.dspace.app.itemexport.ItemExport
-							.createDownloadableExport(col, context);
+							.createDownloadableExport(col, context, false);
 				} catch (Exception e) {
 					errors.add(message(e.getMessage()));
 				}
@@ -189,7 +189,7 @@ public class ItemExport extends AbstractDSpaceTransformer implements
 			} else {
 				try {
 					org.dspace.app.itemexport.ItemExport
-							.createDownloadableExport(com, context);
+							.createDownloadableExport(com, context, false);
 				} catch (Exception e) {
 					errors.add(message(e.getMessage()));
 				}

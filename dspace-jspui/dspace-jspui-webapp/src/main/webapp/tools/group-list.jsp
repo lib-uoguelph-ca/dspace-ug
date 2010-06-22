@@ -1,7 +1,7 @@
 <%--
   - group_list.jsp
   -
-  - $Id: group-list.jsp 1947 2007-05-18 13:50:29Z cjuergen $
+  - $Id: group-list.jsp 3705 2009-04-11 17:02:24Z mdiggory $
   -
   - Copyright (c) 2002, Hewlett-Packard Company and Massachusetts
   - Institute of Technology.  All rights reserved.
@@ -110,15 +110,31 @@
                     <%= groups[i].getName() %>
                 </td>
                 <td class="<%= row %>RowOddCol">
+<%
+	// no edit button for group anonymous
+	if (groups[i].getID() > 0 )
+	{
+%>                  
                     <form method="post" action="">
                         <input type="hidden" name="group_id" value="<%= groups[i].getID() %>"/>
   		        <input type="submit" name="submit_edit" value="<fmt:message key="jsp.tools.general.edit"/>" />
                    </form>
+<%
+	}
+%>                   
                 </td>
                 <td class="<%= row %>RowEvenCol">
+<%
+	// no delete button for group Anonymous 0 and Administrator 1 to avoid accidental deletion
+	if (groups[i].getID() > 1 )
+	{
+%>   
                     <form method="post" action="">
                         <input type="hidden" name="group_id" value="<%= groups[i].getID() %>"/>
 	                <input type="submit" name="submit_group_delete" value="<fmt:message key="jsp.tools.general.delete"/>" />
+<%
+	}
+%>	                
                     </form>
                 </td>
             </tr>

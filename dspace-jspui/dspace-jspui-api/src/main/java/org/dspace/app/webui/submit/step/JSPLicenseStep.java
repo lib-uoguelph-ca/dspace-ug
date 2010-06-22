@@ -1,9 +1,9 @@
 /*
  * JSPLicenseStep.java
  *
- * Version: $Revision$
+ * Version: $Revision: 4644 $
  *
- * Date: $Date$
+ * Date: $Date: 2009-12-22 21:10:30 +0000 (Tue, 22 Dec 2009) $
  *
  * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -54,11 +54,15 @@ import org.dspace.app.webui.servlet.SubmissionController;
 import org.dspace.app.webui.submit.JSPStep;
 import org.dspace.app.webui.submit.JSPStepManager;
 import org.dspace.app.webui.util.JSPManager;
+import org.dspace.app.webui.util.UIUtil;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Collection;
 import org.dspace.content.Item;
+import org.dspace.content.LicenseUtils;
 import org.dspace.content.WorkspaceItem;
+import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Context;
+import org.dspace.core.I18nUtil;
 import org.dspace.core.LogManager;
 import org.dspace.license.CreativeCommons;
 import org.dspace.submit.step.LicenseStep;
@@ -92,7 +96,7 @@ import org.dspace.submit.step.LicenseStep;
  * @see org.dspace.submit.step.LicenseStep
  * 
  * @author Tim Donohue
- * @version $Revision$
+ * @version $Revision: 4644 $
  */
 public class JSPLicenseStep extends JSPStep
 {
@@ -221,9 +225,12 @@ public class JSPLicenseStep extends JSPStep
             HttpServletResponse response, SubmissionInfo subInfo)
             throws SQLException, ServletException, IOException
     {
-        // determine collection & get license
-        Collection c = subInfo.getSubmissionItem().getCollection();
-        request.setAttribute("license", c.getLicense());
+        String license = LicenseUtils.getLicenseText(
+                context.getCurrentLocale(), subInfo.getSubmissionItem()
+                        .getCollection(),
+                subInfo.getSubmissionItem().getItem(), subInfo
+                        .getSubmissionItem().getSubmitter());
+        request.setAttribute("license", license);
 
         JSPStepManager.showJSP(request, response, subInfo, LICENSE_JSP);
     }

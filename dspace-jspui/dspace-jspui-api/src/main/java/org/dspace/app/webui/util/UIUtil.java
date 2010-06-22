@@ -1,9 +1,9 @@
 /*
  * UIUtil.java
  *
- * Version: $Revision: 2168 $
+ * Version: $Revision: 4662 $
  *
- * Date: $Date: 2007-08-27 15:40:09 -0700 (Mon, 27 Aug 2007) $
+ * Date: $Date: 2010-01-08 03:27:08 +0000 (Fri, 08 Jan 2010) $
  *
  * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -67,7 +67,7 @@ import org.dspace.eperson.EPerson;
  * Miscellaneous UI utility methods
  * 
  * @author Robert Tansley
- * @version $Revision: 2168 $
+ * @version $Revision: 4662 $
  */
 public class UIUtil extends Util
 {
@@ -122,10 +122,10 @@ public class UIUtil extends Util
                 String remAddr = (String)session.getAttribute("dspace.current.remote.addr");
                 if (remAddr != null && remAddr.equals(request.getRemoteAddr()))
                 {
-                EPerson e = EPerson.find(c, userID.intValue());
+                	EPerson e = EPerson.find(c, userID.intValue());
 
-                Authenticate.loggedIn(c, request, e);
-            }
+                	Authenticate.loggedIn(c, request, e);
+                }
                 else
                 {
                     log.warn("POSSIBLE HIJACKED SESSION: request from "+
@@ -246,88 +246,8 @@ public class UIUtil extends Util
      */
     public static String displayDate(DCDate d, boolean time, boolean localTime, HttpServletRequest request)
     {
-        StringBuffer sb = new StringBuffer();
-        Locale locale = ((Context)request.getAttribute("dspace.context")).getCurrentLocale();
-        if (locale == null) locale = I18nUtil.DEFAULTLOCALE;
-
-        if (d != null)
-        {
-            int year;
-            int month;
-            int day;
-            int hour;
-            int minute;
-            int second;
-
-            if (localTime)
-            {
-                year = d.getYear();
-                month = d.getMonth();
-                day = d.getDay();
-                hour = d.getHour();
-                minute = d.getMinute();
-                second = d.getSecond();
+        return d.displayDate(time, localTime, getSessionLocale(request));
             }
-            else
-            {
-                year = d.getYearGMT();
-                month = d.getMonthGMT();
-                day = d.getDayGMT();
-                hour = d.getHourGMT();
-                minute = d.getMinuteGMT();
-                second = d.getSecondGMT();
-            }
-
-            if (year > -1)
-            {
-                if (month > -1)
-                {
-                    if (day > -1)
-                    {
-                        sb.append(day + "-");
-                    }
-                    String monthName = DCDate.getMonthName(month, getSessionLocale(request));
-                    int monthLength = monthName.length();
-                    monthLength = monthLength > 2 ? 3 : monthLength;
-                    sb.append(monthName.substring(0, monthLength) + "-");
-                }
-
-                sb.append(year + " ");
-            }
-
-            if (time && (hour > -1))
-            {
-                String hr = String.valueOf(hour);
-
-                while (hr.length() < 2)
-                {
-                    hr = "0" + hr;
-                }
-
-                String mn = String.valueOf(minute);
-
-                while (mn.length() < 2)
-                {
-                    mn = "0" + mn;
-                }
-
-                String sc = String.valueOf(second);
-
-                while (sc.length() < 2)
-                {
-                    sc = "0" + sc;
-                }
-
-                sb.append(hr + ":" + mn + ":" + sc + " ");
-            }
-        }
-        else
-        {
-            sb.append("Unset");
-        }
-
-        return (sb.toString());
-    }
 
     /**
      * Return a string for logging, containing useful information about the
@@ -444,6 +364,8 @@ public class UIUtil extends Util
     {
         String logInfo = UIUtil.getRequestLogInfo(request);
         Context c = (Context) request.getAttribute("dspace.context");
+        Locale locale = getSessionLocale(request);
+        EPerson user = null;
 
         try
         {
@@ -452,8 +374,7 @@ public class UIUtil extends Util
 
             if (recipient != null)
             {
-                Email email = ConfigurationManager.getEmail(I18nUtil.getEmailFilename(c.getCurrentLocale(), "internal_error"));
-
+                Email email = ConfigurationManager.getEmail(I18nUtil.getEmailFilename(locale, "internal_error"));
                 email.addRecipient(recipient);
                 email.addArgument(ConfigurationManager
                         .getProperty("dspace.url"));
@@ -477,6 +398,24 @@ public class UIUtil extends Util
                 }
 
                 email.addArgument(stackTrace);
+                try
+                {
+                    user = c.getCurrentUser();
+                }
+                catch (Exception e)
+                {
+                    log.warn("No context, the database might be down or the connection pool exhausted.");
+                }
+                
+                if (user != null)
+                {
+                    email.addArgument(user.getFullName() + " (" + user.getEmail() + ")");
+                }
+                else
+                {
+                    email.addArgument("Anonymous");
+                }
+                email.addArgument(request.getRemoteAddr());
                 email.send();
             }
         }

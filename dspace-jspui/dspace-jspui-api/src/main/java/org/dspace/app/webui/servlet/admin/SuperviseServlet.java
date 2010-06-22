@@ -1,9 +1,9 @@
 /*
  * SuperviseServlet.java
  *
- * Version: $Revision: 1520 $
+ * Version: $Revision: 3705 $
  *
- * Date: $Date: 2006-05-26 07:14:03 -0700 (Fri, 26 May 2006) $
+ * Date: $Date: 2009-04-11 17:02:24 +0000 (Sat, 11 Apr 2009) $
  *
  * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -67,7 +67,7 @@ import org.dspace.storage.rdbms.TableRowIterator;
  * Servlet to handle administration of the supervisory system
  *
  * @author Richard Jones
- * @version  $Revision: 1520 $
+ * @version  $Revision: 3705 $
  */
 public class SuperviseServlet extends org.dspace.app.webui.servlet.DSpaceServlet
 {

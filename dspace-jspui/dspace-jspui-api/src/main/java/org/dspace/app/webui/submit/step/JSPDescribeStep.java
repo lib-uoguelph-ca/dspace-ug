@@ -1,9 +1,9 @@
 /*
  * JSPDescribeStep.java
  *
- * Version: $Revision$
+ * Version: $Revision: 4365 $
  *
- * Date: $Date$
+ * Date: $Date: 2009-10-05 23:52:42 +0000 (Mon, 05 Oct 2009) $
  *
  * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -42,6 +42,7 @@ package org.dspace.app.webui.submit.step;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -49,6 +50,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+import org.dspace.app.util.DCInputsReader;
+import org.dspace.app.util.DCInputsReaderException;
 import org.dspace.app.util.SubmissionInfo;
 import org.dspace.app.webui.submit.JSPStep;
 import org.dspace.app.webui.submit.JSPStepManager;
@@ -57,6 +60,7 @@ import org.dspace.app.webui.util.UIUtil;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Collection;
 import org.dspace.core.Context;
+import org.dspace.core.I18nUtil;
 import org.dspace.core.LogManager;
 import org.dspace.submit.step.DescribeStep;
 
@@ -84,13 +88,13 @@ import org.dspace.submit.step.DescribeStep;
  * <li>Once all pages are complete, control is forwarded back to the
  * SubmissionController, and the next step is called.</li>
  * </ul>
- * 
+ *
  * @see org.dspace.app.webui.servlet.SubmissionController
  * @see org.dspace.app.webui.submit.JSPStep
  * @see org.dspace.submit.step.DescribeStep
- * 
+ *
  * @author Tim Donohue
- * @version $Revision$
+ * @version $Revision: 4365 $
  */
 public class JSPDescribeStep extends JSPStep
 {
@@ -123,7 +127,7 @@ public class JSPDescribeStep extends JSPStep
      * If this step doesn't require user interaction OR you are solely using
      * Manakin for your user interface, then this method may be left EMPTY,
      * since all step processing should occur in the doProcessing() method.
-     * 
+     *
      * @param context
      *            current DSpace context
      * @param request
@@ -153,7 +157,7 @@ public class JSPDescribeStep extends JSPStep
      * If this step doesn't require user interaction OR you are solely using
      * Manakin for your user interface, then this method may be left EMPTY,
      * since all step processing should occur in the doProcessing() method.
-     * 
+     *
      * @param context
      *            current DSpace context
      * @param request
@@ -213,7 +217,7 @@ public class JSPDescribeStep extends JSPStep
 
     /**
      * Show the page which displays all the Initial Questions to the user
-     * 
+     *
      * @param context
      *            current DSpace context
      * @param request
@@ -222,18 +226,30 @@ public class JSPDescribeStep extends JSPStep
      *            the response object
      * @param subInfo
      *            the SubmissionInfo object
-     * 
+     *
      */
     private void showEditMetadata(Context context, HttpServletRequest request,
             HttpServletResponse response, SubmissionInfo subInfo)
             throws SQLException, ServletException, IOException
     {
+        Locale sessionLocale = null;
+        sessionLocale = UIUtil.getSessionLocale(request);
+        String formFileName = I18nUtil.getInputFormsFileName(sessionLocale);
+        
         // determine collection
         Collection c = subInfo.getSubmissionItem().getCollection();
 
         // requires configurable form info per collection
-        request.setAttribute("submission.inputs", DescribeStep.getInputsReader().getInputs(c
-                .getHandle()));
+        try
+        {
+            request.setAttribute("submission.inputs", DescribeStep.getInputsReader(formFileName).getInputs(c
+                    .getHandle()));
+        }
+        catch (DCInputsReaderException e)
+        {
+            throw new ServletException(e);
+        }
+
 
         // forward to edit-metadata JSP
         JSPStepManager.showJSP(request, response, subInfo, DISPLAY_JSP);
@@ -246,7 +262,7 @@ public class JSPDescribeStep extends JSPStep
      * This Review JSP is loaded by the 'Verify' Step, in order to dynamically
      * generate a submission verification page consisting of the information
      * gathered in all the enabled submission steps.
-     * 
+     *
      * @param context
      *            current DSpace context
      * @param request

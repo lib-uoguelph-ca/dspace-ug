@@ -1,9 +1,9 @@
 <%--
   - group-select-list.jsp
   -
-  - Version: $Revision: 1866 $
+  - Version: $Revision: 3705 $
   -
-  - Date: $Date: 2007-04-23 07:20:41 -0700 (Mon, 23 Apr 2007) $
+  - Date: $Date: 2009-04-11 17:02:24 +0000 (Sat, 11 Apr 2009) $
   -
   - Copyright (c) 2002, Hewlett-Packard Company and Massachusetts
   - Institute of Technology.  All rights reserved.
@@ -57,6 +57,8 @@
 <%@ taglib uri="http://www.dspace.org/dspace-tags.tld" prefix="dspace" %>
 
 <%@ page import="org.dspace.eperson.Group" %>
+
+<%@ page import="org.dspace.core.Utils" %>
 
 
 <%
@@ -212,7 +214,7 @@ function clearGroups()
 			<td headers="t1" class="<%= row %>RowOddCol">
 				<input type="button" value="<%
 	if (multiple) { %><fmt:message key="jsp.tools.general.add"/><% }
-	else {          %><fmt:message key="jsp.tools.general.select"/><% } %>" onclick="javascript:<%= clearList %>addGroup(<%= g.getID() %>, '<%= fullname %>');<%= closeWindow %>"/></td>
+	else {          %><fmt:message key="jsp.tools.general.select"/><% } %>" onclick="javascript:<%= clearList %>addGroup('<%= g.getID() %>', '<%= Utils.addEntities(fullname) %>');<%= closeWindow %>"/></td>
 			<td headers="t2" class="<%= row %>RowEvenCol"><%= g.getID() %></td>
 			<td headers="t3" class="<%= row %>RowOddCol"> <%= g.getName()%></td>
         </tr>

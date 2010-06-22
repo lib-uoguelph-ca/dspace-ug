@@ -1,9 +1,9 @@
 /*
  * LNISmokeTest.java
  *
- * Version: $Revision$
+ * Version: $Revision: 3705 $
  *
- * Date: $Date$
+ * Date: $Date: 2009-04-11 17:02:24 +0000 (Sat, 11 Apr 2009) $
  *
  * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -84,7 +84,7 @@ import org.jdom.output.XMLOutputter;
  * http://user:passwd@mydsapce.edu/dspace-lni/DSpaceLNI \ -f 123.45/67
  * 
  * @author Larry Stone
- * @version $Revision$
+ * @version $Revision: 3705 $
  */
 public class LNISmokeTest
 {
@@ -552,9 +552,12 @@ public class LNISmokeTest
 
         InputStream in = new FileInputStream(source);
         OutputStream out = conn.getOutputStream();
-        copyStream(in, out);
-        in.close();
-        out.close();
+        try {
+            copyStream(in, out);
+        } finally {
+            in.close();
+            out.close();
+        }
 
         int status = conn.getResponseCode();
         if (status < 200 || status >= 300)

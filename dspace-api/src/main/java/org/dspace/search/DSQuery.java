@@ -1,9 +1,9 @@
 /*
  * DSQuery.java
  *
- * Version: $Revision: 2553 $
+ * Version: $Revision: 3705 $
  *
- * Date: $Date: 2008-01-16 08:46:44 -0800 (Wed, 16 Jan 2008) $
+ * Date: $Date: 2009-04-11 17:02:24 +0000 (Sat, 11 Apr 2009) $
  *
  * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -148,7 +148,7 @@ public class DSQuery
             Searcher searcher = getSearcher(c);
 
             QueryParser qp = new QueryParser("default", DSIndexer.getAnalyzer());
-            log.info("Final query string: " + querystring);
+            log.debug("Final query string: " + querystring);
             
             if (operator == null || operator.equals("OR"))
             {
@@ -239,24 +239,24 @@ public class DSQuery
         catch (NumberFormatException e)
         {
             log.warn(LogManager.getHeader(c, "Number format exception", "" + e));
-            qr.setErrorMsg("Number format exception");
+            qr.setErrorMsg("number-format-exception");
         }
         catch (ParseException e)
         {
             // a parse exception - log and return null results
             log.warn(LogManager.getHeader(c, "Invalid search string", "" + e));
-            qr.setErrorMsg("Invalid search string");
+            qr.setErrorMsg("invalid-search-string");
         }
         catch (TokenMgrError tme)
         {
             // Similar to parse exception
             log.warn(LogManager.getHeader(c, "Invalid search string", "" + tme));
-            qr.setErrorMsg("Invalid search string");
+            qr.setErrorMsg("invalid-search-string");
         }
         catch(BooleanQuery.TooManyClauses e)
         {
             log.warn(LogManager.getHeader(c, "Query too broad", e.toString()));
-            qr.setErrorMsg("Your query was too broad. Try a narrower query.");
+            qr.setErrorMsg("query-too-broad");
         }
 
         return qr;
@@ -264,7 +264,7 @@ public class DSQuery
 
     static String checkEmptyQuery(String myquery)
     {
-        if (myquery.equals(""))
+        if (myquery == null || myquery.equals("()") || myquery.equals(""))
         {
             myquery = "empty_query_string";
         }

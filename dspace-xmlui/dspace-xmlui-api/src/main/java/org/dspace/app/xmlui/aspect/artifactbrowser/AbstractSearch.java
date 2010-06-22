@@ -1,9 +1,9 @@
 /*
  * AbstractSearch.java
  *
- * Version: $Revision: 1.18 $
+ * Version: $Revision: 4260 $
  *
- * Date: $Date: 2006/07/27 18:24:34 $
+ * Date: $Date: 2009-09-14 10:29:24 +0000 (Mon, 14 Sep 2009) $
  *
  * Copyright (c) 2002, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -537,6 +537,10 @@ public abstract class AbstractSearch extends AbstractDSpaceTransformer
         {
             return 0;
         }
+    }
+
+    protected QueryResults getQueryResults() {
+        return queryResults;
     }
 
     /**

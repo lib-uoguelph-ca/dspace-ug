@@ -1,11 +1,11 @@
 <%--
   - authorize-advanced.jsp
   -
-  - $Id: authorize-advanced.jsp 2218 2007-09-28 13:17:04Z jrutherford $
+  - $Id: authorize-advanced.jsp 3705 2009-04-11 17:02:24Z mdiggory $
   -
-  - Version: $Revision: 2218 $
+  - Version: $Revision: 3705 $
   -
-  - Date: $Date: 2007-09-28 06:17:04 -0700 (Fri, 28 Sep 2007) $
+  - Date: $Date: 2009-04-11 17:02:24 +0000 (Sat, 11 Apr 2009) $
   -
   - Copyright (c) 2002, Hewlett-Packard Company and Massachusetts
   - Institute of Technology.  All rights reserved.

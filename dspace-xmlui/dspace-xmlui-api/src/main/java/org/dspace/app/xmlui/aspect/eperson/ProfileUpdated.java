@@ -1,9 +1,9 @@
 /*
  * ProfileUpdated.java
  *
- * Version: $Revision: 1.2 $
+ * Version: $Revision: 3865 $
  *
- * Date: $Date: 2006/06/02 21:37:46 $
+ * Date: $Date: 2009-06-09 19:44:06 +0000 (Tue, 09 Jun 2009) $
  *
  * Copyright (c) 2002, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -93,7 +93,7 @@ public class ProfileUpdated extends AbstractDSpaceTransformer
 
     updated.addPara(T_para1);
 
-    updated.addPara().addXref(contextPath, T_go_home);
+    updated.addPara().addXref(contextPath + "/", T_go_home);
   }
 
 }

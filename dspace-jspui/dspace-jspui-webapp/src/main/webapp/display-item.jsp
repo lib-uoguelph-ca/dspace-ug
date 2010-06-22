@@ -1,9 +1,9 @@
 <%--
   - display-item.jsp
   -
-  - Version: $Revision: 2968 $
+  - Version: $Revision: 4646 $
   -
-  - Date: $Date: 2008-06-24 14:08:28 -0700 (Tue, 24 Jun 2008) $
+  - Date: $Date: 2009-12-23 06:42:08 +0000 (Wed, 23 Dec 2009) $
   -
   - Copyright (c) 2002, Hewlett-Packard Company and Massachusetts
   - Institute of Technology.  All rights reserved.
@@ -61,9 +61,7 @@
 
 <%@ taglib uri="http://www.dspace.org/dspace-tags.tld" prefix="dspace" %>
 
-<%@ page import="org.dspace.app.webui.util.UIUtil" %>
 <%@ page import="org.dspace.content.Collection" %>
-<%@ page import="org.dspace.content.Community" %>
 <%@ page import="org.dspace.content.DCValue" %>
 <%@ page import="org.dspace.content.Item" %>
 <%@ page import="org.dspace.core.ConfigurationManager" %>
@@ -131,18 +129,27 @@
         if (admin_button)  // admin edit button
         { %>
             <td class="evenRowEvenCol" align="center">
+                <form method="post" action="<%= request.getContextPath() %>/mydspace">
+                    <input type="hidden" name="item_id" value="<%= item.getID() %>" />
+                    <input type="hidden" name="step" value="<%= MyDSpaceServlet.REQUEST_EXPORT_ARCHIVE %>" />
+                    <input type="submit" name="submit" value="<fmt:message key="jsp.mydspace.request.export.item"/>" />
+                </form>
+                <form method="post" action="<%= request.getContextPath() %>/mydspace">
+                    <input type="hidden" name="item_id" value="<%= item.getID() %>" />
+                    <input type="hidden" name="step" value="<%= MyDSpaceServlet.REQUEST_MIGRATE_ARCHIVE %>" />
+                    <input type="submit" name="submit" value="<fmt:message key="jsp.mydspace.request.export.migrateitem"/>" />
+                </form>
+                <form method="post" action="<%= request.getContextPath() %>/dspace-admin/metadataexport">
+                    <input type="hidden" name="handle" value="<%= item.getHandle() %>" />
+                    <input type="submit" name="submit" value="<fmt:message key="jsp.general.metadataexport.button"/>" />
+                </form>
+
+            </td>
+            <td class="evenRowEvenCol" align="center">
                 <form method="get" action="<%= request.getContextPath() %>/tools/edit-item">
                     <input type="hidden" name="item_id" value="<%= item.getID() %>" />
                     <%--<input type="submit" name="submit" value="Edit...">--%>
                     <input type="submit" name="submit" value="<fmt:message key="jsp.general.edit.button"/>" />
-                </form>
-            </td>
-            <td class="evenRowEvenCol" align="center">
-                <form method="post" action="<%= request.getContextPath() %>/mydspace">
-                    <input type="hidden" name="item_id" value="<%= item.getID() %>" />
-                    <input type="hidden" name="step" value="<%= MyDSpaceServlet.REQUEST_EXPORT_ARCHIVE %>" />
-                    <%--<input type="submit" name="submit" value="Edit...">--%>
-                    <input type="submit" name="submit" value="<fmt:message key="jsp.mydspace.request.export.item"/>" />
                 </form>
             </td>
 <%      } %>
@@ -224,6 +231,12 @@
     }
 %>
 
+<div align="center">
+    <form method="get" action="<%= request.getContextPath() %>/displaystats">
+        <input type="hidden" name="handle" value="<%= handle %>"/>
+        <input type="submit" name="submit_simple" value="<fmt:message key="jsp.display-item.display-statistics"/>" />
+    </form>
+</div>
 
 <%
     if (workspace_id != null)
