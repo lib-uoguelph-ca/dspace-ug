@@ -1,0 +1,2 @@
+# Ignore Maven build targets
+target/
