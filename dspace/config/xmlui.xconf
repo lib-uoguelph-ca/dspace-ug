@@ -66,6 +66,9 @@
         <aspect name="E-Person" path="resource://aspects/EPerson/" />
         <aspect name="Submission and Workflow" path="resource://aspects/Submission/" />
 
+        <!-- Add the Trail aspect to modify page headers. -->
+        <aspect name="Trail" path="resource://aspects/Trail/" />
+
         <!-- 
             This aspect tests the various possible DRI features, 
             it helps a theme developer create themes 

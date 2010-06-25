@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!--
+The Trail Aspect is responsible for modifying the breadcrumb trail
+-->
+<map:sitemap xmlns:map="http://apache.org/cocoon/sitemap/1.0">
+    <map:pipelines>
+        <map:pipeline>
+            <map:generate/>
+            <map:transform src="modify-trail.xsl"/>
+            <map:serialize type="xml"/>
+        </map:pipeline>
+    </map:pipelines>
+</map:sitemap>
