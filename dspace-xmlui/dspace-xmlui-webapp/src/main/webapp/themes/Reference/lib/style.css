@@ -44,6 +44,14 @@ body {
 	text-align: center;
 }
 
+input#aspect_submission_StepTransformer_field_dc_title {
+	width: 700px;
+}
+
+textarea.ds-textarea-field {
+	width: 600px;
+}
+
 fieldset {
 	border: 0px;
 }
@@ -51,7 +59,7 @@ fieldset {
 div#ds-main {
 	position: relative;
 	margin-top: 5px;
-	width: 750px;
+	width: 1066px;
 	color: inherit;
 	background-color: white;
 	margin-left: auto;
@@ -60,10 +68,8 @@ div#ds-main {
 	padding: 0;
 }
 
-div#ds-header {
-	width: 100%;
-	border: 3px solid rgb(240, 240, 210);
-	padding: 0px;
+DIV#ds-header {
+	BORDER-RIGHT: rgb(240,240,210) 3px solid; PADDING-RIGHT: 0px; BORDER-TOP: rgb(240,240,210) 3px solid; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; BORDER-LEFT: rgb(240,240,210) 3px solid; WIDTH: 100%; PADDING-TOP: 0px; BORDER-BOTTOM: rgb(240,240,210) 3px solid; BACKGROUND-IMAGE: url("../images/atrium_banner.png"); HEIGHT: 200px; FLOAT: left; BACKGROUND-REPEAT: no-repeat; BACKGROUND-COLOR: white
 }
 
 div#ds-header a {
@@ -71,14 +77,6 @@ div#ds-header a {
 }
 
 div#ds-header  a span#ds-header-logo {
-	width: 190px;
-	height: 80px;
-	float: right;
-	background-image: url("../images/manakin_logo.jpg");
-	background-repeat: no-repeat;
-	background-position: 85% 40%;
-	color: inherit;
-	background-color: white;
 }
 
 div#ds-header h1,div#ds-header h2 {
@@ -87,19 +85,26 @@ div#ds-header h1,div#ds-header h2 {
 
 ul#ds-trail {
 	position: relative;
-	margin-top: 80px;
+	margin-top: 135px;
 	margin-bottom: 0px;
 	padding: 3px;
-	margin-left: 0;
-	color: inherit;
-	background-color: rgb(255, 255, 240);
-	border-top: 2px solid rgb(245, 245, 216);
+	margin-left: 145px;
+	margin-right: 10px;
+	text-indent: -5px;
+}
+
+ul#ds-trail a {
+	color: #F8DB39;
+}
+
+ul#ds-trail a:hover {
+	color: #8F0100;
 }
 
 li.ds-trail-link {
 	overflow: hidden;
 	display: inline;
-	background-image: url("../images/trail.bmp");
+	background-image: url("../images/trail.gif");
 	background-repeat: no-repeat;
 	background-position: 0% 60%;
 	padding-left: 16px;
@@ -117,16 +122,16 @@ li.first-link {
 }
 
 div#ds-user-box {
-    width: 300px;
+    width: 90%;
 	position: absolute;
-	top: 10px;
-	left: 12px;
-	text-align: left;
+	top: 145px;
+	left: 85px;
+	text-align: right;
 }
 
 div#ds-user-box p {
 	font-size: 90%;
-	color: gray;
+	color: #F8DB39;
 	background-color: inherit;
 	height: 12px;
 	padding: 0px;
@@ -135,7 +140,7 @@ div#ds-user-box p {
 
 div#ds-user-box a {
 	text-decoration: none;
-	color: gray;
+	color: #F8DB39;
 	background-color: inherit;
 	height: 12px;
 	padding: 0px;
@@ -143,13 +148,13 @@ div#ds-user-box a {
 }
 
 div#ds-user-box a:hover {
-	text-decoration: underline;
+	color: #8F0100;
 }
 
 div#ds-body {
 	position: relative;
 	float: left;
-	width: 592px;
+	width: 900px;
 	clear: left;
 	color: inherit;
 	background-color: rgb(255, 255, 253);
@@ -488,6 +493,7 @@ td {
 	font-size: inherit;
 	background-color: inherit;
 	color: inherit;
+	vertical-align: top;
 }
 
 td.ds-table-cell.right {
@@ -579,7 +585,7 @@ ul.ds-artifact-list {
 	list-style-type: none;
 	margin: 0px;
 	float: left;
-	width: 584px;
+	width: 889px;
 }
 
 ul.ds-artifact-list li.odd {
@@ -693,6 +699,7 @@ fieldset.ds-form-list {
 	background-color: rgb(255, 255, 245);
 	margin-left: 0;
 	margin-right: 0;
+	width: 889px;
 }
 
 fieldset.ds-form-list.thick {
@@ -960,6 +967,7 @@ div#ds-footer {
 	float: left;
 	width: 100%;
 	border: 3px solid rgb(240, 240, 210);
+	background-color: black;
 }
 
 span#ds-footer-logo {
@@ -978,10 +986,10 @@ div#ds-footer p {
 	width: 450px;
 	position: absolute;
 	top: -8px;
-	right: 0px;
-	text-align: right;
+	left: 0px;
+	text-align: left;
 	padding: 5px;
-	font-size: smaller;
+	color: white;
 }
 
 div#ds-footer-links {
@@ -990,7 +998,16 @@ div#ds-footer-links {
 	right: 0px;
 	padding-right: 5px;
 	text-align: right;
-	font-size: smaller;
+	color: white;
+}
+
+div#ds-footer-links a {
+	color: #fdc708;
+	text-decoration: none;
+}
+
+div#ds-footer-links a:hover {
+	text-decoration: underline;
 }
 
 div#ds-footer a#ds-logo-link {
