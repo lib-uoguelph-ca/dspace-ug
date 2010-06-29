@@ -2,8 +2,12 @@
 <document xmlns="http://di.tamu.edu/DRI/1.0/" xmlns:i18n="http://apache.org/cocoon/i18n/2.1" version="1.1">
 <body>
 <div id="file.news.div.news" n="news" rend="primary">
-<head>DSpace/Manakin Repository</head>
-<p>Welcome to the new Manakin interface to the DSpace digital repository.  DSpace is a digital service that collects, preserves, and distributes digital material. Repositories are important tools for preserving an organization&apos;s legacy; they facilitate digital preservation and scholarly communication.</p>
+<head>The Atrium, University of Guelph Institutional Repository</head>
+<p>Welcome to the new University of Guelph institutional repository, the Atrium.  The Atrium is a digital service that collects, preserves, and distributes digital resources created at the University of Guelph. Repositories are important tools for preserving an organization&apos;s legacy; they facilitate digital preservation and scholarly communication.</p>
+</div>
+<div id="file.news.div.submission" n="atrium_submission" rend="primary">
+<head>Submit to the Atrium</head>
+<p></p>
 </div>
 </body>
 <options/>
