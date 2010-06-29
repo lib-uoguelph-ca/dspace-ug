@@ -362,6 +362,15 @@
                 </a>
             </div>
         </div>
+
+    <!--
+        Create a link where the U of G logo is in the banner. Define the space / location using the style on the link. By using
+        the 'a ref' in the dev, the browsers link settings will kick in (hover etc)
+    -->
+    <div>
+        <a style="position: absolute; height: 200px; width: 130px; top: 1px; left: 5.0px; z-index: 1;" href="http://www.uoguelph.ca"></a>
+    </div>
+
         <!--                    
             <a href="http://di.tamu.edu">                            
                 <div id="ds-footer-logo"></div>
