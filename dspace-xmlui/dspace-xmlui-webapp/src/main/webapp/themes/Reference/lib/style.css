@@ -48,6 +48,10 @@ input#aspect_submission_StepTransformer_field_dc_title {
 	width: 700px;
 }
 
+input#aspect_submission_StepTransformer_field_dc_identifier_citation {
+	width: 700px;
+}
+
 textarea.ds-textarea-field {
 	width: 600px;
 }
