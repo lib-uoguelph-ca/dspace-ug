@@ -61,9 +61,10 @@
         /xmlui/cocoon/aspects/ directory followed by a slash.
     -->
     <aspects>
+        <aspect name="E-Person" path="resource://aspects/EPerson/" />
+        <aspect name="Pending Submissions" path="PendingSubmissions/" />
         <aspect name="Artifact Browser" path="resource://aspects/ArtifactBrowser/" />
         <aspect name="Administration" path="resource://aspects/Administrative/" />
-        <aspect name="E-Person" path="resource://aspects/EPerson/" />
         <aspect name="Submission and Workflow" path="resource://aspects/Submission/" />
 
         <!-- Add the Trail aspect to modify page headers. -->
