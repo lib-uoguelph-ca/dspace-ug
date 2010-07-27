@@ -1,12 +1,11 @@
 /*
  * Bundle.java
  *
- * Version: $Revision: 3036 $
+ * Version: $Revision: 4309 $
  *
- * Date: $Date: 2008-08-06 08:52:30 -0700 (Wed, 06 Aug 2008) $
+ * Date: $Date: 2009-09-30 19:20:07 +0000 (Wed, 30 Sep 2009) $
  *
- * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
- * Institute of Technology.  All rights reserved.
+ * Copyright (c) 2002-2009, The DSpace Foundation.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -19,8 +18,7 @@
  * notice, this list of conditions and the following disclaimer in the
  * documentation and/or other materials provided with the distribution.
  *
- * - Neither the name of the Hewlett-Packard Company nor the name of the
- * Massachusetts Institute of Technology nor the names of their
+ * - Neither the name of the DSpace Foundation nor the names of its
  * contributors may be used to endorse or promote products derived from
  * this software without specific prior written permission.
  *
@@ -48,8 +46,10 @@ import java.util.List;
 import java.util.ListIterator;
 
 import org.apache.log4j.Logger;
+import org.dspace.authorize.AuthorizeConfiguration;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.authorize.AuthorizeManager;
+import org.dspace.authorize.ResourcePolicy;
 import org.dspace.core.Constants;
 import org.dspace.core.Context;
 import org.dspace.core.LogManager;
@@ -67,7 +67,7 @@ import org.dspace.storage.rdbms.TableRowIterator;
  * removing bitstreams has instant effect in the database.
  * 
  * @author Robert Tansley
- * @version $Revision: 3036 $
+ * @version $Revision: 4309 $
  */
 public class Bundle extends DSpaceObject
 {
@@ -494,18 +494,19 @@ public class Bundle extends DSpaceObject
             {
                 // We've found the bitstream to remove
                 li.remove();
-                
-                // In the event that the bitstream to remove is actually
-                // the primary bitstream, be sure to unset the primary
-                // bitstream.
-                if (b.getID() == getPrimaryBitstreamID()) {
-                	unsetPrimaryBitstreamID();
-                }
             }
         }
 
         ourContext.addEvent(new Event(Event.REMOVE, Constants.BUNDLE, getID(), Constants.BITSTREAM, b.getID(), String.valueOf(b.getSequenceID())));
-
+        
+        // In the event that the bitstream to remove is actually
+        // the primary bitstream, be sure to unset the primary
+        // bitstream.
+        if (b.getID() == getPrimaryBitstreamID()) 
+        {
+            unsetPrimaryBitstreamID();
+        }
+        
         // Delete the mapping row
         DatabaseManager.updateQuery(ourContext,
                 "DELETE FROM bundle2bitstream WHERE bundle_id= ? "+
@@ -593,5 +594,143 @@ public class Bundle extends DSpaceObject
     public int getType()
     {
         return Constants.BUNDLE;
+    }
+    
+    /**
+     * remove all policies on the bundle and its contents, and replace them with
+     * the DEFAULT_BITSTREAM_READ policies belonging to the collection.
+     * 
+     * @param c
+     *            Collection
+     * @throws java.sql.SQLException
+     *             if an SQL error or if no default policies found. It's a bit
+     *             draconian, but default policies must be enforced.
+     * @throws AuthorizeException
+     */
+    public void inheritCollectionDefaultPolicies(Collection c)
+            throws java.sql.SQLException, AuthorizeException
+    {
+        List<ResourcePolicy> policies = AuthorizeManager.getPoliciesActionFilter(ourContext, c,
+                Constants.DEFAULT_BITSTREAM_READ);
+
+        // change the action to just READ
+        // just don't call update on the resourcepolicies!!!
+        Iterator<ResourcePolicy> i = policies.iterator();
+
+        if (!i.hasNext())
+        {
+            throw new java.sql.SQLException("Collection " + c.getID()
+                    + " has no default bitstream READ policies");
+        }
+
+        while (i.hasNext())
+        {
+            ResourcePolicy rp = (ResourcePolicy) i.next();
+            rp.setAction(Constants.READ);
+        }
+
+        replaceAllBitstreamPolicies(policies);
+    }
+    
+    /**
+     * remove all of the policies for the bundle and bitstream contents and replace
+     * them with a new list of policies
+     * 
+     * @param newpolicies -
+     *            this will be all of the new policies for the bundle and
+     *            bitstream contents
+     * @throws SQLException
+     * @throws AuthorizeException
+     */
+    public void replaceAllBitstreamPolicies(List<ResourcePolicy> newpolicies)
+            throws SQLException, AuthorizeException
+    {
+        if (bitstreams != null && bitstreams.size() > 0)
+        {
+            for (Bitstream bs : bitstreams)
+            {
+                // change bitstream policies
+                AuthorizeManager.removeAllPolicies(ourContext, bs);
+                AuthorizeManager.addPolicies(ourContext, newpolicies, bs);
+            }
+        }
+        // change bundle policies
+        AuthorizeManager.removeAllPolicies(ourContext, this);
+        AuthorizeManager.addPolicies(ourContext, newpolicies, this);
+    }
+    
+    public DSpaceObject getAdminObject(int action) throws SQLException
+    {
+        DSpaceObject adminObject = null;
+        Item[] items = getItems();
+        Item item = null;
+        Collection collection = null;
+        Community community = null;
+        if (items != null && items.length > 0)
+        {
+            item = items[0];
+            collection = item.getOwningCollection();
+            if (collection != null)
+            {
+                Community[] communities = collection.getCommunities();
+                if (communities != null && communities.length > 0)
+                {
+                    community = communities[0];
+                }
+            }
+        }
+        switch (action)
+        {
+        case Constants.REMOVE:
+            if (AuthorizeConfiguration.canItemAdminPerformBitstreamDeletion())
+            {
+                adminObject = item;
+            }
+            else if (AuthorizeConfiguration.canCollectionAdminPerformBitstreamDeletion())
+            {
+                adminObject = collection;
+            }
+            else if (AuthorizeConfiguration
+                    .canCommunityAdminPerformBitstreamDeletion())
+            {
+                adminObject = community;
+            }
+            break;
+        case Constants.ADD:
+            if (AuthorizeConfiguration.canItemAdminPerformBitstreamCreation())
+            {
+                adminObject = item;
+            }
+            else if (AuthorizeConfiguration
+                    .canCollectionAdminPerformBitstreamCreation())
+            {
+                adminObject = collection;
+            }
+            else if (AuthorizeConfiguration
+                    .canCommunityAdminPerformBitstreamCreation())
+            {
+                adminObject = community;
+            }
+            break;
+
+        default:
+            adminObject = this;
+            break;
+        }
+        return adminObject;
+    }
+    
+    public DSpaceObject getParentObject() throws SQLException
+    {
+        Item[] items = getItems();
+       
+        if (items != null && (items.length > 0 && items[0] != null))
+        {
+            return items[0];
+        }
+        else
+        {
+            return null;
+        }
     }
 }

@@ -1,9 +1,9 @@
 /*
  * CollectionListTag.java
  *
- * Version: $Revision: 1327 $
+ * Version: $Revision: 3705 $
  *
- * Date: $Date: 2005-10-13 23:56:22 -0700 (Thu, 13 Oct 2005) $
+ * Date: $Date: 2009-04-11 17:02:24 +0000 (Sat, 11 Apr 2009) $
  *
  * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -53,7 +53,7 @@ import org.dspace.content.Collection;
  * Tag for display a list of collections
  * 
  * @author Robert Tansley
- * @version $Revision: 1327 $
+ * @version $Revision: 3705 $
  */
 public class CollectionListTag extends TagSupport
 {

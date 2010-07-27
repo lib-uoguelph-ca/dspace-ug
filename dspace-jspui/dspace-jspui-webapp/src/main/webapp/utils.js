@@ -1,9 +1,9 @@
 /*
  * utils.js
  *
- * Version: $Revision: 2081 $
+ * Version: $Revision: 3705 $
  *
- * Date: $Date: 2007-07-20 13:52:58 -0700 (Fri, 20 Jul 2007) $
+ * Date: $Date: 2009-04-11 17:02:24 +0000 (Sat, 11 Apr 2009) $
  *
  * Copyright (c) 2004, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.

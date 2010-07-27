@@ -1,9 +1,9 @@
 /*
  * JSPSelectCollectionStep.java
  *
- * Version: $Revision$
+ * Version: $Revision: 3705 $
  *
- * Date: $Date$
+ * Date: $Date: 2009-04-11 17:02:24 +0000 (Sat, 11 Apr 2009) $
  *
  * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -89,7 +89,7 @@ import org.dspace.submit.step.SelectCollectionStep;
  * @see org.dspace.submit.step.SelectCollectionStep
  * 
  * @author Tim Donohue
- * @version $Revision$
+ * @version $Revision: 3705 $
  */
 public class JSPSelectCollectionStep extends JSPStep
 {

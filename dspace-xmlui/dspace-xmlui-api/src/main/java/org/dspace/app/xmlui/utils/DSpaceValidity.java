@@ -1,9 +1,9 @@
 /*
  * DSpaceValidity.java
  *
- * Version: $Revision: 1.3 $
+ * Version: $Revision: 3992 $
  *
- * Date: $Date: 2006/04/27 01:19:52 $
+ * Date: $Date: 2009-07-01 21:07:29 +0000 (Wed, 01 Jul 2009) $
  *
  * Copyright (c) 2002, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -57,20 +57,20 @@ import org.dspace.eperson.EPerson;
 import org.dspace.eperson.Group;
 
 /**
- * This is a validity object specificaly implemented for the caching 
+ * This is a validity object specifically implemented for the caching 
  * needs of DSpace, Manakin, and Cocoon.
  * 
  * The basic idea is that each time a DSpace object rendered by a cocoon 
  * component the object and everything about it that makes it unique should 
  * be reflected in the validity object for the component. By following this 
- * principle if the object has been updated externaly then the cache will be
+ * principle if the object has been updated externally then the cache will be
  * invalidated.
  * 
  * This DSpaceValidity object makes this processes easier by abstracting out
  * the processes of determining what is unique about a DSpace object. A class
  * is expected to create a new DSpaceValidity object and add() to it all 
  * DSpaceObjects that are rendered by the component. This validity object will 
- * seralize all those objects to a string, take a hash of the string and compare
+ * serialize all those objects to a string, take a hash of the string and compare
  * the hash of the string for any updates.
  * 
  * 
@@ -298,6 +298,8 @@ public class DSpaceValidity implements SourceValidity
             
             validityKey.append("Item:");
             validityKey.append(item.getHandle());            
+            validityKey.append(item.getOwningCollection());
+            validityKey.append(item.getLastModified());
             // Include all metadata values in the validity key.
             DCValue[] dcvs = item.getDC(Item.ANY,Item.ANY,Item.ANY);
             for (DCValue dcv : dcvs)

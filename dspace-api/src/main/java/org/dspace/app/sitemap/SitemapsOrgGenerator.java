@@ -1,12 +1,11 @@
 /*
  * SitemapsOrgGenerator.java
  *
- * Version: $Revision: 1.1 $
+ * Version: $Revision: 3733 $
  *
- * Date: $Date: 2006/03/17 00:04:38 $
+ * Date: $Date: 2009-04-24 03:52:11 +0000 (Fri, 24 Apr 2009) $
  *
- * Copyright (c) 2002-2006, Hewlett-Packard Company and Massachusetts
- * Institute of Technology.  All rights reserved.
+ * Copyright (c) 2002-2009, The DSpace Foundation.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -19,8 +18,7 @@
  * notice, this list of conditions and the following disclaimer in the
  * documentation and/or other materials provided with the distribution.
  *
- * - Neither the name of the Hewlett-Packard Company nor the name of the
- * Massachusetts Institute of Technology nor the names of their
+ * - Neither the name of the DSpace Foundation nor the names of its
  * contributors may be used to endorse or promote products derived from
  * this software without specific prior written permission.
  *
@@ -125,7 +123,7 @@ public class SitemapsOrgGenerator extends AbstractGenerator
             urlText.append("<lastmod>").append(w3dtfFormat.format(lastMod))
                     .append("</lastmod>");
         }
-        urlText.append("</url>");
+        urlText.append("</url>\n");
 
         return urlText.toString();
     }
@@ -153,7 +151,7 @@ public class SitemapsOrgGenerator extends AbstractGenerator
         {
             output.print("<sitemap><loc>" + indexURLStem + i + indexURLTail
                     + "</loc>");
-            output.print("<lastmod>" + now + "</lastmod></sitemap>");
+            output.print("<lastmod>" + now + "</lastmod></sitemap>\n");
         }
 
         output.println("</sitemapindex>");

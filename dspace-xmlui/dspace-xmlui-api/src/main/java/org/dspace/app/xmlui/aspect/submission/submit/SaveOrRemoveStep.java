@@ -1,9 +1,9 @@
 /*
  * SaveOrRemoveStep.java
  *
- * Version: $Revision: 1.4 $
+ * Version: $Revision: 3705 $
  *
- * Date: $Date: 2006/07/13 23:20:54 $
+ * Date: $Date: 2009-04-11 17:02:24 +0000 (Sat, 11 Apr 2009) $
  *
  * Copyright (c) 2002, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -107,9 +107,8 @@ public class SaveOrRemoveStep extends AbstractStep
 		saveOrCancel.setHead(T_head);
 		saveOrCancel.addItem(T_info1);
 		
-		saveOrCancel.addItem().addButton("submit_back").setValue(T_submit_back);
-		
         org.dspace.app.xmlui.wing.element.Item actions = saveOrCancel.addItem();
+        actions.addButton("submit_back").setValue(T_submit_back);
         actions.addButton("submit_save").setValue(T_submit_save);
 		actions.addButton("submit_remove").setValue(T_submit_remove);
 	}

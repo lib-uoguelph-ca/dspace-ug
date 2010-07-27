@@ -3,9 +3,9 @@
 <!--
   DS-METS-1.0.xsl
 
-  Version: $Revision: 1.2 $
+  Version: $Revision: 4902 $
  
-  Date: $Date: 2007/06/27 22:54:52 $
+  Date: $Date: 2010-05-10 04:29:48 +0000 (Mon, 10 May 2010) $
  
   Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
   Institute of Technology.  All rights reserved.
@@ -90,7 +90,11 @@
                 <th><i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-size</i18n:text></th>
                 <th><i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-format</i18n:text></th>
                 <th><i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-view</i18n:text></th>
-            </tr>
+                <!-- Display header for 'Description' only if at least one bitstream contains a description -->
+                <xsl:if test="mets:file/mets:FLocat/@xlink:label != ''">
+                    <th><i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-description</i18n:text></th>
+                </xsl:if>
+		    </tr>
             <xsl:choose>
                 <!-- If one exists and it's of text/html MIME type, only display the primary bitstream -->
                 <xsl:when test="mets:file[@ID=$primaryBitstream]/@MIMETYPE='text/html'">
@@ -162,17 +166,23 @@
                     </xsl:otherwise>
                 </xsl:choose>
             </td>
-            <!-- Currently format carries forward the mime type. In the original DSpace, this 
-                would get resolved to an application via the Bitstream Registry, but we are
-                constrained by the capabilities of METS and can't really pass that info through. -->
-            <td><xsl:value-of select="substring-before(@MIMETYPE,'/')"/>
-                <xsl:text>/</xsl:text>
-                <xsl:value-of select="substring-after(@MIMETYPE,'/')"/>
+            <!-- Lookup File Type description in local messages.xml based on MIME Type.
+                In the original DSpace, this would get resolved to an application via
+                the Bitstream Registry, but we are constrained by the capabilities of METS
+                and can't really pass that info through. -->
+            <td>
+              <xsl:call-template name="getFileTypeDesc">
+                <xsl:with-param name="mimetype">
+                  <xsl:value-of select="substring-before(@MIMETYPE,'/')"/>
+                  <xsl:text>/</xsl:text>
+                  <xsl:value-of select="substring-after(@MIMETYPE,'/')"/>
+                </xsl:with-param>
+              </xsl:call-template>
             </td>
             <td>
                 <xsl:choose>
                     <xsl:when test="$context/mets:fileSec/mets:fileGrp[@USE='THUMBNAIL']/
-                        mets:file[@GROUP_ID=current()/@GROUP_ID]">
+                        mets:file[@GROUPID=current()/@GROUPID]">
                         <a class="image-link">
                             <xsl:attribute name="href">
                                 <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
@@ -180,7 +190,7 @@
                             <img alt="Thumbnail">
                                 <xsl:attribute name="src">
                                     <xsl:value-of select="$context/mets:fileSec/mets:fileGrp[@USE='THUMBNAIL']/
-                                        mets:file[@GROUP_ID=current()/@GROUP_ID]/mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
+                                        mets:file[@GROUPID=current()/@GROUPID]/mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
                                 </xsl:attribute>
                             </img>
                         </a>
@@ -195,11 +205,39 @@
                     </xsl:otherwise>
                 </xsl:choose>                        
             </td>
+	    <!-- Display the contents of 'Description' as long as at least one bitstream contains a description -->
+	    <xsl:if test="$context/mets:fileSec/mets:fileGrp[@USE='CONTENT']/mets:file/mets:FLocat/@xlink:label != ''">
+	        <td>
+	            <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:label"/>
+	        </td>
+	    </xsl:if>
+
         </tr>
     </xsl:template>
     
+    <!--
+    File Type Mapping template
+
+    This maps format MIME Types to human friendly File Type descriptions.
+    Essentially, it looks for a corresponding 'key' in your messages.xml of this
+    format: xmlui.dri2xhtml.mimetype.{MIME Type}
     
-    
+    (e.g.) <message key="xmlui.dri2xhtml.mimetype.application/pdf">PDF</message>
+
+    If a key is found, the translated value is displayed as the File Type (e.g. PDF)
+    If a key is NOT found, the MIME Type is displayed by default (e.g. application/pdf)
+    -->
+    <xsl:template name="getFileTypeDesc">
+      <xsl:param name="mimetype"/>
+
+      <!--Build full key name for MIME type (format: xmlui.dri2xhtml.mimetype.{MIME type})-->
+      <xsl:variable name="mimetype-key">xmlui.dri2xhtml.mimetype.<xsl:value-of select='$mimetype'/></xsl:variable>
+
+      <!--Lookup the MIME Type's key in messages.xml language file.  If not found, just display MIME Type-->
+      <i18n:text i18n:key="{$mimetype-key}"><xsl:value-of select="$mimetype"/></i18n:text>
+    </xsl:template>
+
+
     <!-- Generate the license information from the file section -->
     <xsl:template match="mets:fileGrp[@USE='CC-LICENSE' or @USE='LICENSE']">
         <div class="license-info">

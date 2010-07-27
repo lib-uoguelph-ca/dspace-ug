@@ -1,12 +1,11 @@
 /*
  * LogAnalyser.java
  *
- * Version: $Revision: 3081 $
+ * Version: $Revision: 4735 $
  *
- * Date: $Date: 2008-09-03 02:24:29 -0700 (Wed, 03 Sep 2008) $
+ * Date: $Date: 2010-02-01 23:11:43 +0000 (Mon, 01 Feb 2010) $
  *
- * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
- * Institute of Technology.  All rights reserved.
+ * Copyright (c) 2002-2009, The DSpace Foundation.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -19,8 +18,7 @@
  * notice, this list of conditions and the following disclaimer in the
  * documentation and/or other materials provided with the distribution.
  *
- * - Neither the name of the Hewlett-Packard Company nor the name of the
- * Massachusetts Institute of Technology nor the names of their
+ * - Neither the name of the DSpace Foundation nor the names of its
  * contributors may be used to endorse or promote products derived from
  * this software without specific prior written permission.
  *
@@ -44,6 +42,7 @@ import org.dspace.app.statistics.LogLine;
 
 import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Context;
+import org.dspace.core.LogManager;
 import org.dspace.storage.rdbms.DatabaseManager;
 import org.dspace.storage.rdbms.TableRow;
 
@@ -51,9 +50,6 @@ import java.sql.SQLException;
 
 import java.lang.Long;
 import java.lang.StringBuffer;
-
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -230,7 +226,7 @@ public class LogAnalyser
    private static String fileTemplate = "dspace\\.log.*";
         
    /** the config file from which to configure the analyser */
-   private static String configFile = ConfigurationManager.getProperty("dspace.dir") + 
+   public static String configFile = ConfigurationManager.getProperty("dspace.dir") + 
                             File.separator + "config" + File.separator +
                             "dstat.cfg";
    
@@ -425,12 +421,12 @@ public class LogAnalyser
                     {
                         // first find out if we are constraining by date and 
                         // if so apply the restrictions
-                        if (logLine.beforeDate(startDate))
+                        if ((startDate != null) && (!logLine.afterDate(startDate)))
                         {
                             continue;
                         }
                         
-                        if (logLine.afterDate(endDate))
+                        if ((endDate !=null) && (!logLine.beforeDate(endDate)))
                         {
                             break;
                         }
@@ -906,6 +902,20 @@ public class LogAnalyser
     public static void readConfig(String configFile)
         throws IOException
     {
+        //instantiate aggregators
+        actionAggregator = new HashMap();
+        searchAggregator = new HashMap();
+        userAggregator = new HashMap();
+        itemAggregator = new HashMap();
+        archiveStats = new HashMap();
+
+        //instantiate lists
+        generalSummary = new ArrayList();
+        excludeWords = new ArrayList();
+        excludeTypes = new ArrayList();
+        excludeChars = new ArrayList();
+        itemTypes = new ArrayList();
+
         // prepare our standard file readers and buffered readers
         FileReader fr = null;
         BufferedReader br = null;
@@ -1145,10 +1155,10 @@ public class LogAnalyser
         {
             // set up a new log line object
             LogLine logLine = new LogLine(parseDate(match.group(1).trim()),
-                                          match.group(2).trim(),
-                                          match.group(3).trim(),
-                                          match.group(4).trim(),
-                                          match.group(5).trim());
+                                          LogManager.unescapeLogField(match.group(2)).trim(),
+                                          LogManager.unescapeLogField(match.group(3)).trim(),
+                                          LogManager.unescapeLogField(match.group(4)).trim(),
+                                          LogManager.unescapeLogField(match.group(5)).trim());
             
             return logLine;
         }

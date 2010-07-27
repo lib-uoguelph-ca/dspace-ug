@@ -1,9 +1,9 @@
 /*
  * RetrieveServlet.java
  *
- * Version: $Revision: 1189 $
+ * Version: $Revision: 4430 $
  *
- * Date: $Date: 2005-04-20 07:23:44 -0700 (Wed, 20 Apr 2005) $
+ * Date: $Date: 2009-10-10 17:21:30 +0000 (Sat, 10 Oct 2009) $
  *
  * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -55,6 +55,8 @@ import org.dspace.core.Constants;
 import org.dspace.core.Context;
 import org.dspace.core.LogManager;
 import org.dspace.core.Utils;
+import org.dspace.usage.UsageEvent;
+import org.dspace.utils.DSpace;
 
 /**
  * Servlet for retrieving bitstreams. The bits are simply piped to the user.
@@ -62,7 +64,7 @@ import org.dspace.core.Utils;
  * <code>/retrieve/bitstream-id</code>
  * 
  * @author Robert Tansley
- * @version $Revision: 1189 $
+ * @version $Revision: 4430 $
  */
 public class RetrieveServlet extends DSpaceServlet
 {
@@ -113,15 +115,26 @@ public class RetrieveServlet extends DSpaceServlet
             log.info(LogManager.getHeader(context, "view_bitstream",
                     "bitstream_id=" + bitstream.getID()));
 
+            new DSpace().getEventService().fireEvent(
+            		new UsageEvent(
+            				UsageEvent.Action.VIEW,
+            				request, 
+            				context, 
+            				bitstream));
+            
+            //UsageEvent ue = new UsageEvent();
+           // ue.fire(request, context, AbstractUsageEvent.VIEW,
+		   //Constants.BITSTREAM, bitstream.getID());
+
+            // Pipe the bits
+            InputStream is = bitstream.retrieve();
+
             // Set the response MIME type
             response.setContentType(bitstream.getFormat().getMIMEType());
 
             // Response length
             response.setHeader("Content-Length", String.valueOf(bitstream
                     .getSize()));
-
-            // Pipe the bits
-            InputStream is = bitstream.retrieve();
 
             Utils.bufferedCopy(is, response.getOutputStream());
             is.close();

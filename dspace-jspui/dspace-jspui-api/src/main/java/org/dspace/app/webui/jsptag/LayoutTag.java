@@ -1,9 +1,9 @@
 /*
  * LayoutTag.java
  *
- * Version: $Revision: 2250 $
+ * Version: $Revision: 3705 $
  *
- * Date: $Date: 2007-10-11 08:55:37 -0700 (Thu, 11 Oct 2007) $
+ * Date: $Date: 2009-04-11 17:02:24 +0000 (Sat, 11 Apr 2009) $
  *
  * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -104,7 +104,7 @@ import org.dspace.app.webui.servlet.FeedServlet;
  * </p>
  * 
  * @author Robert Tansley
- * @version $Revision: 2250 $
+ * @version $Revision: 3705 $
  */
 public class LayoutTag extends TagSupport
 {

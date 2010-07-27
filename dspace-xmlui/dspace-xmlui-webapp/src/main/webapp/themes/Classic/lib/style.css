@@ -1,9 +1,9 @@
 /*
   style.css
 
-  Version: $Revision: 1.15 $
+  Version: $Revision: 4461 $
  
-  Date: $Date: 2006/07/27 22:54:53 $
+  Date: $Date: 2009-10-20 02:42:11 +0000 (Tue, 20 Oct 2009) $
  
   Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
   Institute of Technology.  All rights reserved.
@@ -532,6 +532,21 @@ th.doubleIndent {
 }
 
 
+/* metadata import rows
+ * additions and deletions
+ */
+
+tr.ds-table-row.metadata-addition {
+	background-color: #CCFFCC;
+}
+
+tr.ds-table-row.metadata-deletion {
+	background-color: #CCCCCC;
+}
+
+tr.ds-table-row.metadata-addition td,tr.ds-table-row.metadata-deletion td {
+	border-top: 1px solid black;
+}
 
 
 /*******************************

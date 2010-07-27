@@ -1,9 +1,9 @@
 /*
  * ItemPreviewTag.java
  *
- * Version: $Revision: 1426 $
+ * Version: $Revision: 3705 $
  *
- * Date: $Date: 2006-03-10 12:22:52 -0800 (Fri, 10 Mar 2006) $
+ * Date: $Date: 2009-04-11 17:02:24 +0000 (Sat, 11 Apr 2009) $
  *
  * Copyright (c) 2002-2006, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -65,7 +65,7 @@ import javax.servlet.jsp.tagext.TagSupport;
  * </p>
  * 
  * @author Scott Yeadon
- * @version $Revision: 1426 $
+ * @version $Revision: 3705 $
  */
 public class ItemPreviewTag extends TagSupport
 {

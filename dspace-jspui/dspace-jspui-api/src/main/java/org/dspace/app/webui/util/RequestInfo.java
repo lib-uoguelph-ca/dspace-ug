@@ -1,9 +1,9 @@
 /*
  * RequestInfo.java
  *
- * Version: $Revision: 2941 $
+ * Version: $Revision: 3705 $
  *
- * Date: $Date: 2008-05-20 08:18:41 -0700 (Tue, 20 May 2008) $
+ * Date: $Date: 2009-04-11 17:02:24 +0000 (Sat, 11 Apr 2009) $
  *
  * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -57,7 +57,7 @@ import javax.servlet.http.HttpServletRequestWrapper;
  * Please ensure that nothing is added to this class that isn't also serializable
  *
  * @author Robert Tansley
- * @version $Revision: 2941 $
+ * @version $Revision: 3705 $
  */
 public class RequestInfo implements Serializable
 {

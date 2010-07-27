@@ -1,9 +1,9 @@
 <%--
   - edit-community.jsp
   -
-  - Version: $Revision: 2155 $
+  - Version: $Revision: 4309 $
   -
-  - Date: $Date: 2007-08-23 04:18:26 -0700 (Thu, 23 Aug 2007) $
+  - Date: $Date: 2009-09-30 19:20:07 +0000 (Wed, 30 Sep 2009) $
   -
   - Copyright (c) 2002, Hewlett-Packard Company and Massachusetts
   - Institute of Technology.  All rights reserved.
@@ -53,7 +53,9 @@
 <%@ page import="org.dspace.app.webui.servlet.admin.EditCommunitiesServlet" %>
 <%@ page import="org.dspace.content.Bitstream" %>
 <%@ page import="org.dspace.content.Community" %>
+<%@ page import="org.dspace.eperson.Group" %>
 <%@ page import="org.dspace.app.webui.util.UIUtil" %>
+<%@ page import="org.dspace.core.Utils" %>
 
 <%@ taglib uri="http://www.dspace.org/dspace-tags.tld" prefix="dspace" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
@@ -61,14 +63,28 @@
 <%
     Community community = (Community) request.getAttribute("community");
     int parentID = UIUtil.getIntParameter(request, "parent_community_id");
-    Boolean admin_b = (Boolean)request.getAttribute("admin_button");
-    boolean admin_button = (admin_b == null ? false : admin_b.booleanValue());
+    // Is the logged in user a sys admin
+    Boolean admin = (Boolean)request.getAttribute("is.admin");
+    boolean isAdmin = (admin == null ? false : admin.booleanValue());
     
+    Boolean adminCreateGroup = (Boolean)request.getAttribute("admin_create_button");
+    boolean bAdminCreateGroup = (adminCreateGroup == null ? false : adminCreateGroup.booleanValue());
+
+    Boolean adminRemoveGroup = (Boolean)request.getAttribute("admin_remove_button");
+    boolean bAdminRemoveGroup = (adminRemoveGroup == null ? false : adminRemoveGroup.booleanValue());
+    
+    Boolean policy = (Boolean)request.getAttribute("policy_button");
+    boolean bPolicy = (policy == null ? false : policy.booleanValue());
+
+    Boolean delete = (Boolean)request.getAttribute("delete_button");
+    boolean bDelete = (delete == null ? false : delete.booleanValue());
+
     String name = "";
     String shortDesc = "";
     String intro = "";
     String copy = "";
     String side = "";
+    Group admins = null;
 
     Bitstream logo = null;
     
@@ -80,6 +96,7 @@
         copy = community.getMetadata("copyright_text");
         side = community.getMetadata("side_bar_text");
         logo = community.getLogo();
+        admins = community.getAdministrators();
     }
 %>
 
@@ -106,7 +123,7 @@
         <fmt:param><%= community.getHandle() %></fmt:param>
         </fmt:message>
     </h1>
-    <% if(admin_button ) { %>
+    <% if(bDelete) { %>
       <center>
         <table width="70%">
           <tr>
@@ -138,30 +155,30 @@
      =========================================================== --%>
             <tr>
                 <td class="submitFormLabel"><fmt:message key="jsp.tools.edit-community.form.label1"/></td>
-                <td><input type="text" name="name" value="<%= name %>" size="50" /></td>
+                <td><input type="text" name="name" value="<%= Utils.addEntities(name) %>" size="50" /></td>
             </tr>
             <tr>
                 <td class="submitFormLabel"><fmt:message key="jsp.tools.edit-community.form.label2"/></td>
                 <td>
-                    <input type="text" name="short_description" value="<%= shortDesc %>" size="50" />
+                    <input type="text" name="short_description" value="<%= Utils.addEntities(shortDesc) %>" size="50" />
                 </td>
             </tr>
             <tr>
                 <td class="submitFormLabel"><fmt:message key="jsp.tools.edit-community.form.label3"/></td>
                 <td>
-                    <textarea name="introductory_text" rows="6" cols="50"><%= intro %></textarea>
+                    <textarea name="introductory_text" rows="6" cols="50"><%= Utils.addEntities(intro) %></textarea>
                 </td>
             </tr>
             <tr>
                 <td class="submitFormLabel"><fmt:message key="jsp.tools.edit-community.form.label4"/></td>
                 <td>
-                    <textarea name="copyright_text" rows="6" cols="50"><%= copy %></textarea>
+                    <textarea name="copyright_text" rows="6" cols="50"><%= Utils.addEntities(copy) %></textarea>
                 </td>
             </tr>
             <tr>
                 <td class="submitFormLabel"><fmt:message key="jsp.tools.edit-community.form.label5"/></td>
                 <td>
-                    <textarea name="side_bar_text" rows="6" cols="50"><%= side %></textarea>
+                    <textarea name="side_bar_text" rows="6" cols="50"><%= Utils.addEntities(side) %></textarea>
                 </td>
             </tr>
 <%-- ===========================================================
@@ -187,7 +204,38 @@
 <%  } %>
                 </td>
             </tr>
-    <% if(admin_button ) { %>
+    <% if(bAdminCreateGroup || (admins != null && bAdminRemoveGroup)) { %>
+ <%-- ===========================================================
+     Community Administrators
+     =========================================================== --%>
+            <tr>
+                <td class="submitFormLabel"><fmt:message key="jsp.tools.edit-community.form.label8"/></td>
+                <td>
+			<%  if (admins == null) {
+					if (bAdminCreateGroup) {
+			%>
+                    <input type="submit" name="submit_admins_create" value="<fmt:message key="jsp.tools.edit-community.form.button.create"/>" />
+			<%  	}
+				} 
+				else 
+				{ 
+					if (bAdminCreateGroup) { %>
+                    <input type="submit" name="submit_admins_edit" value="<fmt:message key="jsp.tools.edit-community.form.button.edit"/>" />
+				<%  }
+					if (bAdminRemoveGroup) { %>
+					<input type="submit" name="submit_admins_remove" value="<fmt:message key="jsp.tools.edit-community.form.button.remove"/>" />
+			<%  	}
+				}
+			%>                    
+                </td>
+            </tr>   
+    
+	<% }
+    	
+    if (bPolicy) { 
+    
+    %>
+
 <%-- ===========================================================
      Edit community's policies
      =========================================================== --%>

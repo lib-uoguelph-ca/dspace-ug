@@ -1,12 +1,11 @@
 /*
  * IPMatcher.java
  *
- * Version: $Revision$
+ * Version: $Revision: 3735 $
  *
- * Date: $Date$
+ * Date: $Date: 2009-04-24 04:05:53 +0000 (Fri, 24 Apr 2009) $
  *
- * Copyright (c) 2002-2007, Hewlett-Packard Company and Massachusetts
- * Institute of Technology.  All rights reserved.
+ * Copyright (c) 2002-2009, The DSpace Foundation.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -19,8 +18,7 @@
  * notice, this list of conditions and the following disclaimer in the
  * documentation and/or other materials provided with the distribution.
  *
- * - Neither the name of the Hewlett-Packard Company nor the name of the
- * Massachusetts Institute of Technology nor the names of their
+ * - Neither the name of the DSpace Foundation nor the names of its
  * contributors may be used to endorse or promote products derived from
  * this software without specific prior written permission.
  *
@@ -56,7 +54,7 @@ package org.dspace.authenticate;
  * <li>CIDR slash notation, e.g. {@code 18.25.0.0/16}</li>
  * </ul>
  * 
- * @version $Revision$
+ * @version $Revision: 3735 $
  * @author Robert Tansley
  */
 public class IPMatcher

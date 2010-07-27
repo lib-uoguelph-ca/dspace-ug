@@ -1,9 +1,9 @@
 /*
  * MetadataStyleSelection.java
  *
- * Version: $Revision: 1 $
+ * Version: $Revision: 3705 $
  *
- * Date: $Date: 2007-10-25 09:00:00 +0100 (thu, 25 oct 2007) $
+ * Date: $Date: 2009-04-11 17:02:24 +0000 (Sat, 11 Apr 2009) $
  *
  * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -51,7 +51,7 @@ import org.dspace.core.ConfigurationManager;
  * as name for the display style of the item. Style name is case insensitive.
  * 
  * @author Andrea Bollini
- * @version $Revision: 1 $
+ * @version $Revision: 3705 $
  * 
  */
 public class MetadataStyleSelection extends AKeyBasedStyleSelection

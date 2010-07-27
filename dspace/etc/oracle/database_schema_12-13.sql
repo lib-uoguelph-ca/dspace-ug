@@ -1,12 +1,11 @@
 --
 -- database_schema_12-13.sql
 --
--- Version: $Revision: 1210 $
+-- Version: $Revision: 3732 $
 --
--- Date:    $Date: 2005-05-15 21:06:41 -0700 (Sun, 15 May 2005) $
+-- Date:    $Date: 2009-04-24 03:26:59 +0000 (Fri, 24 Apr 2009) $
 --
--- Copyright (c) 2002, Hewlett-Packard Company and Massachusetts
--- Institute of Technology.  All rights reserved.
+-- Copyright (c) 2002-2009, The DSpace Foundation.  All rights reserved.
 -- 
 -- Redistribution and use in source and binary forms, with or without
 -- modification, are permitted provided that the following conditions are
@@ -19,8 +18,7 @@
 -- notice, this list of conditions and the following disclaimer in the
 -- documentation and/or other materials provided with the distribution.
 -- 
--- - Neither the name of the Hewlett-Packard Company nor the name of the
--- Massachusetts Institute of Technology nor the names of their
+-- - Neither the name of the DSpace Foundation nor the names of its
 -- contributors may be used to endorse or promote products derived from
 -- this software without specific prior written permission.
 -- 

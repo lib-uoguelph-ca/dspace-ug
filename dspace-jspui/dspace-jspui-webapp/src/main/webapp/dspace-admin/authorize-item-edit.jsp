@@ -1,11 +1,11 @@
 <%--
   - authorize_item_edit.jsp
   -
-  - $Id: authorize-item-edit.jsp 1947 2007-05-18 13:50:29Z cjuergen $
+  - $Id: authorize-item-edit.jsp 3705 2009-04-11 17:02:24Z mdiggory $
   -
-  - Version: $Revision: 1947 $
+  - Version: $Revision: 3705 $
   -
-  - Date: $Date: 2007-05-18 06:50:29 -0700 (Fri, 18 May 2007) $
+  - Date: $Date: 2009-04-11 17:02:24 +0000 (Sat, 11 Apr 2009) $
   -
   - Copyright (c) 2002, Hewlett-Packard Company and Massachusetts
   - Institute of Technology.  All rights reserved.

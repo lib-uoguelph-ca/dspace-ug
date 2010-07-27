@@ -1,12 +1,11 @@
 /*
  * SubmissionInfo.java
  *
- * Version: $Revision: 2491 $
+ * Version: $Revision: 3734 $
  *
- * Date: $Date: 2008-01-08 09:53:25 -0800 (Tue, 08 Jan 2008) $
+ * Date: $Date: 2009-04-24 04:00:19 +0000 (Fri, 24 Apr 2009) $
  *
- * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
- * Institute of Technology.  All rights reserved.
+ * Copyright (c) 2002-2009, The DSpace Foundation.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -19,8 +18,7 @@
  * notice, this list of conditions and the following disclaimer in the
  * documentation and/or other materials provided with the distribution.
  *
- * - Neither the name of the Hewlett-Packard Company nor the name of the
- * Massachusetts Institute of Technology nor the names of their
+ * - Neither the name of the DSpace Foundation nor the names of its
  * contributors may be used to endorse or promote products derived from
  * this software without specific prior written permission.
  *
@@ -60,7 +58,7 @@ import org.dspace.workflow.WorkflowItem;
  * Information about an item being editing with the submission UI
  * 
  * @author Robert Tansley
- * @version $Revision: 2491 $
+ * @version $Revision: 3734 $
  */
 public class SubmissionInfo
 {

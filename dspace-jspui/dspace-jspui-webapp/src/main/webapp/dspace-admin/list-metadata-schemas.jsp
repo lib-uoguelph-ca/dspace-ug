@@ -1,9 +1,9 @@
 <%--
   - list-metadata-schemas.jsp
   -
-  - Version: $Revision: 1947 $
+  - Version: $Revision: 3705 $
   -
-  - Date: $Date: 2007-05-18 06:50:29 -0700 (Fri, 18 May 2007) $
+  - Date: $Date: 2009-04-11 17:02:24 +0000 (Sat, 11 Apr 2009) $
   -
   - Copyright (c) 2005, Hewlett-Packard Company and Massachusetts
   - Institute of Technology.  All rights reserved.

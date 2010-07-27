@@ -1,7 +1,7 @@
 <%--
   - group_group_select.jsp
   -
-  - $Id: group-group-select.jsp 1325 2005-10-13 05:49:39Z syeadon $
+  - $Id: group-group-select.jsp 3705 2009-04-11 17:02:24Z mdiggory $
   -
   - Copyright (c) 2002, Hewlett-Packard Company and Massachusetts
   - Institute of Technology.  All rights reserved.

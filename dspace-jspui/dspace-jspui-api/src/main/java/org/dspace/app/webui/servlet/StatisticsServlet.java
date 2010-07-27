@@ -1,9 +1,9 @@
 /*
  * StatisticsServlet.java
  *
- * Version: $Revision: 3036 $
+ * Version: $Revision: 3705 $
  *
- * Date: $Date: 2008-08-06 08:52:30 -0700 (Wed, 06 Aug 2008) $
+ * Date: $Date: 2009-04-11 17:02:24 +0000 (Sat, 11 Apr 2009) $
  *
  * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -71,7 +71,7 @@ import org.dspace.eperson.Group;
  * repository
  *
  * @author   Richard Jones
- * @version  $Revision: 3036 $
+ * @version  $Revision: 3705 $
  */
 public class StatisticsServlet extends org.dspace.app.webui.servlet.DSpaceServlet
 {

@@ -1,12 +1,11 @@
 /*
  * BrowseCreateDAOPostgres.java
  *
- * Version: $Revision: $
+ * Version: $Revision: 4365 $
  *
- * Date: $Date:  $
+ * Date: $Date: 2009-10-05 23:52:42 +0000 (Mon, 05 Oct 2009) $
  *
- * Copyright (c) 2002-2007, Hewlett-Packard Company and Massachusetts
- * Institute of Technology.  All rights reserved.
+ * Copyright (c) 2002-2009, The DSpace Foundation.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -19,8 +18,7 @@
  * notice, this list of conditions and the following disclaimer in the
  * documentation and/or other materials provided with the distribution.
  *
- * - Neither the name of the Hewlett-Packard Company nor the name of the
- * Massachusetts Institute of Technology nor the names of their
+ * - Neither the name of the DSpace Foundation nor the names of its
  * contributors may be used to endorse or promote products derived from
  * this software without specific prior written permission.
  *
@@ -47,6 +45,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.dspace.core.Context;
+import org.dspace.core.ConfigurationManager;
 import org.dspace.storage.rdbms.DatabaseManager;
 import org.dspace.storage.rdbms.TableRow;
 import org.dspace.storage.rdbms.TableRowIterator;
@@ -189,10 +188,12 @@ public class BrowseCreateDAOPostgres implements BrowseCreateDAO
     {
         try
         {
-            String[] arr = new String[3];
-            arr[0] = "CREATE INDEX " + disTable + "_value_idx ON " + disTable + "(sort_value);";
-            arr[1] = "CREATE INDEX " + mapTable + "_item_id_idx ON " + mapTable + "(item_id);";
-            arr[2] = "CREATE INDEX " + mapTable + "_dist_idx ON " + mapTable + "(distinct_id);";
+            String[] arr = new String[5];
+            arr[0] = "CREATE INDEX " + disTable + "_svalue_idx ON " + disTable + "(sort_value)";
+            arr[1] = "CREATE INDEX " + disTable + "_value_idx ON " + disTable + "(value)";
+            arr[2] = "CREATE INDEX " + disTable + "_uvalue_idx ON " + disTable + "(UPPER(value))";
+            arr[3] = "CREATE INDEX " + mapTable + "_item_id_idx ON " + mapTable + "(item_id)";
+            arr[4] = "CREATE INDEX " + mapTable + "_dist_idx ON " + mapTable + "(distinct_id)";
             
             if (execute)
             {
@@ -222,7 +223,7 @@ public class BrowseCreateDAOPostgres implements BrowseCreateDAO
             String create = "CREATE TABLE " + map + " (" +
                             "map_id integer primary key, " +
                             "item_id integer references item(item_id), " +
-                            "distinct_id integer references " + table + "(id)" +
+                            "distinct_id integer references " + table + "(distinct_id)" +
                             ");";
             
             if (execute)
@@ -319,6 +320,8 @@ public class BrowseCreateDAOPostgres implements BrowseCreateDAO
         {
             String create = "CREATE TABLE " + table + " (" +
                             "id integer primary key, " + 
+                            "distinct_id integer UNIQUE, " +
+                            "authority VARCHAR(100), " +
                             "value " + getValueColumnDefinition() + ", " +
                             "sort_value " + getSortColumnDefinition() +
                             ");";
@@ -509,7 +512,7 @@ public class BrowseCreateDAOPostgres implements BrowseCreateDAO
     /* (non-Javadoc)
      * @see org.dspace.browse.BrowseCreateDAO#getDistinctID(java.lang.String, java.lang.String, java.lang.String)
      */
-    public int getDistinctID(String table, String value, String sortValue)
+    public int getDistinctID(String table, String value, String authority, String sortValue)
         throws BrowseException
     {
         TableRowIterator tri = null;
@@ -521,17 +524,50 @@ public class BrowseCreateDAOPostgres implements BrowseCreateDAO
         
         try
         {
-            Object[] params = { value };
-            String select = "SELECT id FROM " + table + " WHERE value = ?";
+            Object[] params;
+            String select;
+			if (authority != null)
+			{
+				params = new Object[]{ value, authority };
+			}
+			else
+			{
+				params = new Object[]{ value };
+			}
+
+            if (ConfigurationManager.getBooleanProperty("webui.browse.metadata.case-insensitive", false))
+            {
+				if (authority != null)
+	            {	             
+	                select = "SELECT distinct_id FROM " + table + " WHERE UPPER(value) = UPPER(?) and authority = ?";
+	            }
+	            else
+	            {	                
+	                select = "SELECT distinct_id FROM " + table + " WHERE UPPER(value) = UPPER(?) and authority IS NULL";
+	            }
+            }
+            else
+            {
+                select = "SELECT id FROM " + table + " WHERE value = ?";
+				if (authority != null)
+	            {	             
+	                select = "SELECT distinct_id FROM " + table + " WHERE value = ? and authority = ?";
+	            }
+	            else
+	            {	                
+	                select = "SELECT distinct_id FROM " + table + " WHERE value = ? and authority IS NULL";
+	            }
+            }
+
             tri = DatabaseManager.query(context, select, params);
             int distinctID = -1;
             if (!tri.hasNext())
             {
-                distinctID = insertDistinctRecord(table, value, sortValue);
+                distinctID = insertDistinctRecord(table, value, authority, sortValue);
             }
             else
             {
-                distinctID = tri.next().getIntColumn("id");
+                distinctID = tri.next().getIntColumn("distinct_id");
             }
 
             if (log.isDebugEnabled())
@@ -629,17 +665,22 @@ public class BrowseCreateDAOPostgres implements BrowseCreateDAO
     /* (non-Javadoc)
      * @see org.dspace.browse.BrowseCreateDAO#insertDistinctRecord(java.lang.String, java.lang.String, java.lang.String)
      */
-    public int insertDistinctRecord(String table, String value, String sortValue)
+    public int insertDistinctRecord(String table, String value, String authority, String sortValue)
         throws BrowseException
     {
-        log.debug("insertDistinctRecord: table=" + table + ",value=" + value+ ",sortValue=" + sortValue);
+        log.debug("insertDistinctRecord: table=" + table + ",value=" + value+ ",authority=" + authority+",sortValue=" + sortValue);
         try
         {
             TableRow dr = DatabaseManager.create(context, table);
+            if (authority != null)
+            {
+                dr.setColumn("authority", utils.truncateValue(authority,100));
+            }
             dr.setColumn("value", utils.truncateValue(value));
             dr.setColumn("sort_value", utils.truncateSortValue(sortValue));
-            DatabaseManager.update(context, dr);
             int distinctID = dr.getIntColumn("id");
+            dr.setColumn("distinct_id", distinctID);
+            DatabaseManager.update(context, dr);
             
             log.debug("insertDistinctRecord: return=" + distinctID);
             return distinctID;

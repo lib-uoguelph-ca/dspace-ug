@@ -1,12 +1,11 @@
 /*
  * XHTMLHeadDisseminationCrosswalk.java
  *
- * Version: $Revision$
+ * Version: $Revision: 3761 $
  *
- * Date: $Date$
+ * Date: $Date: 2009-05-07 04:18:02 +0000 (Thu, 07 May 2009) $
  *
- * Copyright (c) 2002-2006, Hewlett-Packard Company and Massachusetts
- * Institute of Technology.  All rights reserved.
+ * Copyright (c) 2002-2009, The DSpace Foundation.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -19,8 +18,7 @@
  * notice, this list of conditions and the following disclaimer in the
  * documentation and/or other materials provided with the distribution.
  *
- * - Neither the name of the Hewlett-Packard Company nor the name of the
- * Massachusetts Institute of Technology nor the names of their
+ * - Neither the name of the DSpace Foundation nor the names of its
  * contributors may be used to endorse or promote products derived from
  * this software without specific prior written permission.
  *
@@ -79,7 +77,7 @@ import java.util.*;
  * TODO: This may usefully be extended later to work with communities and
  * collections.
  *
- * @version $Revision$
+ * @version $Revision: 3761 $
  * @author Robert Tansley
  */
 public class XHTMLHeadDisseminationCrosswalk extends SelfNamedPlugin implements
@@ -232,6 +230,9 @@ public class XHTMLHeadDisseminationCrosswalk extends SelfNamedPlugin implements
                 key = v.schema + "." + v.element;
                 name = names.get(key);
             }
+		    
+            // Do not include description.provenance
+            boolean provenance = "description".equals(v.element) && "provenance".equals(v.qualifier);
 
             if (name == null)
             {
@@ -244,7 +245,7 @@ public class XHTMLHeadDisseminationCrosswalk extends SelfNamedPlugin implements
                                     : handle) + " field " + originalKey);
                }
             }
-            else
+            else if (provenance != true)
             {
                 Element e = new Element("meta", XHTML_NAMESPACE);
                 e.setAttribute("name", name);

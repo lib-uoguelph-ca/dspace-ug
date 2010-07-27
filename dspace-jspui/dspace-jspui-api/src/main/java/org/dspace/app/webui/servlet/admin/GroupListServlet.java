@@ -1,9 +1,9 @@
 /*
  * GroupListServlet.java
  *
- * Version: $Revision: 1368 $
+ * Version: $Revision: 3705 $
  *
- * Date: $Date: 2005-11-09 14:18:53 -0800 (Wed, 09 Nov 2005) $
+ * Date: $Date: 2009-04-11 17:02:24 +0000 (Sat, 11 Apr 2009) $
  *
  * Copyright (c) 2002, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -56,7 +56,7 @@ import org.dspace.eperson.Group;
 /**
  * Servlet browsing through groups and selecting them
  *
- *  * @version $Revision: 1368 $
+ *  * @version $Revision: 3705 $
  */
 public class GroupListServlet extends DSpaceServlet
 {

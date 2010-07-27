@@ -1,9 +1,9 @@
 /*
  * MetadataSchemaRegistryServlet.java
  *
- * Version: $Revision: 1373 $
+ * Version: $Revision: 3705 $
  *
- * Date: $Date: 2005-11-16 13:40:53 -0800 (Wed, 16 Nov 2005) $
+ * Date: $Date: 2009-04-11 17:02:24 +0000 (Sat, 11 Apr 2009) $
  *
  * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -62,7 +62,7 @@ import org.dspace.core.Context;
  * Servlet for editing the Dublin Core schema registry.
  *
  * @author Martin Hald
- * @version $Revision: 1373 $
+ * @version $Revision: 3705 $
  */
 public class MetadataSchemaRegistryServlet extends DSpaceServlet
 {

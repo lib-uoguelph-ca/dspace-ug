@@ -3,9 +3,9 @@
 <!--
   DS-METS-1.0-MODS.xsl
 
-  Version: $Revision: 1.5 $
+  Version: $Revision: 4868 $
  
-  Date: $Date: 2006/07/27 22:54:52 $
+  Date: $Date: 2010-04-13 20:21:41 +0000 (Tue, 13 Apr 2010) $
  
   Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
   Institute of Technology.  All rights reserved.
@@ -552,9 +552,9 @@
                 <xsl:value-of select="mods:note[1]"/>
             </p>
         </xsl:if>
-        <xsl:if test="string-length(mods:accessCondition[@type='useAndReproducation'])&gt;0">
+        <xsl:if test="string-length(mods:accessCondition[@type='useAndReproduction'])&gt;0">
             <p class="copyright-text">
-                <xsl:value-of select="mods:accessCondition[@type='useAndReproducation']"/>
+                <xsl:value-of select="mods:accessCondition[@type='useAndReproduction']"/>
             </p>
         </xsl:if>
         <xsl:if test="string-length(mods:extension/dim:field[@mdschema='dc' and @element='rights.license'])&gt;0">
@@ -583,9 +583,9 @@
                 <xsl:value-of select="mods:note[1]"/>
             </p>
         </xsl:if>
-        <xsl:if test="string-length(mods:accessCondition[@type='useAndReproducation'])&gt;0">
+        <xsl:if test="string-length(mods:accessCondition[@type='useAndReproduction'])&gt;0">
             <p class="copyright-text">
-                <xsl:value-of select="mods:accessCondition[@type='useAndReproducation']"/>
+                <xsl:value-of select="mods:accessCondition[@type='useAndReproduction']"/>
             </p>
         </xsl:if>
     </xsl:template>   

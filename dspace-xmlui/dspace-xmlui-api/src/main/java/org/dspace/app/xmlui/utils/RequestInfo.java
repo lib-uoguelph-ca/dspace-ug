@@ -1,9 +1,9 @@
 /*
  * RequestInfo.java
  *
- * Version: $Revision: 1.5 $
+ * Version: $Revision: 4866 $
  *
- * Date: $Date: 2005/04/20 14:23:00 $
+ * Date: $Date: 2010-04-09 09:01:28 +0000 (Fri, 09 Apr 2010) $
  *
  * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -58,7 +58,7 @@ import javax.servlet.http.HttpServletRequestWrapper;
  * 
  * @author Robert Tansley
  * @author Scott Phillips
- * @version $Revision: 1.5 $
+ * @version $Revision: 4866 $
  */
 public class RequestInfo
 {
@@ -116,6 +116,14 @@ public class RequestInfo
     public String getServletPath()
     {
     	return this.servletPath;
+    }
+
+    /**
+     * Return the servlet path that this request is for.
+     */
+    public String getActualPath()
+    {
+    	return this.pathInfo + ((queryString == null || queryString.length() == 0) ? "" : "?"+queryString);
     }
     
     /**

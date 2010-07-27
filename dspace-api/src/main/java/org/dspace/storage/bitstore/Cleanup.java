@@ -1,9 +1,9 @@
 /*
  * Cleanup.java
  *
- * Version: $Revision: 1408 $
+ * Version: $Revision: 4519 $
  *
- * Date: $Date: 2006-01-20 08:13:20 -0800 (Fri, 20 Jan 2006) $
+ * Date: $Date: 2009-11-12 00:53:09 +0000 (Thu, 12 Nov 2009) $
  *
  * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -52,7 +52,7 @@ import org.apache.log4j.Logger;
  * Cleans up asset store.
  * 
  * @author Peter Breton
- * @version $Revision: 1408 $
+ * @version $Revision: 4519 $
  */
 public class Cleanup
 {
@@ -79,6 +79,7 @@ public class Cleanup
             Options options = new Options();
 
             options.addOption("l", "leave", false, "Leave database records but delete file from assetstore");
+            options.addOption("v", "verbose", false, "Provide verbose output");
             options.addOption("h", "help", false, "Help");
             
             try
@@ -106,7 +107,7 @@ public class Cleanup
                 deleteDbRecords = false;    
             }
            	log.debug("leave db records = " + deleteDbRecords);
-            BitstreamStorageManager.cleanup(deleteDbRecords);
+            BitstreamStorageManager.cleanup(deleteDbRecords, line.hasOption('v'));
             
             System.exit(0);
         }

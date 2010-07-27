@@ -1,9 +1,9 @@
 /*
  * LicenseStep.java
  *
- * Version: $Revision: 1.4 $
+ * Version: $Revision: 4644 $
  *
- * Date: $Date: 2006/07/13 23:20:54 $
+ * Date: $Date: 2009-12-22 21:10:30 +0000 (Tue, 22 Dec 2009) $
  *
  * Copyright (c) 2002, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -57,6 +57,7 @@ import org.dspace.app.xmlui.wing.element.Division;
 import org.dspace.app.xmlui.wing.element.List;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Collection;
+import org.dspace.content.LicenseUtils;
 import org.dspace.license.CreativeCommons;
 import org.dspace.core.LogManager;
 import org.xml.sax.SAXException;
@@ -150,7 +151,9 @@ public class LicenseStep extends AbstractSubmissionStep
         // Get the full text for the actuial licese
 		Collection collection = submission.getCollection();
 		String actionURL = contextPath + "/handle/"+collection.getHandle() + "/submit/" + knot.getId() + ".continue";
-		String licenseText = collection.getLicense();
+		String licenseText = LicenseUtils.getLicenseText(context
+                .getCurrentLocale(), collection, submission.getItem(),
+                submission.getSubmitter());
 		
 		Division div = body.addInteractiveDivision("submit-license",actionURL, Division.METHOD_POST,"primary submission");
 		div.setHead(T_submission_head);

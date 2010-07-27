@@ -1,9 +1,9 @@
 /*
  * BrowseListTag.java
  *
- * Version: $Revision: 1.30 $
+ * Version: $Revision: 4365 $
  *
- * Date: $Date: 2006/04/05 02:15:45 $
+ * Date: $Date: 2009-10-05 23:52:42 +0000 (Mon, 05 Oct 2009) $
  *
  * Copyright (c) 2002-2005, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -66,14 +66,16 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.sql.SQLException;
 import java.util.StringTokenizer;
+import org.dspace.content.authority.MetadataAuthorityManager;
 
 /**
  * Tag for display a list of items
  *
  * @author Robert Tansley
- * @version $Revision: 1.30 $
+ * @version $Revision: 4365 $
  */
 public class BrowseListTag extends TagSupport
 {
@@ -427,6 +429,7 @@ public class BrowseListTag extends TagSupport
             // now output each item row
             for (int i = 0; i < items.length; i++)
             {
+            	out.print("<tr>"); 
                 // now prepare the XHTML frag for this division
                 String rOddOrEven;
                 if (i == highlightRow)
@@ -531,19 +534,36 @@ public class BrowseListTag extends TagSupport
                             	String endLink = "";
                             	if (!StringUtils.isEmpty(browseType[colIdx]) && !disableCrossLinks)
                             	{
-                            		String argument = "value";
+                                    String argument;
+                                    String value;
+                                    if (metadataArray[j].authority != null &&
+                                            metadataArray[j].confidence >= MetadataAuthorityManager.getManager()
+                                                .getMinConfidence(metadataArray[j].schema, metadataArray[j].element, metadataArray[j].qualifier))
+                                    {
+                                        argument = "authority";
+                                        value = metadataArray[j].authority;
+                                    }
+                                    else
+                                    {
+                                        argument = "value";
+                                        value = metadataArray[j].value;
+                                    }
                             		if (viewFull[colIdx])
                             		{
                             			argument = "vfocus";
                             		}
                             		startLink = "<a href=\"" + hrq.getContextPath() + "/browse?type=" + browseType[colIdx] + "&amp;" +
-                                            argument + "=" + Utils.addEntities(metadataArray[j].value);
+                                        argument + "=" + URLEncoder.encode(value,"UTF-8");
 
                                     if (metadataArray[j].language != null)
                                     {
                                         startLink = startLink + "&amp;" +
-                                            argument + "_lang=" + Utils.addEntities(metadataArray[j].language) +
-                                            "\">";
+                                            argument + "_lang=" + URLEncoder.encode(metadataArray[j].language, "UTF-8");
+									}
+
+                                    if ("authority".equals(argument))
+                                    {
+                                        startLink += "\" class=\"authority " +browseType[colIdx] + "\">";
                                     }
                                     else
                                     {
@@ -589,7 +609,7 @@ public class BrowseListTag extends TagSupport
 
                     out.print("<td headers=\"" + id + "\" class=\""
                         + rOddOrEven + "Row" + cOddOrEven[cOddOrEven.length - 2] + "Col\" nowrap>"
-                        + "<form method=get action=\"" + hrq.getContextPath() + "/tools/edit-item\">"
+                        + "<form method=\"get\" action=\"" + hrq.getContextPath() + "/tools/edit-item\">"
                         + "<input type=\"hidden\" name=\"handle\" value=\"" + items[i].getHandle() + "\" />"
                         + "<input type=\"submit\" value=\"Edit Item\" /></form>"
                         + "</td>");

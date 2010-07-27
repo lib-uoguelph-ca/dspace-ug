@@ -1,9 +1,9 @@
 /*
  * SitemapServlet.java
  *
- * Version: $Revision$
+ * Version: $Revision: 3705 $
  *
- * Date: $Date$
+ * Date: $Date: 2009-04-11 17:02:24 +0000 (Sat, 11 Apr 2009) $
  *
  * Copyright (c) 2006, Hewlett-Packard Company and Massachusetts
  * Institute of Technology.  All rights reserved.
@@ -67,7 +67,7 @@ import org.dspace.core.Utils;
  * 
  * @author Stuart Lewis
  * @author Robert Tansley
- * @version $Revision$
+ * @version $Revision: 3705 $
  */
 public class SitemapServlet extends DSpaceServlet
 {
@@ -111,8 +111,7 @@ public class SitemapServlet extends DSpaceServlet
             HttpServletResponse response, String file, String mimeType,
             boolean compressed) throws ServletException, IOException
     {
-        File f = new File(ConfigurationManager.getProperty("dspace.dir")
-                + File.separator + "sitemaps", file);
+        File f = new File(ConfigurationManager.getProperty("sitemap.dir"), file);
 
         if (!f.exists())
         {
@@ -142,15 +141,21 @@ public class SitemapServlet extends DSpaceServlet
 
         // Pipe the bits
         InputStream is = new FileInputStream(f);
+        try
+        {
+            // Set the response MIME type
+            response.setContentType(mimeType);
 
-        // Set the response MIME type
-        response.setContentType(mimeType);
+            // Response length
+            response.setHeader("Content-Length", String.valueOf(f.length()));
 
-        // Response length
-        response.setHeader("Content-Length", String.valueOf(f.length()));
-
-        Utils.bufferedCopy(is, response.getOutputStream());
-        is.close();
+            Utils.bufferedCopy(is, response.getOutputStream());
+        }
+        finally
+        {
+            is.close();
+        }
+        
         response.getOutputStream().flush();
     }
 }
