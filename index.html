@@ -43,11 +43,13 @@ a:hover
 text-decoration: none;
 }
 
-#headerLink {
+div#header a:link,
+div#header a:visited {
 	color: #F8DB39;
 }
 
-#headerLink:hover {
+div#header a:hover,
+div#header a:active {
 	color: #8F0100;
 }
 
@@ -169,15 +171,42 @@ font-size: 90%;
 #main { bottom: 5px; }
 }
 
-#footer
-
-{
+div#footer {
+background-color: #000;
 clear: both;
 width: 1000px;
 padding-top: 10px;
 padding-bottom: 10px;
 font-size: 90%;
 color: #808080;
+float: left;
+}
+
+div#footer a:link,
+div#footer a:visited {
+	color: #fdc708;
+}
+
+div#footer a:hover,
+div#footer a:active {
+	text-decoration: underline;
+}
+
+div#footer p {
+	padding: 0em 1em;
+}
+
+div#copyright-block {
+	color: #fff;
+	float: left;
+}
+
+div#contact-block {
+	float: right;
+}
+
+div#contact-block p {
+	text-align: right;
 }
 
 /* Safari */
@@ -367,14 +396,14 @@ color: #808080;
 
 
 <div id="footer">
-  <div style="float: left;">
-    <p>&copy; 2009&ndash;2010 University of Guelph<br/>
-    Guelph, ON, Canada N1G 2W1<br/>
-    519-824-4120 x56888</p>
+  <div id="copyright-block">
+    <p>&copy; 2009&ndash;2010 University of Guelph</p>
+    <p>Guelph, ON, Canada N1G 2W1</p>
+    <p>519-824-4120 x56888</p>
   </div>
-  <div style="float: right;">
-    <p align="right"><a href="http://www.lib.uoguelph.ca/scholarly_communication/">Scholarly Communication at U of G</a><br/>
-    <a href="/xmlui/contact">Contact Us</a><br/></p>
+  <div id="contact-block">
+    <p><a href="http://www.lib.uoguelph.ca/scholarly_communication/">Scholarly Communication at U of G</a></p>
+    <p><a href="/xmlui/contact">Contact Us</a></p>
   </div>
 </div>
 
