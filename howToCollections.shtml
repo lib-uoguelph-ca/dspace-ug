@@ -1,0 +1,52 @@
+<!--#include virtual="header.html" -->
+
+<div class="right">
+  <h2>Collection Metadata</h2>
+  <p>
+	Name<br />
+	Short Description<br />
+	Introductory text<br />
+	Copyright text<br />
+	News<br />
+	License<br />
+	Provenance<br />
+	Upload new logo<br />
+  </p>
+</div>
+
+<h2>Guide to Collections</h2>
+
+<p>
+  As a collection manager you can add or edit the following pieces of information:
+</p>
+
+<p>
+  <ul style="margin-left: 35px;">
+	<li style="margin-top: 20px;">
+	  <strong>Name:</strong><br />Enter the name or title of the collection.
+	</li>
+	<li style="margin-top: 20px;">
+	  <strong>Short Description:</strong><br />Enter a sentence or phrase indicating the nature of the collection.
+	</li>
+	<li style="margin-top: 20px;">
+	  <strong>Introductory text:</strong><br />Enter one or two paragraphs to intruduce readers to your collection.  This will appear on the home page for your collection.  If you are familiar with HTML code you can use HTML to format the text.
+	</li>
+	<li style="margin-top: 20px;">
+	  <strong>Copyright text:</strong><br />We recommend that you include a Creative Commons license statement with a link to the Creative Commons web site.  Use the <a href="http://creativecommons.org/choose/?jurisdiction=ca">Creative Commons</a> license creation page to easily establish a license that fits your needs.  Alternatively you can enter any other copyright restrictions that apply to your collection.  Whatever you enter will be displayed on the collection home page.
+	</li>
+	<li style="margin-top: 20px;">
+	  <strong>News:</strong><br />Enter any news about your collection that you would like to bring to your readers' attention.  This will appear on your collection home page.  You can update this news as frequently as you like.  Use HTML for formatting.  Feel free to ask us for help with the HTML.
+	</li>
+	<li style="margin-top: 20px;">
+	  <strong>License:</strong><br />Enter the intellectual property statement that will appear each time an item is submitted to your collection.  This is a check to ensure that none of your authorized submitters knowingly violates the intellectual property rights of an author or publisher.  Consult us if you would like assistance drafting this text.  If you choose not to enter anything here there is default text that will appear during the submission process.
+	</li>
+	<li style="margin-top: 20px;">
+	  <strong>Provenance:</strong><br />Enter information on the collection's history of ownership or custody that may be helpful to researchers.
+	</li>
+	<li style="margin-top: 20px;">
+	  <strong>Upload new logo:</strong><br />You have the option of uploading a logo or other image that will appear on your collection's home page.
+	</li>
+  </ul>
+</p>
+
+<!--#include virtual="footer.html" -->
