@@ -3,13 +3,13 @@
 <div class="right">
   <h2>See also</h2>
   <p>
-	<a href="http://131.104.62.7:8080/contactUs.shtml">Contact us</a> to get started with the Atrium.
+	<a href="/contactUs.shtml">Contact us</a> to get started with the Atrium.
   </p>
   <p>
-	Learn more about <a href="http://131.104.62.7:8080/aboutCollections.shtml">collections</a> in the Atrium.
+	Learn more about <a href="/aboutCollections.shtml">collections</a> in the Atrium.
   </p>
   <p>
-	Learn more about <a href="http://131.104.62.7:8080/aboutSubmissions.shtml">submissions</a> in the Atrium.
+	Learn more about <a href="/aboutSubmissions.shtml">submissions</a> in the Atrium.
   </p>
 </div>
 <h2>Content Policy </h2>
