@@ -26,11 +26,11 @@
      Welcome to Tomcat
   </description>
 
-<!--
+  <!--
   Enable SSI.
 
   Copied from the main Tomcat web.xml
--->
+  -->
   <servlet>
     <servlet-name>ssi</servlet-name>
     <servlet-class>
@@ -59,6 +59,13 @@
     <servlet-name>ssi</servlet-name>
     <url-pattern>*.shtml</url-pattern>
   </servlet-mapping>
+
+  <!--
+  Make the index.shtml show up automatically.
+  -->
+  <welcome-file-list>
+    <welcome-file>index.shtml</welcome-file>
+  </welcome-file-list>
 
   <Context reloadable="true" privileged="true"/>
 
