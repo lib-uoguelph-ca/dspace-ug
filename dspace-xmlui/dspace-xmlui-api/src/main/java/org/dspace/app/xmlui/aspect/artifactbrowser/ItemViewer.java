@@ -241,19 +241,9 @@ public class ItemViewer extends AbstractDSpaceTransformer implements CacheablePr
         else
             division.setHead(item.getHandle());
 
-        Para showfullPara = division.addPara(null, "item-view-toggle item-view-toggle-top");
-
-        if (showFullItem(objectModel))
-        {
-            String link = contextPath + "/handle/" + item.getHandle();
-            showfullPara.addXref(link).addContent(T_show_simple);
-        }
-        else
-        {
-            String link = contextPath + "/handle/" + item.getHandle()
-                    + "?show=full";
-            showfullPara.addXref(link).addContent(T_show_full);
-        }
+        // We've moved lots of extra metadata to the simple item view. Don't
+        // show the view toggle at the top since it won't be used much
+        // anymore. It will still appear at the bottom of the page.
         
         ReferenceSet referenceSet;
         if (showFullItem(objectModel))
@@ -277,7 +267,7 @@ public class ItemViewer extends AbstractDSpaceTransformer implements CacheablePr
             appearsInclude.addReference(collection);
         }
         
-        showfullPara = division.addPara(null,"item-view-toggle item-view-toggle-bottom");
+        Para showfullPara = division.addPara(null,"item-view-toggle item-view-toggle-bottom");
 
         if (showFullItem(objectModel))
         {
