@@ -504,6 +504,10 @@ td.ds-table-cell.right {
     text-align: right;
 }
 
+tr.abstract td {
+    white-space: pre-line;
+}
+
 *.first-cell {
         vertical-align: middle;
         text-align: center;

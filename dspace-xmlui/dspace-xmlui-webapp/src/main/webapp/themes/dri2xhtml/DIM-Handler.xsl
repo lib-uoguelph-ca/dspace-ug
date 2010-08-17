@@ -693,7 +693,7 @@
 
           <!-- Abstract row -->
           <xsl:when test="$clause = 11 and (dim:field[@element='description' and @qualifier='abstract'])">
-                    <tr class="ds-table-row {$phase}">
+                    <tr class="ds-table-row {$phase} abstract">
 	                <td><span class="bold"><i18n:text>xmlui.dri2xhtml.METS-1.0.item-abstract</i18n:text>:</span></td>
 	                <td>
 	                <xsl:if test="count(dim:field[@element='description' and @qualifier='abstract']) &gt; 1">
