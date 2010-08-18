@@ -1,0 +1,53 @@
+<!--#include virtual="header.html" -->
+
+<div class="right">
+  <h2>Current and Developing Collections</h2>
+
+  <strong style="margin-left: 10px;">Electronic books</strong>
+  <ul>
+    <li><a href="/xmlui/handle/10214/1610">Women in Scotland c.1100-c.1750</a> (Scottish Studies Program)</li>
+    <li><a href="/xmlui/handle/10214/1738">Critical Geographies: a collection of readings</a> (Department of Geography)</li>
+    <li><a href="/xmlui/handle/10214/151">Electronic theses</a></li>
+  </ul>
+
+  <strong style="margin-left: 10px;">Research collections</strong>
+  <ul>
+    <li><a href="/xmlui/handle/10214/1668">Ontario vegetable crop research</a> (Ridgetown Campus)</li>
+    <li><a href="/xmlui/handle/10214/1600">NSERC Chair for Women in Science and Engineering</a> (College of Physical and Engineering Science)</li>
+    <li><a href="/xmlui/handle/10214/1786">Research: Knowledge Mobilization/Transfer Initiatives</a> (College of Social and Applied Human Sciences)</li>
+  </ul>
+
+  <strong style="margin-left: 10px;">Multimedia</strong>
+  <ul>
+    <li><a href="/xmlui/handle/10214/1729">Research posters</a> (Kemptville Campus)</li>
+  </ul>
+
+  <strong style="margin-left: 10px;">Learning objects</strong>
+  <ul>
+    <li><a href="/xmlui/handle/10214/1755">Numeracy and Quantitative Reasoning Initiative</a></li>
+    <li><a href="/xmlui/handle/10214/1734">Educational Communication</a> (Capacity Development and Extension)</li>
+  </ul>
+
+  <strong style="margin-left: 10px;">Student research</strong>
+  <ul>
+    <li><a href="/xmlui/handle/10214/1602">ENGG*3100 Engineering and Design III proceedings</a> (School of Engineering)</li>
+  </ul>
+</div>
+
+<h2>About Collections</h2>
+
+<p>
+  All resources in The Atrium belong to one or more collections.  A collection can represent the work of an individual faculty member, an academic department, a programme or a research centre.
+</p>
+<p>
+  If you would like to establish a new collection please <a href="contactUs.shtml">contact us</a>.  We will confirm with you where the collection should fit in the context of the University structure.  We will establish a manager for the collection and discuss issues such as who will be permitted to submit to the collection and whether or not you want a review stage before submissions are publicly accessible.
+</p>
+<p>
+  If you already have a collection you might want to consult our <a href="howToCollections.shtml">guide to collections</a> to learn more about management of your collection.
+</p>
+
+<p style="margin-bottom: 200px;">
+  &nbsp;
+</p>
+
+<!--#include virtual="footer.html" -->

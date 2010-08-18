@@ -1,0 +1,27 @@
+<!--#include virtual="header.html" -->
+
+<div class="right">
+  Wayne Johnston<br />
+  Digital Initiatives Librarian, University of Guelph<br />
+  519.824.4120 x56900<br />
+  wajohnst@uoguelph.ca<br />
+</div>
+
+<h2>Contact Us</h2>
+
+<p>
+  For all questions or comments regarding The Atrium please contact Wayne Johnston.
+</p>
+
+<p>
+  <ul>
+	<li>
+	  by phone at <strong>ext. 56900</strong>
+	</li>
+	<li>
+	  by email at <strong>wajohnst@uoguelph.ca</strong>
+	</li>
+  </ul>
+</p>
+
+<!--#include virtual="footer.html" -->
