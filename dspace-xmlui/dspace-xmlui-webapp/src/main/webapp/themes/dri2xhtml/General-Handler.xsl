@@ -196,7 +196,7 @@
                         </a>
                     </xsl:when>
                     <xsl:otherwise>
-                        <a>
+                        <a class="view-open">
                             <xsl:attribute name="href">
                                 <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
                             </xsl:attribute>
