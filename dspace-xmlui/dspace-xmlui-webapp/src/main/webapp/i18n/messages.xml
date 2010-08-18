@@ -1820,6 +1820,9 @@
 	<message key="xmlui.dri2xhtml.METS-1.0.item-publisher">Publisher</message>
 	<message key="xmlui.dri2xhtml.METS-1.0.item-subject">Subject</message>
 
+    <!-- Metadata heading -->
+    <message key="xmlui.dri2xhtml.METS-1.0.item-metadata-head">About this item</message>
+
     <!-- Additional simple item view metadata titles -->
     <message key="xmlui.dri2xhtml.METS-1.0.item-type">Type</message>
     <message key="xmlui.dri2xhtml.METS-1.0.item-degree">Degree</message>

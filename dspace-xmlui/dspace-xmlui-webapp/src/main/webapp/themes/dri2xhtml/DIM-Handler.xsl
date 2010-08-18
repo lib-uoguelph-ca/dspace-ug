@@ -438,6 +438,7 @@
     
     <!-- Generate the info about the item from the metadata section -->
     <xsl:template match="dim:dim" mode="itemSummaryView-DIM">
+        <h2><i18n:text>xmlui.dri2xhtml.METS-1.0.item-metadata-head</i18n:text></h2>
         <table class="ds-includeSet-table">
          <xsl:call-template name="itemSummaryView-DIM-fields">
          </xsl:call-template>
