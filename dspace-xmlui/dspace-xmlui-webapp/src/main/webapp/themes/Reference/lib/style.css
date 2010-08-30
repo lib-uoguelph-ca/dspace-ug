@@ -151,6 +151,10 @@ div#ds-user-box a {
 	margin: 0px;
 }
 
+div#ds-user-box a.login {
+    font-weight: bold;
+}
+
 div#ds-user-box a:hover {
 	color: #8F0100;
 }

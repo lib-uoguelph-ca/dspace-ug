@@ -372,7 +372,7 @@
                                     dri:metadata[@element='identifier' and @qualifier='lastName']"/>
                             </a>
                             <xsl:text> | </xsl:text>
-                            <a>
+                            <a class="login">
                                 <xsl:attribute name="href">
                                     <xsl:value-of select="/dri:document/dri:meta/dri:userMeta/
                                         dri:metadata[@element='identifier' and @qualifier='logoutURL']"/>
@@ -385,7 +385,7 @@
                 <xsl:otherwise>
                     <div id="ds-user-box">
                         <p>
-                            <a>
+                            <a class="login">
                                 <xsl:attribute name="href">
                                     <xsl:value-of select="/dri:document/dri:meta/dri:userMeta/
                                         dri:metadata[@element='identifier' and @qualifier='loginURL']"/>
