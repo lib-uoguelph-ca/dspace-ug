@@ -1819,7 +1819,20 @@
 	<message key="xmlui.dri2xhtml.METS-1.0.item-date">Date</message>
 	<message key="xmlui.dri2xhtml.METS-1.0.item-publisher">Publisher</message>
 	<message key="xmlui.dri2xhtml.METS-1.0.item-subject">Subject</message>
-	
+
+    <!-- Metadata heading -->
+    <message key="xmlui.dri2xhtml.METS-1.0.item-metadata-head">About this item</message>
+
+    <!-- Additional simple item view metadata titles -->
+    <message key="xmlui.dri2xhtml.METS-1.0.item-type">Type</message>
+    <message key="xmlui.dri2xhtml.METS-1.0.item-degree">Degree</message>
+    <message key="xmlui.dri2xhtml.METS-1.0.item-programme">Programme</message>
+    <message key="xmlui.dri2xhtml.METS-1.0.item-advisor">Advisor</message>
+    <message key="xmlui.dri2xhtml.METS-1.0.item-citation">Citation</message>
+    <message key="xmlui.dri2xhtml.METS-1.0.item-publisher">Publisher</message>
+    <message key="xmlui.dri2xhtml.METS-1.0.item-sponsorship">Sponsorship</message>
+    <message key="xmlui.dri2xhtml.METS-1.0.item-keywords">Keywords</message>
+
 	<message key="xmlui.dri2xhtml.METS-1.0.item-files-head">Files in this item</message>
 	<message key="xmlui.dri2xhtml.METS-1.0.item-files-file">Files</message>
 	<message key="xmlui.dri2xhtml.METS-1.0.item-files-size">Size</message>

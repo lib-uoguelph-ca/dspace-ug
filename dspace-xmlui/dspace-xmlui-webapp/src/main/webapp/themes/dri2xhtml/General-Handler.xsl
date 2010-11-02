@@ -149,20 +149,16 @@
             <td>
                 <xsl:choose>
                     <xsl:when test="@SIZE &lt; 1000">
-                        <xsl:value-of select="@SIZE"/>
-                        <i18n:text>xmlui.dri2xhtml.METS-1.0.size-bytes</i18n:text>
+                        <xsl:value-of select="@SIZE"/>&#160;<i18n:text>xmlui.dri2xhtml.METS-1.0.size-bytes</i18n:text>
                     </xsl:when>
                     <xsl:when test="@SIZE &lt; 1000000">
-                        <xsl:value-of select="substring(string(@SIZE div 1000),1,5)"/>
-                        <i18n:text>xmlui.dri2xhtml.METS-1.0.size-kilobytes</i18n:text>
+                        <xsl:value-of select="substring(string(@SIZE div 1000),1,5)"/>&#160;<i18n:text>xmlui.dri2xhtml.METS-1.0.size-kilobytes</i18n:text>
                     </xsl:when>
                     <xsl:when test="@SIZE &lt; 1000000000">
-                        <xsl:value-of select="substring(string(@SIZE div 1000000),1,5)"/>
-                        <i18n:text>xmlui.dri2xhtml.METS-1.0.size-megabytes</i18n:text>
+                        <xsl:value-of select="substring(string(@SIZE div 1000000),1,5)"/>&#160;<i18n:text>xmlui.dri2xhtml.METS-1.0.size-megabytes</i18n:text>
                     </xsl:when>
                     <xsl:otherwise>
-                        <xsl:value-of select="substring(string(@SIZE div 1000000000),1,5)"/>
-                        <i18n:text>xmlui.dri2xhtml.METS-1.0.size-gigabytes</i18n:text>
+                        <xsl:value-of select="substring(string(@SIZE div 1000000000),1,5)"/>&#160;<i18n:text>xmlui.dri2xhtml.METS-1.0.size-gigabytes</i18n:text>
                     </xsl:otherwise>
                 </xsl:choose>
             </td>
@@ -196,7 +192,7 @@
                         </a>
                     </xsl:when>
                     <xsl:otherwise>
-                        <a>
+                        <a class="view-open">
                             <xsl:attribute name="href">
                                 <xsl:value-of select="mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
                             </xsl:attribute>

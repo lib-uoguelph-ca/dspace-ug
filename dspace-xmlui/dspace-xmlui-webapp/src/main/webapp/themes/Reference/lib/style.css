@@ -151,6 +151,10 @@ div#ds-user-box a {
 	margin: 0px;
 }
 
+div#ds-user-box a.login {
+    font-weight: bold;
+}
+
 div#ds-user-box a:hover {
 	color: #8F0100;
 }
@@ -504,6 +508,10 @@ td.ds-table-cell.right {
     text-align: right;
 }
 
+tr.abstract td {
+    white-space: pre-line;
+}
+
 *.first-cell {
         vertical-align: middle;
         text-align: center;
@@ -526,6 +534,16 @@ th.indent {
 th.doubleIndent {
     padding-left: 50px;
     padding-right: 0;
+}
+
+a.view-open {
+    background-color: #df6e00;
+    border: 1px solid #df6e00;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    color: #fff;
+    padding: 0.1em 0.3em;
+    text-decoration: none;
 }
 
 
