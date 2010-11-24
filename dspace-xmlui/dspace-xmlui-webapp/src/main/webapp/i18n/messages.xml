@@ -1770,7 +1770,7 @@
 	<!-- structural.xsl -->
 	<message key="xmlui.dri2xhtml.structural.footer-promotional">
 		<p style="text-align: left;">
-			2009&#x2013;2010 University of Guelph Library<br />
+			&#xA9; 2009&#x2013;2010 University of Guelph Library<br />
 			Guelph, ON, Canada N1G 2W1<br />
 			519-824-4120 x53617
 		</p>
