@@ -57,6 +57,53 @@ div#header a.login {
     font-weight: bold;
 }
 
+div#quicklinks {
+    /*background-color: #eee;
+    border: 1px solid #ccc;
+    font-size: 120%;*/
+    margin: 0.5em;
+    padding: 0.5em;
+}
+
+div#quicklinks h2 {
+    font-size: 120%;
+    margin-top: 0px;
+}
+
+div#quicklinks ul {
+    margin: 0px;
+}
+
+div#quicklinks li {
+    display: inline;
+    font-size: 110%;
+    /*margin-right: 2em;*/
+}
+
+div#quicklinks li a:link,
+div#quicklinks li a:visited {
+    background-color: #eee;
+    border-color: #ccc;
+    border-style: solid;
+    border-width: 1px;
+    color: #000;
+    padding: 0.5em;
+}
+
+div#quicklinks li a:active,
+div#quicklinks li a:hover {
+    /*background-color: #3b77b3;*/
+    background-color: #ddd;
+}
+
+div#quicklinks li.last {
+    margin-right: 0px;
+}
+
+div#current-and-developing {
+    margin: 1em;
+}
+
 #wrapper
 
 {
@@ -231,11 +278,9 @@ div#contact-block p {
 <div id="header" style="padding: 160px 10px 10px 150px;">
 
   <div style="float: left; display: inline;">
-	<a href="index.shtml" id="headerLink"> 
-		About the Atrium
-	</a>&nbsp;
+	<a href="/" id="headerLink">Home</a>&nbsp;
 	<img src="images/trail.gif"/>&nbsp;
-	<a href="/xmlui" id="headerLink">All of the Atrium</a>
+	<a href="/xmlui/" id="headerLink">Browse the Atrium</a>
   </div>
 
   <div style="float: right; display: inline;">
@@ -245,3 +290,11 @@ div#contact-block p {
 </div>
 
 <div id="main">
+
+<div id="quicklinks">
+  <ul>
+    <li><a href="/xmlui/"><strong>Browse</strong> the Atrium</a></li>
+    <li><a href="/xmlui/submit"><strong>Submit</strong> an item to the Atrium</a></li>
+    <li class="last"><a href="/about.shtml">Learn <strong>about</strong> the Atrium</a></li>
+  </ul>
+</div>
