@@ -44,10 +44,8 @@ body {
         text-align: center;
 }
 
-input#aspect_submission_StepTransformer_field_dc_title {
-	width: 700px;
-}
-
+input#aspect_submission_StepTransformer_field_dc_title,
+input#aspect_submission_StepTransformer_field_dc_publisher,
 input#aspect_submission_StepTransformer_field_dc_identifier_citation {
 	width: 700px;
 }
