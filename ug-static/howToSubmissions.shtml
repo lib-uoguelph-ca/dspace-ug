@@ -39,7 +39,7 @@
 	  <strong>Select a collection from the drop-down list</strong><br />
 	  The drop-down list will include all collections to which you have the right to submit.
 	  If you want to submit to a collection that is not included on this list please
-	  <a href="contactUs.shtml">contact us</a>.<br />
+	  <a href="/xmlui/contact">contact us</a>.<br />
 	  <img src="images/submission01.png">
 	  </li>
 	<li style="margin-top: 20px;">
