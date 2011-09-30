@@ -1,78 +1,39 @@
 <!--#include virtual="header.html" -->
 
-<div class="right" id="slideshow" style="width: 300px;">
-	<script type="text/javascript">
-		function startGallery() {
-			var myGallery = new gallery($('myGallery'), {timed: true, showArrows: true, showCarousel: false});
-		}
-		window.onDomReady(startGallery);
-	</script>
-	<div id="myGallery">
-		<div class="imageElement">
-			<h2>Dr. T. Ryan Gregory</h2>
-			<p><b>Dr. T. Ryan Gregory</b><br />Integrative Biology</p>
-			<a href="/xmlui/handle/10214/1942" title="Dr. T. Ryan Gregory" class="open"></a>
-			<img src="images/ryan.png" alt="" title="" class="full" />
-			<img src="ryan_thumb.png" alt="" title="" class="thumbnail" />
-		</div>
-		<div class="imageElement">
-			<h2>Women in Scotland c.1100-c.1750</h2>
-			<p><b>Women in Scotland c.1100-c.1750</b><br />Scottish Studies Program</p>
-			<a href="/xmlui/handle/10214/1610" title="Women in Scotland c.1100-c.1750" class="open"></a>
-			<img src="images/wominInScotland.png" alt="" title="" class="full" />
-			<img src="thieves_mini.jpg" alt="" title="" class="thumbnail" />
-		</div>
-		<div class="imageElement">
-			<h2>Electronic theses and dissertations</h2>
-			<p><b>Electronic theses and dissertations</b><br />University of Guelph</p>
-			<a href="/xmlui/handle/10214/151" title="Electronic theses and dissertations" class="open"></a>
-			<img src="images/theses.png" alt="" title="" class="full" />
-			<img src="thieves_mini.jpg" alt="" title="" class="thumbnail" />
-		</div>
-		<div class="imageElement">
-			<h2>ENGG*3100 Engineering and Design III</h2>
-			<p><b>ENGG*3100 Engineering and Design III</b><br />College of Physical and Engineering Science</p>
-			<a href="/xmlui/handle/10214/1768" title="ENGG*3100 Engineering and Design III" class="open"></a>
-			<img src="images/eeng.png" alt="" title="" class="full" />
-			<img src="thieves_mini.jpg" alt="" title="" class="thumbnail" />
-		</div>
-		<div class="imageElement">
-			<h2>Research Posters</h2>
-			<p><b>Research Posters</b><br />Kemptville Campus</p>
-			<a href="/xmlui/handle/10214/1729" title="Research Posters" class="open"></a>
-			<img src="images/kemptville.png" alt="" title="" class="full" />
-			<img src="thieves_mini.jpg" alt="" title="" class="thumbnail" />
-		</div>
-		<div class="imageElement">
-			<h2>Critical Geographies: a collection of readings</h2>
-			<p><b>Critical Geographies: a collection of readings</b><br />Harald Bauder</p>
-			<a href="/xmlui/handle/10214/1738" title="Critical Geographies: a collection of readings" class="open"></a>
-			<img src="images/bauder.png" alt="" title="" class="full" />
-			<img src="thieves_mini.jpg" alt="" title="" class="thumbnail" />
-		</div>
-		<div class="imageElement">
-			<h2>Educational Communication (EDRD*3120DE)</h2>
-			<p><b>Educational Communication (EDRD*3120DE)</b><br />Certificate in Communication Process</p>
-			<a href="/xmlui/handle/10214/1734" title="Educational Communication (EDRD*3120DE)" class="open"></a>
-			<img src="images/tractor.png" alt="" title="" class="full" />
-			<img src="thieves_mini.jpg" alt="" title="" class="thumbnail" />
-		</div>
-		<div class="imageElement">
-			<h2>Numeracy and Quantitative Reasoning Initiative</h2>
-			<p><b>Numeracy and Quantitative Reasoning Initiative</b><br />University of Guelph</p>
-			<a href="/xmlui/handle/10214/1755" title="Numeracy and Quantitative Reasoning Initiative" class="open"></a>
-			<img src="images/numeracy.png" alt="" title="" class="full" />
-			<img src="thieves_mini.jpg" alt="" title="" class="thumbnail" />
-		</div>
-		<div class="imageElement">
-			<h2>Ontario vegetable crop research</h2>
-			<p><b>Ontario vegetable crop research</b><br />Ridgetown Campus</p>
-			<a href="/xmlui/handle/10214/1668" title="Ontario vegetable crop research" class="open"></a>
-			<img src="images/ridgetown.png" alt="" title="" class="full" />
-			<img src="thieves_mini.jpg" alt="" title="" class="thumbnail" />
-		</div>
-	</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
+<script src="nivo-slider/jquery.nivo.slider.pack.js" type="text/javascript"></script>
+
+<div class="slider-wrapper theme-default" style="padding: 20px; width: 300px; float: right;">
+<div class="ribbon"></div>
+<div id="slideshow" class="nivoSlider" style="width:300px; height:275px;"> 
+	<a href="/xmlui/handle/10214/1942" title="Dr. T. Ryan Gregory"><img src="images/ryan.png" alt="" title="#ryan-caption" /></a>
+
+	<a href="/xmlui/handle/10214/1610" title="Women in Scotland c.1100-c.1750"><img src="images/wominInScotland.png" alt="" title="#wins-caption"/></a>
+
+	<a href="/xmlui/handle/10214/151" title="Electronic theses and dissertations"><img src="images/theses.png" title="#etds-caption" /></a>
+
 </div> 
+</div>
+
+<div id="ryan-caption" class="nivo-html-caption">
+<p><b>Dr. T. Ryan Gregory</b><br />Integrative Biology</p>
+</div>
+
+<div id="wins-caption" class="nivo-html-caption">
+<p><b>Women in Scotland c.1100-c.1750</b><br />Scottish Studies Program</p>
+</div>
+
+<div id="etds-caption" class="nivo-html-caption">
+<p><b>Electronic theses and dissertations</b><br />University of Guelph</p>
+</div>
+
+<script type="text/javascript">
+$(window).load(function() {
+	$('#slideshow').nivoSlider({
+        pauseTime: 6000
+    });
+});
+</script>
 
 <div id="current-and-developing">
 <h2>Selected Current and Developing Collections</h2>
