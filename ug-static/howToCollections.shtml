@@ -29,7 +29,7 @@
 	  <strong>Short Description:</strong><br />Enter a sentence or phrase indicating the nature of the collection.
 	</li>
 	<li style="margin-top: 20px;">
-	  <strong>Introductory text:</strong><br />Enter one or two paragraphs to intruduce readers to your collection.  This will appear on the home page for your collection.  If you are familiar with HTML code you can use HTML to format the text.
+	  <strong>Introductory text:</strong><br />Enter one or two paragraphs to introduce readers to your collection.  This will appear on the home page for your collection.  If you are familiar with HTML code you can use HTML to format the text.
 	</li>
 	<li style="margin-top: 20px;">
 	  <strong>Copyright text:</strong><br />We recommend that you include a Creative Commons license statement with a link to the Creative Commons web site.  Use the <a href="http://creativecommons.org/choose/?jurisdiction=ca">Creative Commons</a> license creation page to easily establish a license that fits your needs.  Alternatively you can enter any other copyright restrictions that apply to your collection.  Whatever you enter will be displayed on the collection home page.
@@ -38,7 +38,7 @@
 	  <strong>News:</strong><br />Enter any news about your collection that you would like to bring to your readers' attention.  This will appear on your collection home page.  You can update this news as frequently as you like.  Use HTML for formatting.  Feel free to ask us for help with the HTML.
 	</li>
 	<li style="margin-top: 20px;">
-	  <strong>License:</strong><br />Enter the intellectual property statement that will appear each time an item is submitted to your collection.  This is a check to ensure that none of your authorized submitters knowingly violates the intellectual property rights of an author or publisher.  Consult us if you would like assistance drafting this text.  If you choose not to enter anything here there is default text that will appear during the submission process.
+	  <strong>License:</strong><br />Enter the intellectual property statement that will appear each time an item is submitted to your collection.  This is a check to ensure that none of your authorized submitters knowingly violates the intellectual property rights of an author or publisher.  Consult us if you would like assistance drafting this text.  If you choose not to enter license information, default text will appear during the submission process.
 	</li>
 	<li style="margin-top: 20px;">
 	  <strong>Provenance:</strong><br />Enter information on the collection's history of ownership or custody that may be helpful to researchers.
@@ -48,5 +48,11 @@
 	</li>
   </ul>
 </p>
+
+<p>See the <a href="howToSubmissions.shtml">guide to submissions</a> page for details on submitting items to the collection.</p>
+
+<h3>Other collection management options</h3>
+
+<p>Collection managers also control the assigning of permissions to individuals or groups for the following actions: submissions, editing, adding metadata, accepting/rejecting submissions as well as assigning reading access rights. Contact us for more details.</p>
 
 <!--#include virtual="footer.html" -->
