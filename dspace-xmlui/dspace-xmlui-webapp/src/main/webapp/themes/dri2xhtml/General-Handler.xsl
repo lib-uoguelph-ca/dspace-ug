@@ -124,17 +124,21 @@
             <xsl:choose>
                 <xsl:when test="//dim:field[@mdschema='dc' and @element='identifier' and @qualifier='videostream']">
                     <h2>Video Stream</h2>
-                    <a id="player" style="display: block; width: 704px; height: 396px;">
-                        <xsl:attribute name="href">
+                    <div id="player">
+                        <xsl:attribute name='href'>
                             <xsl:value-of select="//dim:field[@mdschema='dc' and @element='identifier' and @qualifier='videostream'][1]"/>
-                        </xsl:attribute>&#160;</a>
+                        </xsl:attribute>
+                        <p>Please enable JavaScript if you wish to view this video stream.</p>
+                    </div>
                 </xsl:when>
                 <xsl:otherwise>
                     <h2>Audio Stream</h2>
-                    <a id="player" style="display: block; width: 704px; height: 30px;">
-                        <xsl:attribute name="href">
+                    <div id="player">
+                        <xsl:attribute name='href'>
                             <xsl:value-of select="//dim:field[@mdschema='dc' and @element='identifier' and @qualifier='audiostream'][1]"/>
-                        </xsl:attribute>&#160;</a>
+                        </xsl:attribute>
+                        <p>Please enable JavaScript if you wish to listen to this audio stream.</p>
+                    </div>
                 </xsl:otherwise>
             </xsl:choose>
 
@@ -166,6 +170,19 @@
                             }
                         }
                     }).load();
+
+                    <!-- Resize the player div depending on what we're playing. -->
+                    <xsl:choose>
+                        <xsl:when test="//dim:field[@mdschema='dc' and @element='identifier' and @qualifier='videostream']">
+                            $('#player').width('704px');
+                            $('#player').height('396px');
+                        </xsl:when>
+                        <xsl:otherwise>
+                            $('#player').width('704px');
+                            $('#player').height('30px');
+                        </xsl:otherwise>
+                    </xsl:choose>
+
                 });
             </script>
         </xsl:if>
