@@ -47,7 +47,8 @@
     Version: Manakin-1.1 and up (basically, those version making use of the Virtual Object Store)
 -->    
 
-<xsl:stylesheet 
+<xsl:stylesheet
+    xmlns:dim="http://www.dspace.org/xmlns/dspace/dim"
     xmlns:dri="http://di.tamu.edu/DRI/1.0/"
     xmlns:i18n="http://apache.org/cocoon/i18n/2.1"
     xmlns:mets="http://www.loc.gov/METS/"
@@ -82,7 +83,10 @@
     <xsl:template match="mets:fileGrp[@USE='CONTENT']">
         <xsl:param name="context"/>
         <xsl:param name="primaryBitstream" select="-1"/>
-        
+
+        <!-- Stream the item if it is set up for streaming. -->
+        <xsl:call-template name="streamingPlayer"/>
+
         <h2><i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-head</i18n:text></h2>
         <table class="ds-table file-list">
             <tr class="ds-table-header-row">
@@ -112,7 +116,77 @@
                 </xsl:otherwise>
             </xsl:choose>
         </table>
-    </xsl:template>   
+    </xsl:template>
+
+
+    <xsl:template name="streamingPlayer">
+        <xsl:if test="//dim:field[@mdschema='dc' and @element='identifier' and (@qualifier='videostream' or @qualifier='audiostream')]">
+            <xsl:choose>
+                <xsl:when test="//dim:field[@mdschema='dc' and @element='identifier' and @qualifier='videostream']">
+                    <h2>Video Stream</h2>
+                    <div id="player">
+                        <xsl:attribute name='href'>
+                            <xsl:value-of select="//dim:field[@mdschema='dc' and @element='identifier' and @qualifier='videostream'][1]"/>
+                        </xsl:attribute>
+                        <p>Please enable JavaScript if you wish to view this video stream.</p>
+                    </div>
+                </xsl:when>
+                <xsl:otherwise>
+                    <h2>Audio Stream</h2>
+                    <div id="player">
+                        <xsl:attribute name='href'>
+                            <xsl:value-of select="//dim:field[@mdschema='dc' and @element='identifier' and @qualifier='audiostream'][1]"/>
+                        </xsl:attribute>
+                        <p>Please enable JavaScript if you wish to listen to this audio stream.</p>
+                    </div>
+                </xsl:otherwise>
+            </xsl:choose>
+
+            <!-- Add jQuery and the Flowplayer JavaScript -->
+            <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js">&#160;</script>
+            <script type="text/javascript" src="/xmlui/themes/Reference/flowplayer/flowplayer-3.2.6.min.js">&#160;</script>
+
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    flowplayer('player', '/xmlui/themes/Reference/flowplayer/flowplayer-3.2.7.swf', {
+                        clip: {
+                            autoPlay: false,
+                            autoBuffering: true,
+                            scaling: 'fit'
+                        },
+
+                        plugins: {
+                            audio: {
+                                url: '/xmlui/themes/Reference/flowplayer/flowplayer.audio-3.2.2.swf'
+                            },
+
+                            controls: {
+                                height: 30,
+                                url: '/xmlui/themes/Reference/flowplayer/flowplayer.controls-3.2.5.swf'
+                            },
+
+                            rtmp: {
+                                url: '/xmlui/themes/Reference/flowplayer/flowplayer.rtmp-3.2.3.swf',
+                            }
+                        }
+                    }).load();
+
+                    <!-- Resize the player div depending on what we're playing. -->
+                    <xsl:choose>
+                        <xsl:when test="//dim:field[@mdschema='dc' and @element='identifier' and @qualifier='videostream']">
+                            $('#player').width('704px');
+                            $('#player').height('396px');
+                        </xsl:when>
+                        <xsl:otherwise>
+                            $('#player').width('704px');
+                            $('#player').height('30px');
+                        </xsl:otherwise>
+                    </xsl:choose>
+
+                });
+            </script>
+        </xsl:if>
+    </xsl:template>
     
     
     <!-- Build a single row in the bitsreams table of the item view page -->
