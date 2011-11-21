@@ -1,0 +1,29 @@
+<!--#include virtual="/header.html" -->
+
+<h2>Faculty Profile: Dr. Medhat Moussa</h2>
+
+<h3>Professor School of Engineering</h3>
+
+<img src="/images/medhat1.jpg" class="profile" />
+
+<h4>The Challenge</h4>
+
+<p>How to enhance the experience of students producing their first published work.</p>
+
+<h4>The Project</h4>
+
+<p>The ENGG3100 course is a 3rd / 4th year design stream course tailored to provide senior undergraduates with their first experience creating publishable quality work.</p>
+
+<h4>The Advantages</h4>
+
+<p>The course provides students with real-life project experience. Current project options including working with an NGO building schools in Zambia to solve the problem of cooling school buildings without the use of air conditioning. Through collaborative efforts with Atrium staff, the results of this transitional course are now available online as course proceedings. Previous postings of proceedings have resulted in numerous inquiries by outside agencies and businesses whose project needs correlate to projects produced by students. Dr. Moussa credits open access with the 'serious' level of interest in these projects. Project proceedings from the ENGG3100 course currently cover three years and represent a total 97 reports available through the Atrium.</p>
+
+<h4>Future Directions</h4>
+
+<p>Dr. Moussa believes open access publication is a great idea. Researchers “no longer have to wait for the full publication cycle to be completed before results are made public”. He also sees the Atrium as a great vehicle for free exposure for undergraduate students.</p>
+
+<h4>Research Interests</h4>
+
+<p>Dr. Moussa’s current research focuses on two issues: User-adaptive robotics; and, use of robotics in greenhouses. For more information on these and other research projects visit Dr. Moussa’s website at <a href="http://www.soe.uoguelph.ca/webfiles/mmoussa/index.htm">http://www.soe.uoguelph.ca/webfiles/mmoussa/index.htm</a>.</p>
+
+<!--#include virtual="/footer.html" -->
