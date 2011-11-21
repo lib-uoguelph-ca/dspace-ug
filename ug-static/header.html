@@ -5,9 +5,8 @@
 <head>
 
 <title>Atrium - University of Guelph</title>
-<script src="mootools.js" type="text/javascript"></script>
-<script src="jd_gallery.js" type="text/javascript"></script>
-<link rel="stylesheet" href="jd_gallery.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="nivo-slider/nivo-slider.css" type="text/css" media="screen"/>
+<link rel="stylesheet" href="nivo-slider/themes/default/default.css" type="text/css" media="screen"/>
 
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 
@@ -28,6 +27,21 @@ font-family: Trebuchet MS, helvetica, Sans-serif;
 color: #000000;
 font-size: 90%;
 background-color: #ffffff;
+}
+
+.profile {
+float: left; margin: 15px;
+}
+
+.caption {
+font-size: x-small;
+}
+
+.visit-link {
+background: #eee;
+border: 1px solid #ccc;
+font-weight: bold;
+padding: 0.5em 1em;
 }
 
 a
@@ -57,6 +71,53 @@ div#header a.login {
     font-weight: bold;
 }
 
+div#quicklinks {
+    /*background-color: #eee;
+    border: 1px solid #ccc;
+    font-size: 120%;*/
+    margin: 0.5em;
+    padding: 0.5em;
+}
+
+div#quicklinks h2 {
+    font-size: 120%;
+    margin-top: 0px;
+}
+
+div#quicklinks ul {
+    margin: 0px;
+}
+
+div#quicklinks li {
+    display: inline;
+    font-size: 110%;
+    /*margin-right: 2em;*/
+}
+
+div#quicklinks li a:link,
+div#quicklinks li a:visited {
+    background-color: #eee;
+    border-color: #ccc;
+    border-style: solid;
+    border-width: 1px;
+    color: #000;
+    padding: 0.5em;
+}
+
+div#quicklinks li a:active,
+div#quicklinks li a:hover {
+    /*background-color: #3b77b3;*/
+    background-color: #ddd;
+}
+
+div#quicklinks li.last {
+    margin-right: 0px;
+}
+
+div#current-and-developing {
+    margin: 1em;
+}
+
 #wrapper
 
 {
@@ -72,7 +133,7 @@ width: 1000px;
 padding: 0;
 margin: 0;
 height: 30px;
-background: url("images/atrium_banner.png") left top no-repeat;
+background: url("/images/atrium_banner.png") left top no-repeat;
 border-right: 1px solid rgb(240,240,210);
 border-bottom: 1px solid rgb(240,240,210);
 border-left: 1px solid rgb(240,240,210);
@@ -120,6 +181,7 @@ width: 1000px;
 border-right: 1px solid rgb(240,240,210);
 border-bottom: 1px solid rgb(240,240,210);
 border-left: 1px solid rgb(240,240,210);
+overflow: hidden;
 }
 
 h2
@@ -128,6 +190,10 @@ h2
 margin-top: 15px;
 padding: 0 10px 10px 10px;
 font-size: 140%;
+}
+
+h3 {
+padding: 0 10px 10px 10px;
 }
 
 p
@@ -231,11 +297,9 @@ div#contact-block p {
 <div id="header" style="padding: 160px 10px 10px 150px;">
 
   <div style="float: left; display: inline;">
-	<a href="index.shtml" id="headerLink"> 
-		About the Atrium
-	</a>&nbsp;
-	<img src="images/trail.gif"/>&nbsp;
-	<a href="/xmlui" id="headerLink">All of the Atrium</a>
+	<a href="/" id="headerLink">Home</a>&nbsp;
+	<img src="/images/trail.gif"/>&nbsp;
+	<a href="/xmlui/" id="headerLink">Browse the Atrium</a>
   </div>
 
   <div style="float: right; display: inline;">
@@ -245,3 +309,11 @@ div#contact-block p {
 </div>
 
 <div id="main">
+
+<div id="quicklinks">
+  <ul>
+    <li><a href="/xmlui/"><strong>Browse</strong> the Atrium</a></li>
+    <li><a href="/xmlui/submit"><strong>Submit</strong> an item to the Atrium</a></li>
+    <li class="last"><a href="/about.shtml">Learn <strong>about</strong> the Atrium</a></li>
+  </ul>
+</div>

@@ -3231,14 +3231,14 @@
         <xsl:choose>
             <xsl:when test="/dri:document/dri:meta/dri:userMeta/@authenticated = 'yes'">
                 <text>
-                    If you already have a collection then
+                    If you already have a collection,
                     <a href="/xmlui/submissions">go to your submissions page,</a>
                     or <a href="/aboutSubmissions.html">learn more about submissions.</a>
                 </text>
             </xsl:when>
             <xsl:otherwise>
                 <text>
-                    If you already have a collection then
+                    If you already have a collection,
                     <a>
                         <xsl:attribute name="href">
                             <xsl:value-of select="/dri:document/dri:meta/dri:userMeta/

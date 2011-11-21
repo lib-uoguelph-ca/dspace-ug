@@ -15,7 +15,7 @@
 <xsl:template match="dri:pageMeta">
     <xsl:copy>
         <xsl:copy-of select="@*"/>
-        <dri:trail target="/">About the Atrium</dri:trail>
+        <dri:trail target="/">Home</dri:trail>
         <xsl:apply-templates/>
     </xsl:copy>
 </xsl:template>
