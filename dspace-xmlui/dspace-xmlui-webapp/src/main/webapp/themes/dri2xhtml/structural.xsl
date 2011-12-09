@@ -3233,7 +3233,7 @@
                 <text>
                     If you already have a collection,
                     <a href="/xmlui/submissions">go to your submissions page,</a>
-                    or <a href="/aboutSubmissions.html">learn more about submissions.</a>
+                    or <a href="/aboutSubmissions.shtml">learn more about submissions.</a>
                 </text>
             </xsl:when>
             <xsl:otherwise>
@@ -3246,7 +3246,7 @@
                         </xsl:attribute>
                         login</a>
                     to submit your work to the Atrium, or
-                    <a href="/aboutSubmissions.html">learn more about submissions.</a>
+                    <a href="/aboutSubmissions.shtml">learn more about submissions.</a>
                 </text>
             </xsl:otherwise>
         </xsl:choose>
