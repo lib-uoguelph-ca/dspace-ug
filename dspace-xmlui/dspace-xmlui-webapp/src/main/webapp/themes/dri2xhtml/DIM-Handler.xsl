@@ -600,12 +600,12 @@
               </xsl:call-template>
           </xsl:when>
 
-          <!-- Programme row -->
-          <xsl:when test="$clause = 5 and (dim:field[@element='degree' and @qualifier='programme'])">
+          <!-- Department row -->
+          <xsl:when test="$clause = 5 and (dim:field[@element='degree' and @qualifier='department'])">
                     <tr class="ds-table-row {$phase}">
-	                <td><span class="bold"><i18n:text>xmlui.dri2xhtml.METS-1.0.item-programme</i18n:text>:</span></td>
+	                <td><span class="bold"><i18n:text>xmlui.dri2xhtml.METS-1.0.item-department</i18n:text>:</span></td>
 	                <td>
-                      <xsl:copy-of select="dim:field[@element='degree' and @qualifier='programme']"/>
+                      <xsl:copy-of select="dim:field[@element='degree' and @qualifier='department']"/>
 	                </td>
 	            </tr>
               <xsl:call-template name="itemSummaryView-DIM-fields">
