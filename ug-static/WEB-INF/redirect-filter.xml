@@ -1,0 +1,12 @@
+<!DOCTYPE redirect-filter PUBLIC
+          "-//zlatkovic.com//DTD RedirectFilter 2.0//EN"
+          "http://www.zlatkovic.com/dtd/redirect-filter-2.0.dtd">
+
+<redirect-filter>
+
+   <!-- Permanent HTTP 301 redirect from HTTPS to HTTP for ug-static because
+       IE complains about JavaScript errors on the slideshow over HTTPS. --> 
+  <redirect match="^https://(\w+)\.lib\.uoguelph\.ca/(?::\d+)?(.*)"
+            target="http://$1.lib.uoguelph.ca$2"
+            entire-url="yes" />
+</redirect-filter>
