@@ -69,4 +69,28 @@
 
   <Context reloadable="true" privileged="true"/>
 
+ <!-- Enable HttpRedirectFilter -->
+  <filter>
+    <filter-name>HttpRedirectFilter</filter-name>
+    <filter-class>com.zlatkovic.servlet.RedirectFilter</filter-class>
+    <init-param>
+      <param-name>configFile</param-name>
+      <param-value>/WEB-INF/redirect-filter.xml</param-value>
+    </init-param>
+    <init-param>
+      <param-name>reloadConfig</param-name>
+      <param-value>false</param-value>
+    </init-param>
+    <init-param>
+      <param-name>logRedirects</param-name>
+      <param-value>false</param-value>
+    </init-param>
+  </filter>
+
+  <!-- Filter all URLs -->
+  <filter-mapping>
+    <filter-name>HttpRedirectFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
 </web-app>
