@@ -628,16 +628,8 @@ it, please enter the types and the actual numbers or codes below.</hint>
             <stored-value>Applied Nutrition</stored-value>
          </pair>
          <pair>
-            <displayed-value>Applied Statistics</displayed-value>
-            <stored-value>Applied Statistics</stored-value>
-         </pair>
-         <pair>
-            <displayed-value>Aquaculture</displayed-value>
-            <stored-value>Aquaculture</stored-value>
-         </pair>
-         <pair>
-            <displayed-value>Art and Visual Culture</displayed-value>
-            <stored-value>Art and Visual Culture</stored-value>
+            <displayed-value>Art History and Visual Culture</displayed-value>
+            <stored-value>Art History and Visual Culture</stored-value>
          </pair>
          <pair>
             <displayed-value>Bioinformatics</displayed-value>
@@ -696,8 +688,8 @@ it, please enter the types and the actual numbers or codes below.</hint>
             <stored-value>English</stored-value>
          </pair>
          <pair>
-            <displayed-value>Environmental Biology</displayed-value>
-            <stored-value>Environmental Biology</stored-value>
+            <displayed-value>Environmental Sciences</displayed-value>
+            <stored-value>Environmental Sciences</stored-value>
          </pair>
          <pair>
             <displayed-value>European Studies</displayed-value>
@@ -708,16 +700,16 @@ it, please enter the types and the actual numbers or codes below.</hint>
             <stored-value>Family Relations and Applied Nutrition</stored-value>
          </pair>
          <pair>
-            <displayed-value>Food, Agriculture and Resource Economics</displayed-value>
-            <stored-value>Food, Agriculture and Resource Economics</stored-value>
-         </pair>
-         <pair>
             <displayed-value>Food Safety and Quality Assurance</displayed-value>
             <stored-value>Food Safety and Quality Assurance</stored-value>
          </pair>
          <pair>
             <displayed-value>Food Science</displayed-value>
             <stored-value>Food Science</stored-value>
+         </pair>
+         <pair>
+            <displayed-value>Food, Agriculture and Resource Economics</displayed-value>
+            <stored-value>Food, Agriculture and Resource Economics</stored-value>
          </pair>
          <pair>
             <displayed-value>French Studies</displayed-value>
@@ -744,10 +736,6 @@ it, please enter the types and the actual numbers or codes below.</hint>
             <stored-value>International Development Studies</stored-value>
          </pair>
          <pair>
-            <displayed-value>Land Resource Science</displayed-value>
-            <stored-value>Land Resource Science</stored-value>
-         </pair>
-         <pair>
             <displayed-value>Landscape Architecture</displayed-value>
             <stored-value>Landscape Architecture</stored-value>
          </pair>
@@ -768,12 +756,12 @@ it, please enter the types and the actual numbers or codes below.</hint>
             <stored-value>Management</stored-value>
          </pair>
          <pair>
-            <displayed-value>Marketing and Consumer Studies</displayed-value>
-            <stored-value>Marketing and Consumer Studies</stored-value>
-         </pair>
-         <pair>
             <displayed-value>Market Research</displayed-value>
             <stored-value>Market Research</stored-value>
+         </pair>
+         <pair>
+            <displayed-value>Marketing and Consumer Studies</displayed-value>
+            <stored-value>Marketing and Consumer Studies</stored-value>
          </pair>
          <pair>
             <displayed-value>Mathematics and Statistics</displayed-value>
@@ -855,6 +843,7 @@ it, please enter the types and the actual numbers or codes below.</hint>
             <displayed-value>Veterinary Science</displayed-value>
             <stored-value>Veterinary Science</stored-value>
          </pair>
+
       </value-pairs>
 
       <value-pairs value-pairs-name="degrees" dc-term="degree">
@@ -1057,6 +1046,14 @@ it, please enter the types and the actual numbers or codes below.</hint>
       </value-pairs>
 
       <value-pairs value-pairs-name="departments" dc-term="degree">
+          <pair>
+            <displayed-value>Department of History</displayed-value>
+            <stored-value>Department of History</stored-value>
+         </pair>
+         <pair>
+            <displayed-value>Collaborative International Development Studies</displayed-value>
+            <stored-value>Collaborative International Development Studies</stored-value>
+         </pair>
          <pair>
             <displayed-value>Department of Animal and Poultry Science</displayed-value>
             <stored-value>Department of Animal and Poultry Science</stored-value>
@@ -1078,16 +1075,8 @@ it, please enter the types and the actual numbers or codes below.</hint>
             <stored-value>Department of Clinical Studies</stored-value>
          </pair>
          <pair>
-            <displayed-value>Department of Computing and Information Science</displayed-value>
-            <stored-value>Department of Computing and Information Science</stored-value>
-         </pair>
-         <pair>
             <displayed-value>Department of Economics</displayed-value>
             <stored-value>Department of Economics</stored-value>
-         </pair>
-         <pair>
-            <displayed-value>Department of Environmental Biology</displayed-value>
-            <stored-value>Department of Environmental Biology</stored-value>
          </pair>
          <pair>
             <displayed-value>Department of Family Relations and Applied Nutrition</displayed-value>
@@ -1106,20 +1095,12 @@ it, please enter the types and the actual numbers or codes below.</hint>
             <stored-value>Department of Geography</stored-value>
          </pair>
          <pair>
-            <displayed-value>Department of History</displayed-value>
-            <stored-value>Department of History</stored-value>
-         </pair>
-         <pair>
             <displayed-value>Department of Human Health and Nutritional Sciences</displayed-value>
             <stored-value>Department of Human Health and Nutritional Sciences</stored-value>
          </pair>
          <pair>
             <displayed-value>Department of Integrative Biology</displayed-value>
             <stored-value>Department of Integrative Biology</stored-value>
-         </pair>
-         <pair>
-            <displayed-value>Department of Land Resource Science</displayed-value>
-            <stored-value>Department of Land Resource Science</stored-value>
          </pair>
          <pair>
             <displayed-value>Department of Marketing and Consumer Studies</displayed-value>
@@ -1154,6 +1135,10 @@ it, please enter the types and the actual numbers or codes below.</hint>
             <stored-value>Department of Political Science</stored-value>
          </pair>
          <pair>
+            <displayed-value>Department of Population Medicine</displayed-value>
+            <stored-value>Department of Population Medicine</stored-value>
+         </pair>
+         <pair>
             <displayed-value>Department of Psychology</displayed-value>
             <stored-value>Department of Psychology</stored-value>
          </pair>
@@ -1162,12 +1147,8 @@ it, please enter the types and the actual numbers or codes below.</hint>
             <stored-value>Department of Sociology and Anthropology</stored-value>
          </pair>
          <pair>
-            <displayed-value>Faculty of Environmental Sciences</displayed-value>
-            <stored-value>Faculty of Environmental Sciences</stored-value>
-         </pair>
-         <pair>
-            <displayed-value>Population Medicine</displayed-value>
-            <stored-value>Population Medicine</stored-value>
+            <displayed-value>School of Computer Science</displayed-value>
+            <stored-value>School of Computer Science</stored-value>
          </pair>
          <pair>
             <displayed-value>School of Engineering</displayed-value>
@@ -1182,12 +1163,12 @@ it, please enter the types and the actual numbers or codes below.</hint>
             <stored-value>School of Environmental Design and Rural Development</stored-value>
          </pair>
          <pair>
-            <displayed-value>School of Fine Art and Music</displayed-value>
-            <stored-value>School of Fine Art and Music</stored-value>
+            <displayed-value>School of Environmental Sciences</displayed-value>
+            <stored-value>School of Environmental Sciences</stored-value>
          </pair>
          <pair>
-            <displayed-value>School of Health Sciences</displayed-value>
-            <stored-value>School of Health Sciences</stored-value>
+            <displayed-value>School of Fine Art and Music</displayed-value>
+            <stored-value>School of Fine Art and Music</stored-value>
          </pair>
          <pair>
             <displayed-value>School of Hospitality and Tourism Management</displayed-value>
@@ -1197,28 +1178,7 @@ it, please enter the types and the actual numbers or codes below.</hint>
             <displayed-value>School of Languages and Literatures</displayed-value>
             <stored-value>School of Languages and Literatures</stored-value>
          </pair>
-         <pair>
-            <displayed-value>School of Liberal Arts and Sciences</displayed-value>
-            <stored-value>School of Liberal Arts and Sciences</stored-value>
-         </pair>
-         <pair>
-            <displayed-value>School of Media Studies</displayed-value>
-            <stored-value>School of Media Studies</stored-value>
-         </pair>
-         <pair>
-            <displayed-value>School of Social and Community Services</displayed-value>
-            <stored-value>School of Social and Community Services</stored-value>
-         </pair>
-         <pair>
-            <displayed-value>School of Technology and Design</displayed-value>
-            <stored-value>School of Technology and Design</stored-value>
-         </pair>
-         <pair>
-            <displayed-value>The Business School</displayed-value>
-            <stored-value>The Business School</stored-value>
-         </pair>
       </value-pairs>
-
     </form-value-pairs>
-
 </input-forms>
+
