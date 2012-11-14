@@ -1,0 +1,32 @@
+<!--#include virtual="header.html" -->
+
+<div class="right">
+  <h2>See also</h2>
+  <p>
+	<a href="/xmlui/contact">Contact us</a> to get started with the Atrium.
+  </p>
+  <p>
+	Learn more about <a href="/aboutCollections.shtml">collections</a> in the Atrium.
+  </p>
+  <p>
+	Learn more about <a href="/aboutSubmissions.shtml">submissions</a> in the Atrium.
+  </p>
+</div>
+<h2>Content Guidelines </h2>
+<p>
+Submissions must be written, published or sponsored by the University of Guelph, its faculty, staff, students or selected other affiliated scholars.
+</p>
+<p>
+Submissions must be scholarly or pertain to teaching, learning, or research and must adhere to all the University’s applicable <a href="http://www.uoguelph.ca/research/forms_policies_procedures/index.shtml">research policies</a>. 
+</p>
+<p>
+Submissions must be in a digital format or media acceptable to the University. The Atrium accepts a wide variety of different formats and media.
+</p>
+<p>
+The individual will be required to grant the University of Guelph certain rights regarding reproduction, translation to different formats and distribution of the submissions. Individuals will select a license from several options available.
+</p>
+<p>
+Individual submitters will also select from a number of options for the end use to which the submission can be put. Submissions that are not open access may be accepted into the Atrium but priority will be given to submissions that are fully open access.
+</p>
+
+<!--#include virtual="footer.html" -->

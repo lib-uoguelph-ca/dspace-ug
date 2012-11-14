@@ -80,7 +80,7 @@
     </user-data-constraint>
   </security-constraint>
 
-  <!-- Enable HttpRedirectFilter -->
+ <!-- Enable HttpRedirectFilter -->
   <filter>
     <filter-name>HttpRedirectFilter</filter-name>
     <filter-class>com.zlatkovic.servlet.RedirectFilter</filter-class>
