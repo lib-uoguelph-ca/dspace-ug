@@ -1,0 +1,113 @@
+<!--#include virtual="header.html" -->
+
+<h2 id="top">FAQ Contents</h2> 
+<ul id="faq-index">
+    <li><a href="#responsible">Am I responsible for ensuring that the material I add complies with copyright law?</a></li>
+    <li><a href="#rights">How do I determine my rights or the rights others may have over my work?</a></li>
+    <li><a href="#multiple-author">What if there are multiple authors on the article?</a></li>
+    <li><a href="#version">What version of the article should I deposit?</a></li>
+    <li><a href="#open-access">What if I have published with an ‘open access’ journal?</a></li>
+    <li><a href="#retain-rights">In future, how can I retain my rights in order to distribute my work or reuse it?</a></li>
+    <li><a href="#others">How do I determine what others can do with my material once it is in the Atrium?</a></li>
+    <li><a href="#uofg-rights">What rights will the University of Guelph receive for material I submit to the Atrium?</a></li>
+    <li><a href="#formats">What formats do you accept?</a></li>
+</ul>
+<div class="question" style="margin-bottom: 2em;">
+<h2 id="responsible">Am I responsible for ensuring that the material I add complies with copyright law?</h2>
+<p>Yes, you are responsible for ensuring that the material you submit for deposit does not infringe on the rights of publishers or any other entity or party.</p>
+<a href="#top" style="float:right; margin-right: 1em;">[Back to top]</a>
+</div>
+
+<div class="question" style="margin-bottom: 2em;">
+<h2 id="rights">How do I determine my rights or the rights others may have over my work?</h2>
+<p>There are a number of different instances where copyright comes into play....</p>
+<ul>    
+        <li>If the work has not been previously published, and you have not transferred your rights to another entity, you are the copyright owner of the material and are free to deposit the article and determine end use privileges.</li>
+        <li>If the work has been published, you must check your author agreement or with the publisher to see what rights you have signed away during the publishing process and what rights you have retained. This will always be specific to each individual article.</li>
+</ul>   
+<p>The <a href="http://www.sherpa.ac.uk/romeo/">Sherpa/Romeo website</a> provides a summary of publisher and journal policies. There are different levels of permissions offered. It is recommended that you also check with the publisher or
+ journal website as well to ensure that you have the most current policy information available to you. 
+</P>
+<a href="#top" style="float:right; margin-right: 1em;">[Back to top]</a>
+</div>
+
+<div class="question" style="margin-bottom: 2em;">
+<h2 id="multiple-author">What if there are multiple authors on the article?</h2>
+<ul>
+   <li>If the work has not been previously published and there are co-authors, you must seek permission from the other authors before submitting the work.</li>
+   <li>If the work has been published and the publisher allows depositing in the Atrium, it is important to notify the other authors of your intent.</li>
+</ul>
+</div>
+
+<div class="question" style="margin-bottom: 2em;">
+<h2 id="version">What version of the article should I deposit?</h2>
+<p>There are several different versions of articles to be considered. In the case of published articles, publishers usually specify which version they will allow for re-distribution.</p>
+<p><strong>Pre-print:</strong> this is the author’s submitted version to a publisher prior to editing</p>
+<p><strong>Post-print:</strong> this is the author’s final version prior to publication. It usually includes all modifications from review process</p>
+<p><strong>Publishers version:</strong> this is the pdf version with the publisher’s logo, formatting and layout. Few publishers will agree to the depositing of this version in the repository. </p>
+<p>If you are depositing an unpublished article, you would submit your final version.</p>
+<a href="#top" style="float:right; margin-right: 1em;">[Back to top]</a>
+</div>
+
+<div class="question" style="margin-bottom: 2em;">
+<h2 id="open-access-journal">What if I have published with an ‘open access’ journal?</h2>
+<p>Publishing in an open access journal does not automatically mean that you can redistribute your work freely or that you have retained your rights as author. You should check the publisher’s site (or Romeo/Sherpa site) to determine whether or not your publishing agreement allows you to deposit your article in an institutional repository and whether or not you have retained any other rights. Some open access publishers enforce a temporary embargo on depositing items to a repository.</p>
+<a href="#top" style="float:right; margin-right: 1em;">[Back to top]</a>
+</div>
+
+<div class="question" style="margin-bottom: 2em;">
+<h2 id="retain-rights">In future, how can I retain my rights in order to distribute my work or reuse it?</h2>
+<p>It is possible to submit an author addendum to the standard contract. Some publishers are willing to negotiate rights. See our <a href="http://www.lib.uoguelph.ca/resc/the_issues/author_rights.cfm">‘author rights’</a> section for more details and addendum examples.</p>
+<a href="#top" style="float:right; margin-right: 1em;">[Back to top]</a>
+</div>
+
+<div class="question" style="margin-bottom: 2em;">
+<h2 id="others">How do I determine what others can do with my material once it is in the Atrium?</h2>
+<p>If you are the current copyright owner of the material, you can determine what others can do with your work. We offer a variety of end user licencing options through the Creative Commons. There are six main categories to choose from:</p>
+<ul>
+   <li>Attribution</li>
+   <li>Attribution share-alike</li>
+   <li>Attribution - no derivatives</li>
+   <li>Attribution - no derivatives, share alike</li>
+   <li>Attribution - non-commercial</li>
+   <li>Attribution - non-commercial, no derivatives</li>
+</ul>
+<p>Visist the <a href="http://creativecommons.org/licenses/">Creative Commons</a> for an explanation of the licence choices</p>
+<a href="#top" style="float:right; margin-right: 1em;">[Back to top]</a>
+</div>
+
+<div class="question" style="margin-bottom: 2em;">
+<h2 id="uofg-rights">What rights will the University of Guelph receive for material I submit to the Atrium?</h2>
+<p>The University will have the non-exclusive right to distribute your work freely and to preserve it.  Copyright will not be transferred away from the current owner (yourself or publisher)</p>
+<a href="#top" style="float:right; margin-right: 1em;">[Back to top]</a>
+</div>
+
+<div class="question" style="margin-bottom: 2em;">
+<h2 id="formats">What formats do you accept?</h2>
+<p>We accept a wide variety of formats for deposit, including text documents, images, sound recordings, videos as well as numerical data.</p>
+<p>Files should be saved in formats which are preservation ‘friendly’ or non-proprietary . A list of preferred formats is recommended to ensure that your material does not become inaccessible due to redundant software.</p>
+<p>Preferred formats include: </p>
+<ul>
+   <li>Textual documents</li>
+   <li>NotePad  (.txt)</li>
+   <li>Rich Text Format ( .rtf)</li>
+   <li>PDF, PDF/A ( .pdf)</li>
+   <li>Open document text (.odt)</li>
+   <li>XML (.xml OR XHMTL)</li>
+   <li>Images</li>
+   <li>JPEG 2000, JPEG (.jpeg)</li>
+   <li>TIFF version 6 uncompressed (.tif)</li>
+   <li>Raw image (.raw)</li>
+   <li>PDF/A, PDF (.pdf)</li>
+   <li>Video recordings</li>
+   <li>MP4</li>
+   <li>Sound recordings</li>
+   <li>MP3</li>
+   <li>WAV</li>
+   <li>Numerical data</li>
+   <li>ASCII</li>
+   <li>Comma separated values (.csv)</li>
+</ul>
+<a href="#top" style="float:right; margin-right: 1em;">[Back to top]</a>
+</div>
+<!--#include virtual="footer.html" -->
