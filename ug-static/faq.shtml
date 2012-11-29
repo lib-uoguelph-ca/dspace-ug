@@ -87,24 +87,37 @@
 <p>We accept a wide variety of formats for deposit, including text documents, images, sound recordings, videos as well as numerical data.</p>
 <p>Files should be saved in formats which are preservation ‘friendly’ or non-proprietary . A list of preferred formats is recommended to ensure that your material does not become inaccessible due to redundant software.</p>
 <p>Preferred formats include: </p>
+
+<p>Textual documents</p>
 <ul>
-   <li>Textual documents</li>
    <li>NotePad  (.txt)</li>
    <li>Rich Text Format ( .rtf)</li>
    <li>PDF, PDF/A ( .pdf)</li>
    <li>Open document text (.odt)</li>
    <li>XML (.xml OR XHMTL)</li>
-   <li>Images</li>
+</ul>
+
+<p>Images</p>
+<ul>
    <li>JPEG 2000, JPEG (.jpeg)</li>
    <li>TIFF version 6 uncompressed (.tif)</li>
    <li>Raw image (.raw)</li>
    <li>PDF/A, PDF (.pdf)</li>
-   <li>Video recordings</li>
+</ul>
+
+<p>Video recordings</p>
+<ul>
    <li>MP4</li>
-   <li>Sound recordings</li>
+</ul>
+
+<p>Sound recordings</p>
+<ul>
    <li>MP3</li>
    <li>WAV</li>
-   <li>Numerical data</li>
+</ul>
+
+<p>Numerical data</p>
+<ul>
    <li>ASCII</li>
    <li>Comma separated values (.csv)</li>
 </ul>
