@@ -8,7 +8,43 @@
 
 <p>Before you submit material to the Atrium, first review the Office of Research Graduate Studies' (OGS) <a href="http://www.uoguelph.ca/registrar/graduatestudies/index.cfm?thesis/index">Electronic Theses and Dissertations (ETD) Guide</a> which will lead you through the schedule for the <a href="http://www.uoguelph.ca/registrar/graduatestudies/index.cfm?thesis/thesis-schedule-masters">master's</a> and <a href="http://www.uoguelph.ca/registrar/graduatestudies/index.cfm?thesis/thesis-schedule-doctoral">doctoral</a> thesis, the requirements, formats and general submission process of the electronic thesis.</p>
 
-<p>Submitting your ETD is a quick and simple process. After your thesis defense has been successful, follow the instructions below for submitting your ETD documents to the Atrium.</p>
+<p>Submitting your ETD is a quick and simple process. After your thesis defense has been successful, watch these videos, then follow the instructions below for submitting your ETD documents to the Atrium.</p>
+
+<style>
+div.centre-wrapper {
+   width: 100%; 
+   float: left; 
+   clear: both; 
+   margin-bottom: 1em;
+}
+
+.centre-wrapper .centre {
+   margin-left: auto; 
+   margin-right: auto; 
+   width: 685px;
+}
+
+.centre-wrapper .centre a {
+   border: 5px solid transparent; 
+   margin: 0px 1em;
+   float: left;
+   width: 300px;
+   height: 177px;
+}
+
+.centre-wrapper .centre a:focus,
+.centre-wrapper .centre a:hover {
+   border: 5px solid #369; 
+   margin: 0px 1em;
+}
+
+</style>
+<div class="centre-wrapper">
+   <div class="centre">
+      <a href="http://insite.lib.uoguelph.ca/streaming/open/RESC_E-Theses_IntroductionToAtrium.cfm"><img src="/images/Atrium-Introduction_thumb.png" alt="Video: Introduction to the Atrium"/></a>
+      <a href="http://insite.lib.uoguelph.ca/streaming/open/RESC_E-Theses_PreparingForElectronicSubmission.cfm"><img src="/images/Atrium-Prepare_thumb.png" alt="Video: Preparing Your Thesis For Submission To The Atrium"/></a>
+   </div>
+</div>
 
 <h3>Submitting your electronic thesis</h3>
 
@@ -106,5 +142,6 @@
     <p>Review the <a href="http://www.uoguelph.ca/registrar/graduatestudies/index.cfm?thesis/index">Office of Research Graduate Studies' (OGS) Electronic Theses and Dissertations (ETD) Guide</a>.</p>
   </li>
 </ul>
+
 
 <!--#include virtual="footer.html" -->
